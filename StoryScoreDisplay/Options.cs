@@ -30,5 +30,13 @@ namespace StoryScoreDisplay
                 return _port.Value;
             }
         }
+
+        public string ClientId
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["clientid"];
+            }
+        }
     }
 }

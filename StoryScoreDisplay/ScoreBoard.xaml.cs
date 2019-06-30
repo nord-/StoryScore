@@ -46,8 +46,8 @@ namespace StoryScoreDisplay
             _mqttServer = new Mqtt.Server(_options);
             _mqttClient = new Mqtt.Client(_options);
             _mqttClient.MessageReceivedEvent += MqttClient_MessageReceivedEvent;
-            _mqttClient.Subscribe("#"); // subscribe to everything!
-            Task.Run(async () => await _mqttClient.SendMessageAsync("display/status", "online"));  // tell the world I'm here!
+            _mqttClient.Subscribe("display/+/updates"); // subscribe to all updates!
+            Task.Run(async () => await _mqttClient.SendMessageAsync($"display/{_options.ClientId}/status", "online"));  // tell the world I'm here!
         }
 
         private void MqttClient_MessageReceivedEvent(MQTTnet.MqttApplicationMessageReceivedEventArgs eventArgs)
@@ -90,7 +90,6 @@ namespace StoryScoreDisplay
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            _mqttClient.Subscribe("apa");
         }
     }
 }

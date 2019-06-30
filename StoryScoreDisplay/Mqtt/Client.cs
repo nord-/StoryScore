@@ -25,14 +25,14 @@ namespace StoryScoreDisplay.Mqtt
             var opt = new ManagedMqttClientOptionsBuilder()
                             .WithAutoReconnectDelay(TimeSpan.FromSeconds(5))
                             .WithClientOptions(new MqttClientOptionsBuilder()
-                                .WithClientId(ClientID)
+                                .WithClientId($"{ClientID}_{options.ClientId}")
                                 .WithTcpServer("127.0.0.1", options.Port)
                                 .Build()
                             )
                             .Build();
 
             _mqttClient = new MqttFactory().CreateManagedMqttClient();
-            _mqttClient.SubscribeAsync(new TopicFilterBuilder().WithTopic("#").Build()).Wait();
+            //_mqttClient.SubscribeAsync(new TopicFilterBuilder().WithTopic("#").Build()).Wait();
             _mqttClient.StartAsync(opt).Wait();
 
 
@@ -58,17 +58,17 @@ namespace StoryScoreDisplay.Mqtt
             //    _mqttClient.SubscribeAsync(new TopicFilterBuilder().WithTopic(topic).Build()).Wait();
             //});
 
-            //_mqttClient.UseConnectedHandler(async e =>
-            //{
-            //    Debug.WriteLine("### CONNECTED WITH SERVER ###");
+            _mqttClient.UseConnectedHandler(async e =>
+            {
+                Debug.WriteLine("### CONNECTED WITH SERVER ###");
 
-            //    // Subscribe to a topic
-            //    await _mqttClient.SubscribeAsync(new TopicFilterBuilder()
-            //                     .WithTopic(topic)
-            //                     .Build());
+                // Subscribe to a topic
+                await _mqttClient.SubscribeAsync(new TopicFilterBuilder()
+                                 .WithTopic(topic)
+                                 .Build());
 
-            //    Debug.WriteLine($"### SUBSCRIBED TO TOPIC {topic} ###");
-            //});
+                Debug.WriteLine($"### SUBSCRIBED TO TOPIC {topic} ###");
+            });
         }
 
         public async Task SendMessageAsync(string topic, string message)
