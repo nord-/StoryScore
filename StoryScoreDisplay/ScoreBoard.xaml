@@ -1,0 +1,44 @@
+﻿<Window x:Class="StoryScoreDisplay.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StoryScoreDisplay"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="288" Width="480" ResizeMode="NoResize" Topmost="True" WindowStyle="None" Background="Black"
+        TextBlock.Foreground="White" TextBlock.FontWeight="Bold" Top="0" Left="0">
+    <Grid Margin="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="0" >
+            <TextBlock x:Name="HomeScore" Text="8" FontSize="72" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-20,0,0"/>
+            <TextBlock x:Name="HomeTeamName" FontSize="18" Text="FC Trollhättan" HorizontalAlignment="Center" FontWeight="Normal" />
+        </StackPanel>
+        <StackPanel Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2">
+            <TextBlock x:Name="GameClock" FontSize="72" Text="88:88" HorizontalAlignment="Center" Margin="0,-10" />
+            <TextBlock x:Name="ExtraTime" FontSize="18" Text="+8" HorizontalAlignment="Center" Foreground="Lime" />
+        </StackPanel>
+        <StackPanel Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="2">
+            <TextBlock x:Name="AwayScore"  FontSize="72" Text="8" Padding="0" HorizontalAlignment="Center" Margin="0,-20,0,0"/>
+            <TextBlock x:Name="AwayTeamName" FontSize="18" Text="Lunds BK" HorizontalAlignment="Center" FontWeight="Normal" />
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" x:Name="HomeInformationPanel"></StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3" x:Name="AwayInformationPanel"></StackPanel>
+        <TextBlock x:Name="TitleLabel" FontSize="14" Text="Edsborgs IP, Trollhättan" Grid.ColumnSpan="6" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" />
+        <Canvas Width="480" Height="288">
+            <Image x:Name="FullScreenImage" Source="C:\Users\ricka\OneDrive\Bilder\FCT\DSC_6210.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="480" Height="288" Stretch="Fill" Visibility="Visible" />
+            <Image x:Name="LowerPartImage" Source="C:\Users\ricka\OneDrive\Bilder\FCT\Cheerleader.jpg" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="480" Height="188" Stretch="Fill" Canvas.Bottom="0" Visibility="Hidden" />
+        </Canvas>
+    </Grid>
+</Window>
