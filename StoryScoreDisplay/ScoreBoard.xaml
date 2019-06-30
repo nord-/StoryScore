@@ -37,8 +37,11 @@
         <StackPanel Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3" x:Name="AwayInformationPanel"></StackPanel>
         <TextBlock x:Name="TitleLabel" FontSize="14" Text="Edsborgs IP, Trollhättan" Grid.ColumnSpan="6" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" />
         <Canvas Width="480" Height="288">
-            <Image x:Name="FullScreenImage" Source="C:\Users\ricka\OneDrive\Bilder\FCT\DSC_6210.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="480" Height="288" Stretch="Fill" Visibility="Visible" />
+            <Image x:Name="FullScreenImage" Source="C:\Users\ricka\OneDrive\Bilder\FCT\DSC_6210.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="480" Height="288" Stretch="Fill" Visibility="Hidden" />
             <Image x:Name="LowerPartImage" Source="C:\Users\ricka\OneDrive\Bilder\FCT\Cheerleader.jpg" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="480" Height="188" Stretch="Fill" Canvas.Bottom="0" Visibility="Hidden" />
+            <Grid Background="Black" Width="480" Height="288" Visibility="Hidden">
+                <MediaElement x:Name="FullScreenVideo" Source="C:\Users\ricka\OneDrive\Bilder\FCT\Ett Troget Hjärta\2019_FCT_Ett_troget_hjarta.mp4" VerticalAlignment="Center" HorizontalAlignment="Center" LoadedBehavior="Manual" />
+            </Grid>
         </Canvas>
     </Grid>
 </Window>
