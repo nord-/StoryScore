@@ -29,6 +29,10 @@ namespace StoryScoreDisplay
         private TimeSpan _timerOffset = TimeSpan.Zero;
         private bool _timerIsRunning = false;
 
+        private Options _options = new Options();
+        private Mqtt.Server _mqttServer;
+        private Mqtt.Client _mqttClient;
+
         public ScoreBoardWindow()
         {
             InitializeComponent();
@@ -36,6 +40,19 @@ namespace StoryScoreDisplay
             _timer = new Timer();
             _timer.Interval = 1000;
             _timer.Elapsed += Timer_Elapsed;
+
+            this.DataContext = new ScoreBoardModel();
+
+            _mqttServer = new Mqtt.Server(_options);
+            _mqttClient = new Mqtt.Client(_options);
+            _mqttClient.MessageReceivedEvent += MqttClient_MessageReceivedEvent;
+            _mqttClient.Subscribe("#"); // subscribe to everything!
+            Task.Run(async () => await _mqttClient.SendMessageAsync("display/status", "online"));  // tell the world I'm here!
+        }
+
+        private void MqttClient_MessageReceivedEvent(MQTTnet.MqttApplicationMessageReceivedEventArgs eventArgs)
+        {
+            throw new NotImplementedException();
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -69,6 +86,11 @@ namespace StoryScoreDisplay
 
             if (offset.HasValue)
                 _timerOffset = offset.Value;
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            _mqttClient.Subscribe("apa");
         }
     }
 }

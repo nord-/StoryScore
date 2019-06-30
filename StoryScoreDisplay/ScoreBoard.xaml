@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:StoryScoreDisplay"
         mc:Ignorable="d"
         Title="MainWindow" Height="288" Width="480" ResizeMode="NoResize" Topmost="True" WindowStyle="None" Background="Black"
-        TextBlock.Foreground="White" TextBlock.FontWeight="Bold" Top="0" Left="0">
+        TextBlock.Foreground="White" TextBlock.FontWeight="Bold" Top="0" Left="0" Loaded="Window_Loaded">
     <Grid Margin="0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
