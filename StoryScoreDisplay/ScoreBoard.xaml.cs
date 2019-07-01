@@ -33,6 +33,8 @@ namespace StoryScoreDisplay
         private Mqtt.Server _mqttServer;
         private Mqtt.Client _mqttClient;
 
+        private ScoreBoardModel _model;
+
         public ScoreBoardWindow()
         {
             InitializeComponent();
@@ -48,6 +50,9 @@ namespace StoryScoreDisplay
             _mqttClient.MessageReceivedEvent += MqttClient_MessageReceivedEvent;
             _mqttClient.Subscribe("display/+/updates"); // subscribe to all updates!
             Task.Run(async () => await _mqttClient.SendMessageAsync($"display/{_options.ClientId}/status", "online"));  // tell the world I'm here!
+
+            _model = new ScoreBoardModel();
+
         }
 
         private void MqttClient_MessageReceivedEvent(MQTTnet.MqttApplicationMessageReceivedEventArgs eventArgs)
