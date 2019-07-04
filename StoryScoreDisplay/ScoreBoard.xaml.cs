@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -44,27 +46,50 @@ namespace StoryScoreDisplay
             _timer.Elapsed += Timer_Elapsed;
 
             _model = new ScoreBoardModel();
-            _model.GameClock = new TimeSpan(0,45,0);
             this.DataContext = _model;
 
             _mqttServer = new Mqtt.Server(_options);
             _mqttClient = new Mqtt.Client(_options);
             _mqttClient.MessageReceivedEvent += MqttClient_MessageReceivedEvent;
-            _mqttClient.Subscribe("display/+/updates"); // subscribe to all updates!
+            _mqttClient.Subscribe($"display/{_options.ClientId}/#"); // subscribe to all updates meant for me!
             Task.Run(async () => await _mqttClient.SendMessageAsync($"display/{_options.ClientId}/status", "online"));  // tell the world I'm here!
-
-            // TODO: remove me
-            StartTimer();
         }
 
         private void MqttClient_MessageReceivedEvent(MQTTnet.MqttApplicationMessageReceivedEventArgs eventArgs)
         {
-            throw new NotImplementedException();
+            var messageAsJson = Encoding.UTF8.GetString(eventArgs.ApplicationMessage.Payload);
+
+            var topic = eventArgs.ApplicationMessage.Topic.Split('/').Last();
+            switch (topic)
+            {
+                case "start":
+                    StartTimer();
+                    break;
+
+                case "update":
+                    _model = JsonConvert.DeserializeObject<ScoreBoardModel>(messageAsJson);
+                    break;
+
+                case "stop":
+                    if (!string.IsNullOrWhiteSpace(messageAsJson))
+                    {
+                        var offset = JsonConvert.DeserializeObject<TimeSpan>(messageAsJson);
+                        StopTimer(offset);
+                    }
+                    else
+                    {
+                        StopTimer();
+                    }
+                    break;
+
+                //case "pause":
+                //    break;
+            }
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            var timeSinceStartTime = DateTime.Now - _startTime;
+            var timeSinceStartTime = (DateTime.Now - _startTime) + _timerOffset;
             timeSinceStartTime = new TimeSpan(timeSinceStartTime.Hours,
                                               timeSinceStartTime.Minutes,
                                               timeSinceStartTime.Seconds);
@@ -73,11 +98,11 @@ namespace StoryScoreDisplay
             // was clicked, plus the total time elapsed since the last reset
             _currentElapsedTime = timeSinceStartTime;
 
-            // TODO: update displayed time (take offset into account)
+            // update displayed time (take offset into account)
             _model.GameClock = _currentElapsedTime;
         }
 
-        public void StartTimer()
+        private void StartTimer()
         {
             if (!_timerIsRunning)
             {
@@ -85,12 +110,9 @@ namespace StoryScoreDisplay
                 _timer.Start();
                 _timerIsRunning = true;
             }
-
-            _model.HomeTeamName = "Malmö FF";
-            _model.AwayTeamName = "IK Gauthiod";
         }
 
-        public void StopTimer(TimeSpan? offset)
+        private void StopTimer(TimeSpan? offset = null)
         {
             _timer.Stop();
             _timerIsRunning = false;
