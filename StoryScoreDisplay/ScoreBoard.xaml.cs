@@ -43,7 +43,9 @@ namespace StoryScoreDisplay
             _timer.Interval = 1000;
             _timer.Elapsed += Timer_Elapsed;
 
-            this.DataContext = new ScoreBoardModel();
+            _model = new ScoreBoardModel();
+            _model.GameClock = new TimeSpan(0,45,0);
+            this.DataContext = _model;
 
             _mqttServer = new Mqtt.Server(_options);
             _mqttClient = new Mqtt.Client(_options);
@@ -51,8 +53,8 @@ namespace StoryScoreDisplay
             _mqttClient.Subscribe("display/+/updates"); // subscribe to all updates!
             Task.Run(async () => await _mqttClient.SendMessageAsync($"display/{_options.ClientId}/status", "online"));  // tell the world I'm here!
 
-            _model = new ScoreBoardModel();
-
+            // TODO: remove me
+            StartTimer();
         }
 
         private void MqttClient_MessageReceivedEvent(MQTTnet.MqttApplicationMessageReceivedEventArgs eventArgs)
@@ -71,7 +73,8 @@ namespace StoryScoreDisplay
             // was clicked, plus the total time elapsed since the last reset
             _currentElapsedTime = timeSinceStartTime;
 
-            // TODO: update displayed time (take into offset into account)
+            // TODO: update displayed time (take offset into account)
+            _model.GameClock = _currentElapsedTime;
         }
 
         public void StartTimer()
@@ -82,6 +85,9 @@ namespace StoryScoreDisplay
                 _timer.Start();
                 _timerIsRunning = true;
             }
+
+            _model.HomeTeamName = "Malmö FF";
+            _model.AwayTeamName = "IK Gauthiod";
         }
 
         public void StopTimer(TimeSpan? offset)

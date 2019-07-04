@@ -112,7 +112,6 @@
     </ApplicationDefinition>
     <Compile Include="Models\GameEvent.cs" />
     <Compile Include="Models\ScoreBoardModel.cs" />
-    <Compile Include="ViewModels\ScoreBoardViewModel.cs" />
     <Page Include="ScoreBoard.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

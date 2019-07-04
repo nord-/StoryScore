@@ -9,99 +9,100 @@ using System.Threading.Tasks;
 
 namespace StoryScoreDisplay
 {
-    public class ScoreBoardModel { }
-
-    public class ScoreBoard : INotifyPropertyChanged
+    public class ScoreBoardModel : INotifyPropertyChanged
     {
-        private string title;
-        private int homeScore;
-        private string homeTeamName;
-        private int awayScore;
-        private string awayTeamName;
-        private int extraTime;
-        private string periodName;
+        private string _title;
+        private int _homeScore;
+        private string _homeTeamName;
+        private int _awayScore;
+        private string _awayTeamName;
+        private int _extraTime;
+        private string _periodName;
+        private TimeSpan _gameClock;
 
         public string Title
         {
-            get => title;
+            get => _title;
             set
             {
-                if (value != title)
+                if (value != _title)
                 {
-                    title = value;
+                    _title = value;
                     NotifyPropertyChanged(nameof(Title));
                 }
             }
         }
         public int HomeScore
         {
-            get => homeScore;
+            get => _homeScore;
             set
             {
-                if (value != homeScore)
+                if (value != _homeScore)
                 {
-                    homeScore = value;
+                    _homeScore = value;
                     NotifyPropertyChanged(nameof(HomeScore));
                 }
             }
         }
         public string HomeTeamName
         {
-            get => homeTeamName;
+            get => _homeTeamName;
             set
             {
-                if (value != homeTeamName)
+                if (value != _homeTeamName)
                 {
-                    homeTeamName = value;
+                    _homeTeamName = value;
                     NotifyPropertyChanged(nameof(HomeTeamName));
                 }
             }
         }
         public int AwayScore
         {
-            get => awayScore;
+            get => _awayScore;
             set
             {
-                if (value != awayScore)
+                if (value != _awayScore)
                 {
-                    awayScore = value;
+                    _awayScore = value;
                     NotifyPropertyChanged(nameof(AwayScore));
                 }
             }
         }
         public string AwayTeamName
         {
-            get => awayTeamName;
+            get => _awayTeamName;
             set
             {
-                if (value != awayTeamName)
+                if (value != _awayTeamName)
                 {
-                    awayTeamName = value;
+                    _awayTeamName = value;
                     NotifyPropertyChanged(nameof(AwayTeamName));
                 }
             }
         }
         public int ExtraTime
         {
-            get => extraTime;
+            get => _extraTime;
             set
             {
-                if (value != extraTime)
+                if (value != _extraTime)
                 {
-                    extraTime = value;
+                    _extraTime = value;
                     NotifyPropertyChanged(nameof(ExtraTime));
+                    NotifyPropertyChanged(nameof(ExtraTimeDisplay));
                 }
             }
-
         }
+        public string ExtraTimeDisplay => _extraTime == 0 ? "" : $"+{_extraTime}";
+
         public string PeriodName
         {
-            get => periodName;
+            get => _periodName;
             set
             {
-                if (value != periodName)
+                if (value != _periodName)
                 {
-                    periodName = value;
+                    _periodName = value;
                     NotifyPropertyChanged(nameof(PeriodName));
                 }
             }
@@ -109,12 +110,21 @@ namespace StoryScoreDisplay
         public IList<GameEvent> HomeEvents { get; set; }
         public IList<GameEvent> AwayEvents { get; set; }
 
-        public TimeSpan GameClock { get; set; }
+        public TimeSpan GameClock
+        {
+            get => _gameClock;
+            set
+            {
+                _gameClock = value;
+                NotifyPropertyChanged(nameof(GameClock));
+                NotifyPropertyChanged(nameof(GameClockDisplay));
+            }
+        }
         public string GameClockDisplay
         {
             get
             {
-                return $"{GameClock.TotalMinutes:00}:{GameClock.Seconds:00}";
+                return $"{Math.Floor(GameClock.TotalMinutes):00}:{GameClock.Seconds:00}";
             }
         }
 
