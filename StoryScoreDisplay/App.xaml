@@ -4,6 +4,11 @@
              xmlns:local="clr-namespace:StoryScoreDisplay"
              StartupUri="ScoreBoard.xaml">
     <Application.Resources>
-
+        <ResourceDictionary>
+            <Style TargetType="{x:Type Rectangle}" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Assets/ClientStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
