@@ -4,6 +4,13 @@
              xmlns:local="clr-namespace:StoryScoreClient"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <FontFamily x:Key="FontAwesomeRegular">/Fonts/fa-regular-400.ttf#Font Awesome 5 Free Regular</FontFamily>
+        <FontFamily x:Key="FontAwesomeSolid">/Fonts/fa-solid-900.ttf#Font Awesome 5 Free Solid</FontFamily>
+
+        <Style x:Key="TitleStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="18pt"/>
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+
     </Application.Resources>
 </Application>

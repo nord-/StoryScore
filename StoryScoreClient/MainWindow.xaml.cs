@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,17 @@ namespace StoryScoreClient
         public MainWindow()
         {
             InitializeComponent();
+
+            var teams = new Data.TeamRepository().GetTeams();
+            if (teams.Count() == 0)
+            {
+                var tempTeams = new [] { "FC Trollhättan", "AIK Skövde", "Presba Birlik", "IK Oddevold" };
+
+                foreach (var item in tempTeams)
+                {
+                    TeamsList.Items.Add(item);
+                }
+            }
         }
     }
 }
