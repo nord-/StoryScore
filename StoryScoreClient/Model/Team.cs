@@ -26,7 +26,7 @@ namespace StoryScoreClient.Model
             set
             {
                 _name = value;
-                NotifyChange(() => Id);
+                NotifyChange(() => Name);
             }
         }
         public string Coach
@@ -35,7 +35,7 @@ namespace StoryScoreClient.Model
             set
             {
                 _coach = value;
-                NotifyChange(() => Id);
+                NotifyChange(() => Coach);
             }
         }
         public string ShortName
@@ -44,7 +44,7 @@ namespace StoryScoreClient.Model
             set
             {
                 _shortName = value;
-                NotifyChange(() => Id);
+                NotifyChange(() => ShortName);
             }
         }
         public string LogoPath
@@ -53,7 +53,7 @@ namespace StoryScoreClient.Model
             set
             {
                 _logoPath = value;
-                NotifyChange(() => Id);
+                NotifyChange(() => LogoPath);
             }
         }
 
