@@ -1,0 +1,79 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StoryScoreClient"
+        xmlns:Controls="clr-namespace:StoryScoreClient.Controls" x:Class="StoryScoreClient.MainWindow"
+        mc:Ignorable="d"
+        Title="Storyscore" Height="450" Width="800">
+    <Grid>
+        <TabControl TabStripPlacement="Left" >
+            <TabControl.Resources>
+                <Style TargetType="{x:Type TabItem}">
+                    <Setter Property="HeaderTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <ContentPresenter Content="{TemplateBinding Content}">
+                                    <ContentPresenter.LayoutTransform>
+                                        <RotateTransform Angle="270" />
+                                    </ContentPresenter.LayoutTransform>
+                                </ContentPresenter>
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Padding" Value="3" />
+                </Style>
+            </TabControl.Resources>
+            <TabItem x:Name="TeamsTab" Header="Teams">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="20"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Manage teams" Style="{StaticResource TitleStyle}" />
+
+                    <ListBox Grid.Row="1" x:Name="TeamsList" SelectionChanged="TeamsList_SelectionChanged">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <!--<ListView Grid.Row="1" x:Name="TeamsList" SelectionChanged="TeamsList_SelectionChanged">
+                        <ListView.ItemTemplate>
+                            <DataTemplate
+                        </ListView.ItemTemplate>
+                    </ListView>-->
+
+                    <!--<Canvas Grid.Row="1" Grid.Column="1" x:Name="TeamDetailsCanvas">
+                    </Canvas>-->
+                    <Controls:EditTeamControl Grid.Column="1" Grid.Row="1" Margin="10" x:Name="TeamDetails" Visibility="Hidden" />
+
+
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Width="40" Height="20" Margin="2,0" Click="AddTeamButton_Click" x:Name="AddTeamButton">
+                            <TextBlock Text="&#xF067;" FontFamily="{StaticResource FontAwesomeSolid}" />
+                        </Button>
+                        <Button Width="40" Height="20" Margin="2,0" x:Name="RenameTeamButton" IsEnabled="False" Click="RenameTeamButton_Click">
+                            <TextBlock Text="&#xF044;" FontFamily="{StaticResource FontAwesomeSolid}" />
+                        </Button>
+                        <Button Width="40" Height="20" Margin="2,0" x:Name="RemoveTeamButton" Click="RemoveTeamButton_Click">
+                            <TextBlock Text="&#xF068;" FontFamily="{StaticResource FontAwesomeSolid}" />
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="ResourcesTab" Header="Resources"/>
+            <TabItem x:Name="SettingsTab" Header="Settings"/>
+            <TabItem x:Name="MatchTab" Header="Match">
+                <Controls:MatchControl x:Name="MatchControls" />
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

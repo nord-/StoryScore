@@ -5,6 +5,14 @@ VisualStudioVersion = 16.0.29020.237
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryScoreDisplay", "StoryScoreDisplay\StoryScoreDisplay.csproj", "{E3B7B522-CB70-427F-BE8F-30BF9633A479}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryScoreClient", "StoryScoreClient\StoryScoreClient.csproj", "{F0F01F1D-F55D-4D93-B5A4-E69FE0AD90EE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{758CB116-5F8D-4910-AA92-9934D266B27C}"
+	ProjectSection(SolutionItems) = preProject
+		D:\Users\Rickard\Desktop\Login.sql = D:\Users\Rickard\Desktop\Login.sql
+		D:\Users\Rickard\Desktop\User.sql = D:\Users\Rickard\Desktop\User.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +23,10 @@ Global
 		{E3B7B522-CB70-427F-BE8F-30BF9633A479}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3B7B522-CB70-427F-BE8F-30BF9633A479}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E3B7B522-CB70-427F-BE8F-30BF9633A479}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0F01F1D-F55D-4D93-B5A4-E69FE0AD90EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0F01F1D-F55D-4D93-B5A4-E69FE0AD90EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0F01F1D-F55D-4D93-B5A4-E69FE0AD90EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0F01F1D-F55D-4D93-B5A4-E69FE0AD90EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

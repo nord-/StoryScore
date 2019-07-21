@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="StoryScoreClient.Controls.MatchControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:StoryScoreClient.Controls"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800" Background="White">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ComboBox Height="22" Margin="10,0,10,0" x:Name="HomeTeamComboBox" SelectedItem="{Binding HomeTeam}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <ComboBox Grid.Column="1" Margin="10,0,10,0" Height="22" x:Name="AwayTeamComboBox" SelectedItem="{Binding AwayTeam}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal">
+            <Button Width="75" Height="22" Margin="5,0" Content="Start match" Background="Green" Foreground="White" Click="StartMatchButton_Click" x:Name="StartMatchButton" />
+            <Button Width="75" Height="22" Margin="5,0" Click="StartClockButton_Click" x:Name="StartClockButton" Background="Green" Foreground="White" IsEnabled="False">
+                <StackPanel Orientation="Horizontal" >
+                    <TextBlock Text="&#xf04b;" FontFamily="{StaticResource FontAwesomeSolid}" VerticalAlignment="Center" />
+                    <TextBlock Text="Start" Margin="5,0" VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+            <Button Width="75" Height="22" Margin="5,0" Click="StopClockButton_Click" x:Name="StopClockButton" Background="Yellow" IsEnabled="False">
+                <StackPanel Orientation="Horizontal" >
+                    <TextBlock Text="&#xf04d;" FontFamily="{StaticResource FontAwesomeSolid}" VerticalAlignment="Center" />
+                    <TextBlock Text="Stop" Margin="5,0" VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+        <TextBlock Grid.Row="2" TextWrapping="NoWrap" Text="{Binding HomeScore}" TextAlignment="Center" VerticalAlignment="Center" FontSize="24" x:Name="HomeScore" />
+        <TextBlock Grid.Row="2" Grid.Column="1" TextWrapping="NoWrap" Text="{Binding AwayScore}" TextAlignment="Center" VerticalAlignment="Center" FontSize="24" x:Name="AwayScore" />
+        <Button Grid.Row="3" VerticalAlignment="Top" Width="75" Margin="5" Click="HomeGoalButton_Click" x:Name="HomeGoalButton" IsEnabled="False">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="&#xf1e3;" FontFamily="{StaticResource FontAwesomeSolid}" VerticalAlignment="Center" />
+                <TextBlock Text="GOAL!" Margin="3,0"/>
+            </StackPanel>
+        </Button>
+        <Button Grid.Row="3" Grid.Column="1" VerticalAlignment="Top" Width="75" Margin="5" Click="AwayGoalButton_Click" x:Name="AwayGoalButton" IsEnabled="False">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="&#xf1e3;" FontFamily="{StaticResource FontAwesomeSolid}" VerticalAlignment="Center" />
+                <TextBlock Text="GOAL!" Margin="3,0"/>
+            </StackPanel>
+        </Button>
+    </Grid>
+</UserControl>
