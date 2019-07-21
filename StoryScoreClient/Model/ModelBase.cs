@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
+// https://daedtech.com/wpf-and-notifying-property-change/
+//
 namespace StoryScoreClient.Model
 {
     public abstract class ModelBase : INotifyPropertyChanged
