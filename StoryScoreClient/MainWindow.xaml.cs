@@ -27,8 +27,9 @@ namespace StoryScoreClient
     {
         private bool isAdding = false;
         private ITeamRepository _teamRepository;
-        private readonly MqttClient _displayService;
+        private readonly DisplayService _displayService;
         private readonly Options _options = new Options();
+        private readonly Scoreboard _scoreboard = new Scoreboard();
 
         public MainWindow()
         {
@@ -36,7 +37,7 @@ namespace StoryScoreClient
 
             // TODO: Dep inject
             _teamRepository = new TeamRepository();
-            _displayService = new MqttClient(_options);
+            _displayService = new DisplayService(new MqttClient(_options), _options);
 
             var teams = _teamRepository.GetTeams();
             TeamsList.ItemsSource = teams;
@@ -54,22 +55,21 @@ namespace StoryScoreClient
             // TODO: subscribe to clock event from display
 
             var model = MatchControls.Model;
-            var sendMessage = new Scoreboard
-            {
-                HomeTeamName = model.HomeTeam.Name,
-                AwayTeamName = model.AwayTeam.Name,
-                HomeScore = model.HomeScore,
-                AwayScore = model.AwayScore
-            };
+            _scoreboard.HomeTeamName = model.HomeTeam.Name;
+            _scoreboard.AwayTeamName = model.AwayTeam.Name;
+            _scoreboard.HomeScore = model.HomeScore;
+            _scoreboard.AwayScore = model.AwayScore;
 
-            // TODO: move this logic into service
-            var topic = $"display/{_options.ReceiverClientId}/{MqttClient.Events.Update}";
-            await _displayService.SendMessageAsync(topic, JsonConvert.SerializeObject(sendMessage));
+            // send to display
+            await _displayService.UpdateAsync(_scoreboard);
         }
 
-        private void Match_ScoreChanged(object arg1, EventArgs arg2)
+        private async void Match_ScoreChanged(object arg1, EventArgs arg2)
         {
-            throw new NotImplementedException();
+            _scoreboard.HomeScore = MatchControls.Model.HomeScore;
+            _scoreboard.AwayScore = MatchControls.Model.AwayScore;
+
+            await _displayService.UpdateAsync(_scoreboard);
         }
 
         private void TeamDetails_CancelClicked(object arg1, EventArgs arg2)
