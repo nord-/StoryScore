@@ -22,6 +22,8 @@ namespace StoryScoreClient
     /// </summary>
     public partial class MainWindow : Window
     {
+        private bool isAdding = false;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -48,15 +50,22 @@ namespace StoryScoreClient
             var teams = new List<Team>();
             teams.AddRange((IEnumerable<Team>)TeamsList.ItemsSource);
 
-            var removeMe = teams.FirstOrDefault(t => t.Name == theTeam.Name);
-            teams.Remove(removeMe);
+            if (isAdding)
+            {
+                var removeMe = teams.FirstOrDefault(t => t.Name == theTeam.Name);
+                teams.Remove(removeMe);
 
-            TeamsList.ItemsSource = teams;
+                TeamsList.ItemsSource = teams;
+            }
 
             TeamDetails.Visibility = Visibility.Hidden;
             TeamDetails.DataContext = null;
 
-            AddTeamButton.IsEnabled = true;
+            isAdding = false;
+            AddTeamButton.IsEnabled =
+                RemoveTeamButton.IsEnabled =
+                RenameTeamButton.IsEnabled =
+                TeamsList.IsEnabled = true;
         }
 
         private void TeamDetails_SaveClicked(object arg1, EventArgs arg2)
@@ -65,7 +74,11 @@ namespace StoryScoreClient
             TeamDetails.Visibility = Visibility.Hidden;
             TeamDetails.DataContext = null;
 
-            AddTeamButton.IsEnabled = true;
+            AddTeamButton.IsEnabled =
+                RemoveTeamButton.IsEnabled =
+                RenameTeamButton.IsEnabled =
+                TeamsList.IsEnabled = true;
+            isAdding = false;
 
             // TODO: save the team to db
         }
@@ -73,8 +86,16 @@ namespace StoryScoreClient
         private void TeamsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             RenameTeamButton.IsEnabled = (TeamsList.SelectedIndex >= 0);
-            TeamDetails.Visibility = Visibility.Hidden;
-            TeamDetails.DataContext = null;
+            if (!RenameTeamButton.IsEnabled)
+            {
+                TeamDetails.Visibility = Visibility.Hidden;
+                TeamDetails.DataContext = null;
+            }
+            else
+            {
+                TeamDetails.DataContext = TeamsList.SelectedItem;
+                TeamDetails.Visibility = Visibility.Visible;
+            }
         }
 
         private void AddTeamButton_Click(object sender, RoutedEventArgs e)
@@ -86,7 +107,13 @@ namespace StoryScoreClient
             teams.Add(newTeam);
 
             TeamsList.ItemsSource = teams;
-            ((Button)sender).IsEnabled = false;
+            TeamsList.SelectedItem = newTeam;
+
+            isAdding = true;
+            AddTeamButton.IsEnabled =
+                RemoveTeamButton.IsEnabled =
+                RenameTeamButton.IsEnabled =
+                TeamsList.IsEnabled = false;
 
             TeamDetails.DataContext = newTeam;
             TeamDetails.Visibility = Visibility.Visible;
@@ -94,8 +121,6 @@ namespace StoryScoreClient
 
         private void RenameTeamButton_Click(object sender, RoutedEventArgs e)
         {
-            TeamDetails.DataContext = TeamsList.SelectedItem;
-            TeamDetails.Visibility = Visibility.Visible;
         }
 
 
