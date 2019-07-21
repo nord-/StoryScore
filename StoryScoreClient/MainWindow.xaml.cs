@@ -48,6 +48,18 @@ namespace StoryScoreClient
             MatchControls.Init(teams);
             MatchControls.ScoreChanged += Match_ScoreChanged;
             MatchControls.MatchStarted += Match_MatchStarted;
+            MatchControls.ClockStarted += Match_ClockStarted;
+            MatchControls.ClockStopped += Match_ClockStopped;
+        }
+
+        private async void Match_ClockStopped(object arg1, EventArgs arg2)
+        {
+            await _displayService.StopTimerAsync();
+        }
+
+        private async void Match_ClockStarted(object arg1, EventArgs arg2)
+        {
+            await _displayService.StartTimerAsync();
         }
 
         private async void Match_MatchStarted(object arg1, EventArgs arg2)

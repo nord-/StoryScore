@@ -72,7 +72,7 @@ namespace StoryScoreDisplay
                     break;
 
                 case "stop":
-                    if (!string.IsNullOrWhiteSpace(messageAsJson))
+                    if (!string.IsNullOrWhiteSpace(messageAsJson) && messageAsJson != "empty")
                     {
                         var offset = JsonConvert.DeserializeObject<TimeSpan>(messageAsJson);
                         StopTimer(offset);
@@ -120,6 +120,8 @@ namespace StoryScoreDisplay
 
             if (offset.HasValue)
                 _timerOffset = offset.Value;
+            else
+                _timerOffset = _currentElapsedTime;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

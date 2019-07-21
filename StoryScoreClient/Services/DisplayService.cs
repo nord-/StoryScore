@@ -31,16 +31,16 @@ namespace StoryScoreClient.Services
             await _mqttClient.SendMessageAsync(topic, JsonConvert.SerializeObject(scoreboard));
         }
 
-        public async Task StartTimer()
+        public async Task StartTimerAsync()
         {
             var topic = GetTopic(MqttClient.Events.Start);
-            await _mqttClient.SendMessageAsync(topic, string.Empty);
+            await _mqttClient.SendMessageAsync(topic, "empty");
         }
 
-        public async Task StopTimer()
+        public async Task StopTimerAsync()
         {
             var topic = GetTopic(MqttClient.Events.Stop);
-            await _mqttClient.SendMessageAsync(topic, string.Empty);
+            await _mqttClient.SendMessageAsync(topic, "empty");
         }
 
         public async Task StopTimerAsync(TimeSpan offset)
