@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dapper.Contrib.Extensions;
+using System;
 using System.Collections.Generic;
 
 namespace StoryScoreClient.Model
@@ -57,6 +58,7 @@ namespace StoryScoreClient.Model
             }
         }
 
+        [Write(false)]
         public virtual ICollection<Player> Players { get; set; }
     }
 }

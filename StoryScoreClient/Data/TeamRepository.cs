@@ -23,7 +23,19 @@ namespace StoryScoreClient.Data
 
         public void SaveTeam(Team team)
         {
-            throw new NotImplementedException();
+            using (var cn = StoryScoreDbConnection())
+            {
+                if (team.Id != 0)
+                {
+                    // update
+                    cn.Update<Team>(team);
+                }
+                else
+                {
+                    // insert
+                    cn.Insert(team);
+                }
+            }
         }
     }
 }

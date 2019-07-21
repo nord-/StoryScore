@@ -1,4 +1,5 @@
-﻿using StoryScoreClient.Model;
+﻿using StoryScoreClient.Data;
+using StoryScoreClient.Model;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -28,16 +29,7 @@ namespace StoryScoreClient
         {
             InitializeComponent();
 
-            var teams = new Data.TeamRepository().GetTeams();
-            if (teams.Count() == 0)
-            {
-                teams = new[]
-                {
-                    new Team { Id = 1, Name = "FC Trollhättan", ShortName = "FCT", Coach = "William Lundin", LogoPath = @"D:\Users\Rickard\OneDrive\Bilder\FCT\fct_logo.png" },
-                    new Team { Id = 2, Name = "AIK Skövde", ShortName = "SAIK", Coach = "Karl Kragballe", LogoPath = @"D:\Users\Rickard\OneDrive\Bilder\FCT\fct.png" },
-                };
-            }
-
+            var teams = new TeamRepository().GetTeams();
             TeamsList.ItemsSource = teams;
 
             TeamDetails.SaveClicked += TeamDetails_SaveClicked;
@@ -80,7 +72,9 @@ namespace StoryScoreClient
                 TeamsList.IsEnabled = true;
             isAdding = false;
 
-            // TODO: save the team to db
+            // save the team to db
+            var repo = new TeamRepository();
+            repo.SaveTeam(theTeam);
         }
 
         private void TeamsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
