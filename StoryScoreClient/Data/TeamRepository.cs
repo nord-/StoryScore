@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Dapper.Contrib.Extensions;
 using StoryScoreClient.Model;
 
@@ -18,6 +19,7 @@ namespace StoryScoreClient.Data
             using (var cn = StoryScoreDbConnection())
             {
                 return cn.GetAll<Team>();
+                // TODO: fill teams with players
             }
         }
 
@@ -35,6 +37,23 @@ namespace StoryScoreClient.Data
                     // insert
                     cn.Insert(team);
                 }
+            }
+        }
+
+        public void RemoveTeam(Team team)
+        {
+            using (var cn = StoryScoreDbConnection())
+            {
+                // if players, remove them first --> no orphans!
+                if (team.Players.AnyEx())
+                {
+                    foreach (var player in team.Players)
+                    {
+                        cn.Delete(player);
+                    }
+                }
+
+                cn.Delete(team);
             }
         }
     }

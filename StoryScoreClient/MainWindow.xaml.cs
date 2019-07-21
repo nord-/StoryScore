@@ -24,12 +24,16 @@ namespace StoryScoreClient
     public partial class MainWindow : Window
     {
         private bool isAdding = false;
+        private ITeamRepository _teamRepository;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            var teams = new TeamRepository().GetTeams();
+            // TODO: Dep inject
+            _teamRepository = new TeamRepository();
+
+            var teams = _teamRepository.GetTeams();
             TeamsList.ItemsSource = teams;
 
             TeamDetails.SaveClicked += TeamDetails_SaveClicked;
@@ -73,8 +77,7 @@ namespace StoryScoreClient
             isAdding = false;
 
             // save the team to db
-            var repo = new TeamRepository();
-            repo.SaveTeam(theTeam);
+            _teamRepository.SaveTeam(theTeam);
         }
 
         private void TeamsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -117,6 +120,15 @@ namespace StoryScoreClient
         {
         }
 
-
+        private void RemoveTeamButton_Click(object sender, RoutedEventArgs e)
+        {
+            var theTeam = (Team)TeamsList.SelectedItem;
+            _teamRepository.RemoveTeam(theTeam);
+            var teams = (IList<Team>)TeamsList.ItemsSource;
+            teams.Remove(theTeam);
+            TeamsList.SelectedItem = null;
+            TeamsList.ItemsSource = teams;
+            TeamsList.Items.Refresh();
+        }
     }
 }

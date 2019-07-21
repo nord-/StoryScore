@@ -10,6 +10,7 @@ namespace StoryScoreClient.Data
     {
         Team GetTeam(int id);
         IEnumerable<Team> GetTeams();
+        void RemoveTeam(Team team);
         void SaveTeam(Team team);
     }
 }
