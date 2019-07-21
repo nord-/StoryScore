@@ -71,7 +71,9 @@
             </TabItem>
             <TabItem x:Name="ResourcesTab" Header="Resources"/>
             <TabItem x:Name="SettingsTab" Header="Settings"/>
-            <TabItem x:Name="MatchTab" Header="Match"/>
+            <TabItem x:Name="MatchTab" Header="Match">
+                <Controls:MatchControl x:Name="MatchControls" />
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

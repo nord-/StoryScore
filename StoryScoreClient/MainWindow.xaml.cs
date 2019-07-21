@@ -38,6 +38,8 @@ namespace StoryScoreClient
 
             TeamDetails.SaveClicked += TeamDetails_SaveClicked;
             TeamDetails.CancelClicked += TeamDetails_CancelClicked;
+
+            MatchControls.Init(teams);
         }
 
         private void TeamDetails_CancelClicked(object arg1, EventArgs arg2)

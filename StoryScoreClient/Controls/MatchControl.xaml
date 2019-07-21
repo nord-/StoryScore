@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="StoryScoreClient.Controls.MatchControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:StoryScoreClient.Controls"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800" Background="White">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ComboBox Height="22" Margin="10,0,10,0" x:Name="HomeTeamComboBox" SelectedItem="{Binding HomeTeam}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <ComboBox Grid.Column="1" Margin="10,0,10,0" Height="22" x:Name="AwayTeamComboBox" SelectedItem="{Binding AwayTeam}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <TextBlock Grid.Row="1" TextWrapping="NoWrap" Text="{Binding HomeScore}" TextAlignment="Center" VerticalAlignment="Center" FontSize="24" x:Name="HomeScore" />
+        <TextBlock Grid.Row="1" Grid.Column="1" TextWrapping="NoWrap" Text="{Binding AwayScore}" TextAlignment="Center" VerticalAlignment="Center" FontSize="24" x:Name="AwayScore" />
+        <Button Content="GOAL!" Grid.Row="2" VerticalAlignment="Top" Width="75" Margin="5" Click="HomeGoalButton_Click"/>
+        <Button Content="GOAL!" Grid.Row="2" Grid.Column="1" VerticalAlignment="Top" Width="75" Margin="5" Click="AwayGoalButton_Click"/>
+    </Grid>
+</UserControl>
