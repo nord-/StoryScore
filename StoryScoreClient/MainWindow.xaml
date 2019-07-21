@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:StoryScoreClient"
         xmlns:Controls="clr-namespace:StoryScoreClient.Controls" x:Class="StoryScoreClient.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Storyscore" Height="450" Width="800">
     <Grid>
         <TabControl TabStripPlacement="Left" >
             <TabControl.Resources>

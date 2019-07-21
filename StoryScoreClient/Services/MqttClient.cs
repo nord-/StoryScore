@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace StoryScoreClient.Services
 {
-    public class DisplayService : IDisposable
+    public class MqttClient : IDisposable
     {
         private const string ClientID = "Control";
         private readonly IManagedMqttClient _mqttClient;
 
-        public DisplayService(Options options)
+        public MqttClient(Options options)
         {
             // Create a new MQTT client.
             var opt = new ManagedMqttClientOptionsBuilder()

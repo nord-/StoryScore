@@ -27,7 +27,7 @@ namespace StoryScoreClient
     {
         private bool isAdding = false;
         private ITeamRepository _teamRepository;
-        private readonly DisplayService _displayService;
+        private readonly MqttClient _displayService;
         private readonly Options _options = new Options();
 
         public MainWindow()
@@ -36,7 +36,7 @@ namespace StoryScoreClient
 
             // TODO: Dep inject
             _teamRepository = new TeamRepository();
-            _displayService = new DisplayService(_options);
+            _displayService = new MqttClient(_options);
 
             var teams = _teamRepository.GetTeams();
             TeamsList.ItemsSource = teams;
@@ -63,7 +63,7 @@ namespace StoryScoreClient
             };
 
             // TODO: move this logic into service
-            var topic = $"display/{_options.ReceiverClientId}/{DisplayService.Events.Update}";
+            var topic = $"display/{_options.ReceiverClientId}/{MqttClient.Events.Update}";
             await _displayService.SendMessageAsync(topic, JsonConvert.SerializeObject(sendMessage));
         }
 
