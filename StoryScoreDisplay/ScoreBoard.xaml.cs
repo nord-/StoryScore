@@ -83,8 +83,8 @@ namespace StoryScoreDisplay
                     }
                     break;
 
-                //case "pause":
-                //    break;
+                    //case "pause":
+                    //    break;
             }
         }
 
@@ -119,7 +119,10 @@ namespace StoryScoreDisplay
             _timerIsRunning = false;
 
             if (offset.HasValue)
+            {
                 _timerOffset = offset.Value;
+                _model.GameClock = _timerOffset;
+            }
             else
                 _timerOffset = _currentElapsedTime;
         }

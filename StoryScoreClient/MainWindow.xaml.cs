@@ -52,9 +52,12 @@ namespace StoryScoreClient
             MatchControls.ClockStopped += Match_ClockStopped;
         }
 
-        private async void Match_ClockStopped(object arg1, EventArgs arg2)
+        private async void Match_ClockStopped(object arg1, Controls.MatchControl.ClockStoppedEventArgs arg2)
         {
-            await _displayService.StopTimerAsync();
+            if (arg2.OffsetSet)
+                await _displayService.StopTimerAsync(arg2.TimerOffset);
+            else
+                await _displayService.StopTimerAsync();
         }
 
         private async void Match_ClockStarted(object arg1, EventArgs arg2)

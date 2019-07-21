@@ -28,7 +28,13 @@ namespace StoryScoreClient.Controls
         public event Action<object, EventArgs> ScoreChanged;
         public event Action<object, EventArgs> MatchStarted;
         public event Action<object, EventArgs> ClockStarted;
-        public event Action<object, EventArgs> ClockStopped;
+        public event Action<object, ClockStoppedEventArgs> ClockStopped;
+
+        public class ClockStoppedEventArgs : EventArgs
+        {
+            public TimeSpan TimerOffset { get; set; }
+            public bool OffsetSet { get; set; } = false;
+        }
 
         public MatchControl()
         {
@@ -60,6 +66,7 @@ namespace StoryScoreClient.Controls
                 HomeTeamComboBox.IsEnabled =
                     AwayTeamComboBox.IsEnabled = false;
                 StartClockButton.IsEnabled =
+                    ChangeTimeButton.IsEnabled =
                     HomeGoalButton.IsEnabled =
                     AwayGoalButton.IsEnabled = true;
 
@@ -75,9 +82,10 @@ namespace StoryScoreClient.Controls
                     AwayTeamComboBox.IsEnabled = true;
                 StartClockButton.IsEnabled =
                     StopClockButton.IsEnabled =
+                    ChangeTimeButton.IsEnabled =
                     HomeGoalButton.IsEnabled =
                     AwayGoalButton.IsEnabled = false;
-                OnClockStopped(e);
+                OnClockStopped(new ClockStoppedEventArgs { OffsetSet = true, TimerOffset = TimeSpan.Zero });
 
                 StartMatchButton.Content = "Start match";
                 StartMatchButton.Background = Brushes.Green;
@@ -96,7 +104,25 @@ namespace StoryScoreClient.Controls
         {
             StopClockButton.IsEnabled = false;
             StartClockButton.IsEnabled = true;
-            OnClockStopped(e);
+            OnClockStopped(new ClockStoppedEventArgs { OffsetSet = false });
+        }
+
+        private void ChangeTimeButton_Click(object sender, RoutedEventArgs e)
+        {
+            var inputTime = new InputTimeWindow();
+            // TODO: need to know what timer is...
+
+            var args = new ClockStoppedEventArgs();
+
+            inputTime.Owner = Window.GetWindow(this);
+            var result = inputTime.ShowDialog() ?? false;
+            if (result)
+            {
+                args.TimerOffset = inputTime.OffsetTime;
+                args.OffsetSet = true;
+
+                OnClockStopped(args);
+            }
         }
 
         #region Event handlers
@@ -115,11 +141,10 @@ namespace StoryScoreClient.Controls
             ClockStarted?.Invoke(this, e);
         }
 
-        protected virtual void OnClockStopped(EventArgs e)
+        protected virtual void OnClockStopped(ClockStoppedEventArgs e)
         {
             ClockStopped?.Invoke(this, e);
         }
         #endregion
-
     }
 }
