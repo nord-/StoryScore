@@ -23,6 +23,9 @@ namespace StoryScoreClient.Controls
     {
         public MatchViewModel Model = new MatchViewModel();
 
+        public event Action<object, EventArgs> ScoreChanged;
+        public event Action<object, EventArgs> MatchStarted;
+
         public MatchControl()
         {
             InitializeComponent();
@@ -38,10 +41,30 @@ namespace StoryScoreClient.Controls
         private void HomeGoalButton_Click(object sender, RoutedEventArgs e)
         {
             Model.HomeScore++;
+            OnScoreChange(e);
         }
         private void AwayGoalButton_Click(object sender, RoutedEventArgs e)
         {
             Model.AwayScore++;
+            OnScoreChange(e);
+        }
+
+        protected virtual void OnScoreChange(EventArgs e)
+        {
+            ScoreChanged?.Invoke(this, e);
+        }
+
+        protected virtual void OnMatchStarted(EventArgs e)
+        {
+            MatchStarted?.Invoke(this, e);
+        }
+
+        private void StartMatchButton_Click(object sender, RoutedEventArgs e)
+        {
+            HomeTeamComboBox.IsEnabled =
+                AwayTeamComboBox.IsEnabled = false;
+
+            OnMatchStarted(e);
         }
     }
 }

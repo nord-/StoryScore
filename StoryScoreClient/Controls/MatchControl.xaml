@@ -13,6 +13,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
+            <RowDefinition Height="25"/>
             <RowDefinition Height="50" />
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -30,9 +31,10 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <TextBlock Grid.Row="1" TextWrapping="NoWrap" Text="{Binding HomeScore}" TextAlignment="Center" VerticalAlignment="Center" FontSize="24" x:Name="HomeScore" />
-        <TextBlock Grid.Row="1" Grid.Column="1" TextWrapping="NoWrap" Text="{Binding AwayScore}" TextAlignment="Center" VerticalAlignment="Center" FontSize="24" x:Name="AwayScore" />
-        <Button Content="GOAL!" Grid.Row="2" VerticalAlignment="Top" Width="75" Margin="5" Click="HomeGoalButton_Click"/>
-        <Button Content="GOAL!" Grid.Row="2" Grid.Column="1" VerticalAlignment="Top" Width="75" Margin="5" Click="AwayGoalButton_Click"/>
+        <Button Grid.Row="1" Grid.ColumnSpan="2" Width="75" Height="22" Content="Start match" Click="StartMatchButton_Click" />
+        <TextBlock Grid.Row="2" TextWrapping="NoWrap" Text="{Binding HomeScore}" TextAlignment="Center" VerticalAlignment="Center" FontSize="24" x:Name="HomeScore" />
+        <TextBlock Grid.Row="2" Grid.Column="1" TextWrapping="NoWrap" Text="{Binding AwayScore}" TextAlignment="Center" VerticalAlignment="Center" FontSize="24" x:Name="AwayScore" />
+        <Button Content="GOAL!" Grid.Row="3" VerticalAlignment="Top" Width="75" Margin="5" Click="HomeGoalButton_Click"/>
+        <Button Content="GOAL!" Grid.Row="3" Grid.Column="1" VerticalAlignment="Top" Width="75" Margin="5" Click="AwayGoalButton_Click"/>
     </Grid>
 </UserControl>

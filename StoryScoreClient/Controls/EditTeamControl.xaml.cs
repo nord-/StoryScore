@@ -42,19 +42,11 @@ namespace StoryScoreClient.Controls
 
         protected virtual void OnSaveClicked(EventArgs e)
         {
-            var handler = this.SaveClicked;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            SaveClicked?.Invoke(this, e);
         }
         protected virtual void OnCancelClicked(EventArgs e)
         {
-            var handler = this.CancelClicked;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            CancelClicked?.Invoke(this, e);
         }
 
         private void FileOpen_Click(object sender, RoutedEventArgs e)

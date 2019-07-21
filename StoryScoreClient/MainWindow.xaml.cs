@@ -1,5 +1,7 @@
-﻿using StoryScoreClient.Data;
+﻿using Newtonsoft.Json;
+using StoryScoreClient.Data;
 using StoryScoreClient.Model;
+using StoryScoreClient.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -25,6 +27,8 @@ namespace StoryScoreClient
     {
         private bool isAdding = false;
         private ITeamRepository _teamRepository;
+        private readonly DisplayService _displayService;
+        private readonly Options _options = new Options();
 
         public MainWindow()
         {
@@ -32,6 +36,7 @@ namespace StoryScoreClient
 
             // TODO: Dep inject
             _teamRepository = new TeamRepository();
+            _displayService = new DisplayService(_options);
 
             var teams = _teamRepository.GetTeams();
             TeamsList.ItemsSource = teams;
@@ -40,6 +45,31 @@ namespace StoryScoreClient
             TeamDetails.CancelClicked += TeamDetails_CancelClicked;
 
             MatchControls.Init(teams);
+            MatchControls.ScoreChanged += Match_ScoreChanged;
+            MatchControls.MatchStarted += Match_MatchStarted;
+        }
+
+        private async void Match_MatchStarted(object arg1, EventArgs arg2)
+        {
+            // TODO: subscribe to clock event from display
+
+            var model = MatchControls.Model;
+            var sendMessage = new Scoreboard
+            {
+                HomeTeamName = model.HomeTeam.Name,
+                AwayTeamName = model.AwayTeam.Name,
+                HomeScore = model.HomeScore,
+                AwayScore = model.AwayScore
+            };
+
+            // TODO: move this logic into service
+            var topic = $"display/{_options.ReceiverClientId}/{DisplayService.Events.Update}";
+            await _displayService.SendMessageAsync(topic, JsonConvert.SerializeObject(sendMessage));
+        }
+
+        private void Match_ScoreChanged(object arg1, EventArgs arg2)
+        {
+            throw new NotImplementedException();
         }
 
         private void TeamDetails_CancelClicked(object arg1, EventArgs arg2)

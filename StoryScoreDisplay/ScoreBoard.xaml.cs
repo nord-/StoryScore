@@ -68,6 +68,7 @@ namespace StoryScoreDisplay
 
                 case "update":
                     _model = JsonConvert.DeserializeObject<ScoreBoardModel>(messageAsJson);
+                    Dispatcher.Invoke(() => DataContext = _model);
                     break;
 
                 case "stop":
