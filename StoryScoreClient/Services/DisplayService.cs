@@ -27,26 +27,33 @@ namespace StoryScoreClient.Services
 
         public async Task UpdateAsync(Scoreboard scoreboard)
         {
-            var topic = GetTopic(MqttClient.Events.Update);
+            var topic = GetTopic(Events.Update);
             await _mqttClient.SendMessageAsync(topic, JsonConvert.SerializeObject(scoreboard));
         }
 
         public async Task StartTimerAsync()
         {
-            var topic = GetTopic(MqttClient.Events.Start);
+            var topic = GetTopic(Events.Start);
             await _mqttClient.SendMessageAsync(topic, "empty");
         }
 
         public async Task StopTimerAsync()
         {
-            var topic = GetTopic(MqttClient.Events.Stop);
+            var topic = GetTopic(Events.Stop);
             await _mqttClient.SendMessageAsync(topic, "empty");
         }
 
         public async Task StopTimerAsync(TimeSpan offset)
         {
-            var topic = GetTopic(MqttClient.Events.Stop);
+            var topic = GetTopic(Events.Stop);
             await _mqttClient.SendMessageAsync(topic, JsonConvert.SerializeObject(offset));
+        }
+
+        public class Events
+        {
+            public const string Start = "start";
+            public const string Update = "update";
+            public const string Stop = "stop";
         }
     }
 }

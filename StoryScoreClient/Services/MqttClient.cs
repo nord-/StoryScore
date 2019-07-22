@@ -82,12 +82,5 @@ namespace StoryScoreClient.Services
             _mqttClient.StopAsync().Wait();
             _mqttClient.Dispose();
         }
-
-        public class Events
-        {
-            public const string Start = "start";
-            public const string Update = "update";
-            public const string Stop = "stop";
-        }
     }
 }
