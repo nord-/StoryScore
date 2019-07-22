@@ -125,6 +125,28 @@ namespace StoryScoreClient.Controls
             }
         }
 
+        private void HomeGoalScorerButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void HomeUndoGoalButton_Click(object sender, RoutedEventArgs e)
+        {
+            Model.HomeScore--;
+            OnScoreChange(e);
+        }
+
+        private void AwayGoalScorerButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AwayUndoGoalButton_Click(object sender, RoutedEventArgs e)
+        {
+            Model.AwayScore--;
+            OnScoreChange(e);
+        }
+
         #region Event handlers
         protected virtual void OnScoreChange(EventArgs e)
         {
