@@ -2,6 +2,7 @@
 using StoryScore.Client.Data;
 using StoryScore.Client.Model;
 using StoryScore.Client.Services;
+using StoryScore.Common;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -84,7 +85,8 @@ namespace StoryScore.Client
             _scoreboard.HomeScore = MatchControls.Model.HomeScore;
             _scoreboard.AwayScore = MatchControls.Model.AwayScore;
 
-            await _displayService.UpdateAsync(_scoreboard);
+            await _displayService.UpdateGoalAsync(new Goal { IsHomeTeam = true, Score = _scoreboard.HomeScore });
+            await _displayService.UpdateGoalAsync(new Goal { IsHomeTeam = false, Score = _scoreboard.AwayScore });
         }
 
         private void TeamDetails_CancelClicked(object arg1, EventArgs arg2)

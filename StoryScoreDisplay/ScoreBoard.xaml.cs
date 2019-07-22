@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using StoryScore.Common;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -62,16 +63,16 @@ namespace StoryScore.Display
             var topic = eventArgs.ApplicationMessage.Topic.Split('/').Last();
             switch (topic)
             {
-                case "start":
+                case Common.Constants.Mqtt.Start:
                     StartTimer();
                     break;
 
-                case "update":
+                case Common.Constants.Mqtt.Update:
                     _model = JsonConvert.DeserializeObject<ScoreBoardModel>(messageAsJson);
                     Dispatcher.Invoke(() => DataContext = _model);
                     break;
 
-                case "stop":
+                case Common.Constants.Mqtt.Stop:
                     if (!string.IsNullOrWhiteSpace(messageAsJson) && messageAsJson != "empty")
                     {
                         var offset = JsonConvert.DeserializeObject<TimeSpan>(messageAsJson);
@@ -83,9 +84,18 @@ namespace StoryScore.Display
                     }
                     break;
 
-                    //case "pause":
-                    //    break;
-                //case ""
+                case Common.Constants.Mqtt.Goal:
+                    var goal = JsonConvert.DeserializeObject<Goal>(messageAsJson);
+                    if (goal.IsHomeTeam)
+                    {
+                        // TODO: take care if adding or removing points
+                        _model.HomeScore = goal.Score;
+                    }
+                    else
+                    {
+                        _model.AwayScore = goal.Score;
+                    }
+                    break;
             }
         }
 

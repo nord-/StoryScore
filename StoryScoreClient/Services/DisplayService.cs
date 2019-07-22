@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using StoryScore.Client.Model;
+using StoryScore.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,33 +28,32 @@ namespace StoryScore.Client.Services
 
         public async Task UpdateAsync(Scoreboard scoreboard)
         {
-            var topic = GetTopic(Events.Update);
+            var topic = GetTopic(Common.Constants.Mqtt.Update);
             await _mqttClient.SendMessageAsync(topic, JsonConvert.SerializeObject(scoreboard));
         }
 
         public async Task StartTimerAsync()
         {
-            var topic = GetTopic(Events.Start);
+            var topic = GetTopic(Common.Constants.Mqtt.Start);
             await _mqttClient.SendMessageAsync(topic, "empty");
         }
 
         public async Task StopTimerAsync()
         {
-            var topic = GetTopic(Events.Stop);
+            var topic = GetTopic(Common.Constants.Mqtt.Stop);
             await _mqttClient.SendMessageAsync(topic, "empty");
         }
 
         public async Task StopTimerAsync(TimeSpan offset)
         {
-            var topic = GetTopic(Events.Stop);
+            var topic = GetTopic(Common.Constants.Mqtt.Stop);
             await _mqttClient.SendMessageAsync(topic, JsonConvert.SerializeObject(offset));
         }
 
-        public class Events
+        public async Task UpdateGoalAsync(Goal goal)
         {
-            public const string Start = "start";
-            public const string Update = "update";
-            public const string Stop = "stop";
+            var topic = GetTopic(Common.Constants.Mqtt.Goal);
+            await _mqttClient.SendMessageAsync(topic, JsonConvert.SerializeObject(goal));
         }
     }
 }
