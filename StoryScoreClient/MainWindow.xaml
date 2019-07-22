@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:StoryScoreClient"
-        xmlns:Controls="clr-namespace:StoryScoreClient.Controls" x:Class="StoryScoreClient.MainWindow"
+        xmlns:local="clr-namespace:StoryScore.Client"
+        xmlns:Controls="clr-namespace:StoryScore.Client.Controls" x:Class="StoryScore.Client.MainWindow"
         mc:Ignorable="d"
         Title="Storyscore" Height="450" Width="800">
     <Grid>

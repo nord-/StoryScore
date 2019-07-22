@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StoryScoreClient.Model
+namespace StoryScore.Client.Model
 {
     public class MatchViewModel : ModelBase
     {

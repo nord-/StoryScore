@@ -17,7 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace StoryScoreDisplay
+namespace StoryScore.Display
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -85,6 +85,7 @@ namespace StoryScoreDisplay
 
                     //case "pause":
                     //    break;
+                //case ""
             }
         }
 

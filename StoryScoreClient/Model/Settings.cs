@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace StoryScoreClient.Model
+namespace StoryScore.Client.Model
 {
     public class Settings
     {

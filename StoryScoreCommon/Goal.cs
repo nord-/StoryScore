@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StoryScoreCommon
+namespace StoryScore.Common
 {
     public class Goal
     {

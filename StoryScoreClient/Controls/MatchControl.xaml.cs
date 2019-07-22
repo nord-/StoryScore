@@ -1,4 +1,4 @@
-﻿using StoryScoreClient.Model;
+﻿using StoryScore.Client.Model;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace StoryScoreClient.Controls
+namespace StoryScore.Client.Controls
 {
     /// <summary>
     /// Interaction logic for MacthControl.xaml

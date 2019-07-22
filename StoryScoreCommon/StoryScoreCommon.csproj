@@ -7,7 +7,7 @@
     <ProjectGuid>{F6EAD5FC-FF70-43A7-B62C-30E9E52862CA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>StoryScoreCommon</RootNamespace>
+    <RootNamespace>StoryScore.Common</RootNamespace>
     <AssemblyName>StoryScoreCommon</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

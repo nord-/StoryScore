@@ -1,10 +1,10 @@
-﻿using StoryScoreClient.Model;
+﻿using StoryScore.Client.Model;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StoryScoreClient.Data
+namespace StoryScore.Client.Data
 {
     public interface ITeamRepository
     {

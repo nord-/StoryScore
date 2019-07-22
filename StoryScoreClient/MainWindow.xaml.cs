@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
-using StoryScoreClient.Data;
-using StoryScoreClient.Model;
-using StoryScoreClient.Services;
+using StoryScore.Client.Data;
+using StoryScore.Client.Model;
+using StoryScore.Client.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,7 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace StoryScoreClient
+namespace StoryScore.Client
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

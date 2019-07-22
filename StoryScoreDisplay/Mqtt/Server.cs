@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 // https://github.com/chkr1011/MQTTnet/wiki/Server
 
-namespace StoryScoreDisplay.Mqtt
+namespace StoryScore.Display.Mqtt
 {
     public class Server : IDisposable
     {

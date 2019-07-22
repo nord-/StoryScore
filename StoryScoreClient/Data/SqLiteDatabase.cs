@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StoryScoreClient.Data
+namespace StoryScore.Client.Data
 {
     public class SqLiteDatabase
     {

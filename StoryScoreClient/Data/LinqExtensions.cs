@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace StoryScoreClient.Data
+namespace StoryScore.Client.Data
 {
     public static class LinqExtensions
     {

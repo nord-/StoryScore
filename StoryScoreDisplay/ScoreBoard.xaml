@@ -1,9 +1,9 @@
-﻿<Window x:Class="StoryScoreDisplay.ScoreBoardWindow"
+﻿<Window x:Class="StoryScore.Display.ScoreBoardWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:StoryScoreDisplay"
+        xmlns:local="clr-namespace:StoryScore.Display"
         mc:Ignorable="d"
         Title="MainWindow" Height="288" Width="480" ResizeMode="NoResize" Topmost="True" WindowStyle="None" Background="Black"
         TextBlock.Foreground="White" TextBlock.FontWeight="Bold" Top="0" Left="0" Loaded="Window_Loaded">

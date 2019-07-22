@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{E3B7B522-CB70-427F-BE8F-30BF9633A479}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>StoryScoreDisplay</RootNamespace>
+    <RootNamespace>StoryScore.Display</RootNamespace>
     <AssemblyName>StoryScoreDisplay</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

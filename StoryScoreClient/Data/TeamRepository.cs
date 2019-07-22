@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Dapper.Contrib.Extensions;
-using StoryScoreClient.Model;
+using StoryScore.Client.Model;
 
-namespace StoryScoreClient.Data
+namespace StoryScore.Client.Data
 {
     public class TeamRepository : SqLiteBaseRepository, ITeamRepository
     {

@@ -2,7 +2,7 @@
 using System.Data.SQLite;
 using System.IO;
 
-namespace StoryScoreClient.Data
+namespace StoryScore.Client.Data
 {
     public class SqLiteBaseRepository
     {

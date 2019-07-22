@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StoryScoreDisplay.Mqtt
+namespace StoryScore.Display.Mqtt
 {
     public class Client : IDisposable
     {

@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 // https://daedtech.com/wpf-and-notifying-property-change/
 //
-namespace StoryScoreClient.Model
+namespace StoryScore.Client.Model
 {
     public abstract class ModelBase : INotifyPropertyChanged
     {

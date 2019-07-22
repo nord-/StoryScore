@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StoryScoreClient.Services
+namespace StoryScore.Client.Services
 {
     public class MqttClient : IDisposable
     {

@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace StoryScoreClient.Model
+namespace StoryScore.Client.Model
 {
     public class Team : ModelBase
     {

@@ -1,7 +1,7 @@
-﻿<Application x:Class="StoryScoreDisplay.App"
+﻿<Application x:Class="StoryScore.Display.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:StoryScoreDisplay"
+             xmlns:local="clr-namespace:StoryScore.Display"
              StartupUri="ScoreBoard.xaml">
     <Application.Resources>
     </Application.Resources>

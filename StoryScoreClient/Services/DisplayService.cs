@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json;
-using StoryScoreClient.Model;
+using StoryScore.Client.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StoryScoreClient.Services
+namespace StoryScore.Client.Services
 {
 
     public class DisplayService

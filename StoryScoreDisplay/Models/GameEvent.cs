@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace StoryScoreDisplay
+namespace StoryScore.Display
 {
     public class GameEvent : INotifyPropertyChanged
     {

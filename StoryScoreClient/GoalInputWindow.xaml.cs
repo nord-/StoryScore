@@ -1,4 +1,4 @@
-﻿using StoryScoreClient.Model;
+﻿using StoryScore.Client.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace StoryScoreClient
+namespace StoryScore.Client
 {
     /// <summary>
     /// Interaction logic for GoalInputWindow.xaml
