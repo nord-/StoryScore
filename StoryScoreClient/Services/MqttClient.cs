@@ -15,6 +15,9 @@ namespace StoryScore.Client.Services
         private const string ClientID = "Control";
         private readonly IManagedMqttClient _mqttClient;
 
+        public delegate void MessageReceived(MqttApplicationMessageReceivedEventArgs eventArgs);
+        public event MessageReceived MessageReceivedEvent;
+
         public MqttClient(Options options)
         {
             // Create a new MQTT client.
@@ -43,7 +46,7 @@ namespace StoryScore.Client.Services
             Debug.WriteLine($"+ Retain = {e.ApplicationMessage.Retain}");
             Debug.WriteLine("");
 
-            //MessageReceivedEvent?.Invoke(e);
+            MessageReceivedEvent?.Invoke(e);
         }
 
         public void Subscribe(string topic)

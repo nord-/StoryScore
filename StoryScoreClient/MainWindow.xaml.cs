@@ -39,6 +39,7 @@ namespace StoryScore.Client
             // TODO: Dep inject
             _teamRepository = new TeamRepository();
             _displayService = new DisplayService(new MqttClient(_options), _options);
+            _displayService.MatchClockTick += MatchClockTick;
 
             var teams = _teamRepository.GetTeams();
             TeamsList.ItemsSource = teams;
@@ -51,6 +52,11 @@ namespace StoryScore.Client
             MatchControls.MatchStarted += Match_MatchStarted;
             MatchControls.ClockStarted += Match_ClockStarted;
             MatchControls.ClockStopped += Match_ClockStopped;
+        }
+
+        private void MatchClockTick(Heartbeat hb)
+        {
+            MatchControls.Model.Matchclock = hb.Matchclock;
         }
 
         private async void Match_ClockStopped(object arg1, Controls.MatchControl.ClockStoppedEventArgs arg2)

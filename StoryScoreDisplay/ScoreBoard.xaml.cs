@@ -52,8 +52,8 @@ namespace StoryScore.Display
             _mqttServer = new Mqtt.Server(_options);
             _mqttClient = new Mqtt.Client(_options);
             _mqttClient.MessageReceivedEvent += MqttClient_MessageReceivedEvent;
-            _mqttClient.Subscribe($"display/{_options.ClientId}/#"); // subscribe to all updates meant for me!
-            Task.Run(async () => await _mqttClient.SendMessageAsync($"display/{_options.ClientId}/status", "online"));  // tell the world I'm here!
+            _mqttClient.Subscribe($"{Common.Constants.Topic.Display}/{_options.ClientId}/#"); // subscribe to all updates meant for me!
+            Task.Run(async () => await _mqttClient.SendMessageAsync($"{Common.Constants.Topic.Display}/{_options.ClientId}/{Common.Constants.Mqtt.Status}", "online"));  // tell the world I'm here!
         }
 
         private void MqttClient_MessageReceivedEvent(MQTTnet.MqttApplicationMessageReceivedEventArgs eventArgs)
@@ -112,6 +112,10 @@ namespace StoryScore.Display
 
             // update displayed time (take offset into account)
             _model.GameClock = _currentElapsedTime;
+
+            // send heartbeat
+            var heartbeat = JsonConvert.SerializeObject(new Heartbeat { DisplayId = _options.ClientId, Matchclock = _currentElapsedTime });
+            Task.Run(async () => await _mqttClient.SendMessageAsync(Common.Constants.Topic.Sync, heartbeat));
         }
 
         private void StartTimer()

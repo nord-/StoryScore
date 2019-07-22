@@ -10,6 +10,10 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -17,21 +21,21 @@
             <RowDefinition Height="50" />
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <ComboBox Height="22" Margin="10,0,10,0" x:Name="HomeTeamComboBox" SelectedItem="{Binding HomeTeam}">
+        <ComboBox Height="22" Margin="10,0,10,0" x:Name="HomeTeamComboBox" SelectedItem="{Binding HomeTeam}" Grid.ColumnSpan="3">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Name}"/>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <ComboBox Grid.Column="1" Margin="10,0,10,0" Height="22" x:Name="AwayTeamComboBox" SelectedItem="{Binding AwayTeam}">
+        <ComboBox Grid.Column="3" Grid.ColumnSpan="3" Margin="10,0,10,0" Height="22" x:Name="AwayTeamComboBox" SelectedItem="{Binding AwayTeam}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Name}"/>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal">
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="6" Orientation="Horizontal">
             <Button Width="75" Height="22" Margin="5,0" Content="Start match" Background="Green" Foreground="White" Click="StartMatchButton_Click" x:Name="StartMatchButton" />
             <Button Width="75" Height="22" Margin="5,0" Click="StartClockButton_Click" x:Name="StartClockButton" Background="Green" Foreground="White" IsEnabled="False">
                 <StackPanel Orientation="Horizontal" >
@@ -52,9 +56,10 @@
                 </StackPanel>
             </Button>
         </StackPanel>
-        <TextBlock Grid.Row="2" TextWrapping="NoWrap" Text="{Binding HomeScore}" TextAlignment="Center" VerticalAlignment="Center" FontSize="24" x:Name="HomeScore" />
-        <TextBlock Grid.Row="2" Grid.Column="1" TextWrapping="NoWrap" Text="{Binding AwayScore}" TextAlignment="Center" VerticalAlignment="Center" FontSize="24" x:Name="AwayScore" />
-        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
+        <TextBlock Grid.Row="2" Grid.ColumnSpan="2" TextWrapping="NoWrap" Text="{Binding HomeScore}" TextAlignment="Center" VerticalAlignment="Center" FontSize="24" x:Name="HomeScore" />
+        <TextBlock Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Text="{Binding MatchclockDisplay}" TextAlignment="Center" VerticalAlignment="Center" FontSize="24"/>
+        <TextBlock Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2" TextWrapping="NoWrap" Text="{Binding AwayScore}" TextAlignment="Center" VerticalAlignment="Center" FontSize="24" x:Name="AwayScore" />
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Grid.ColumnSpan="2">
             <Button VerticalAlignment="Top" Width="75" Height="22" Margin="0,5" Click="HomeGoalButton_Click" x:Name="HomeGoalButton" IsEnabled="False">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="&#xf1e3;" FontFamily="{StaticResource FontAwesomeSolid}" VerticalAlignment="Center" />
@@ -66,7 +71,7 @@
                 <TextBlock Text="&#xf2ea;" FontFamily="{StaticResource FontAwesomeSolid}" VerticalAlignment="Center" />
             </Button>
         </StackPanel>
-        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+        <StackPanel Grid.Row="3" Grid.Column="4" Orientation="Horizontal" HorizontalAlignment="Center" Grid.ColumnSpan="2">
             <Button Grid.Row="3" Grid.Column="1" VerticalAlignment="Top" Width="75" Height="22" Margin="0,5" Click="AwayGoalButton_Click" x:Name="AwayGoalButton" IsEnabled="False">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="&#xf1e3;" FontFamily="{StaticResource FontAwesomeSolid}" VerticalAlignment="Center" />

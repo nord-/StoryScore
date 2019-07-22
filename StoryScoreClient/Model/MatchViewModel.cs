@@ -12,6 +12,7 @@ namespace StoryScore.Client.Model
         private int _awayScore;
         private Team _homeTeam;
         private Team _awayTeam;
+        private TimeSpan _matchclock;
 
         public Team HomeTeam
         {
@@ -50,6 +51,25 @@ namespace StoryScore.Client.Model
             {
                 _awayScore = value;
                 NotifyChange(() => AwayScore);
+            }
+        }
+
+        public TimeSpan Matchclock
+        {
+            get => _matchclock;
+            set
+            {
+                _matchclock = value;
+                NotifyChange(() => Matchclock);
+                NotifyChange(() => MatchclockDisplay);
+            }
+        }
+
+        public string MatchclockDisplay
+        {
+            get
+            {
+                return $"{Math.Floor(Matchclock.TotalMinutes):00}:{Matchclock.Seconds:00}";
             }
         }
     }

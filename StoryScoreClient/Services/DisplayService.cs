@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MQTTnet;
+using Newtonsoft.Json;
 using StoryScore.Client.Model;
 using StoryScore.Common;
 using System;
@@ -15,15 +16,30 @@ namespace StoryScore.Client.Services
         private readonly MqttClient _mqttClient;
         private readonly Options _options;
 
+        public event Action<Heartbeat> MatchClockTick;
+
         public DisplayService(MqttClient mqttClient, Options options)
         {
             _mqttClient = mqttClient;
             _options = options;
+
+            _mqttClient.MessageReceivedEvent += MqttClient_MessageReceivedEvent;
+            _mqttClient.Subscribe(Common.Constants.Topic.Sync);
+        }
+
+        private void MqttClient_MessageReceivedEvent(MqttApplicationMessageReceivedEventArgs eventArgs)
+        {
+            if (eventArgs.ApplicationMessage.Topic == Common.Constants.Topic.Sync)
+            {
+                var messageAsJson = Encoding.UTF8.GetString(eventArgs.ApplicationMessage.Payload);
+                var heartbeat = JsonConvert.DeserializeObject<Heartbeat>(messageAsJson);
+                MatchClockTick?.Invoke(heartbeat);
+            }
         }
 
         private string GetTopic(string @event)
         {
-            return $"display/{_options.ReceiverClientId}/{@event}";
+            return $"{Common.Constants.Topic.Display}/{_options.ReceiverClientId}/{@event}";
         }
 
         public async Task UpdateAsync(Scoreboard scoreboard)
