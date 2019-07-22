@@ -1,6 +1,7 @@
 ﻿using StoryScoreClient.Model;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -67,6 +68,10 @@ namespace StoryScoreClient.Controls
                     AwayTeamComboBox.IsEnabled = false;
                 StartClockButton.IsEnabled =
                     ChangeTimeButton.IsEnabled =
+                    HomeGoalScorerButton.IsEnabled =
+                    AwayGoalScorerButton.IsEnabled =
+                    HomeUndoGoalButton.IsEnabled =
+                    AwayUndoGoalButton.IsEnabled =
                     HomeGoalButton.IsEnabled =
                     AwayGoalButton.IsEnabled = true;
 
@@ -83,6 +88,10 @@ namespace StoryScoreClient.Controls
                 StartClockButton.IsEnabled =
                     StopClockButton.IsEnabled =
                     ChangeTimeButton.IsEnabled =
+                    HomeGoalScorerButton.IsEnabled =
+                    AwayGoalScorerButton.IsEnabled =
+                    HomeUndoGoalButton.IsEnabled =
+                    AwayUndoGoalButton.IsEnabled =
                     HomeGoalButton.IsEnabled =
                     AwayGoalButton.IsEnabled = false;
                 OnClockStopped(new ClockStoppedEventArgs { OffsetSet = true, TimerOffset = TimeSpan.Zero });
@@ -127,7 +136,15 @@ namespace StoryScoreClient.Controls
 
         private void HomeGoalScorerButton_Click(object sender, RoutedEventArgs e)
         {
-
+            // TODO: need to know match time
+            var goalInput = new GoalInputWindow(new[] { new Player { Name = "Fidde Sundström", PlayerNumber = 2 }, new Player { Name = "Anders Mogren", PlayerNumber = 8 } });
+            goalInput.Owner = Window.GetWindow(this);
+            if (goalInput.ShowDialog() ?? false)
+            {
+                Debug.WriteLine($"Scorer: {goalInput.Player.Name}, time: {goalInput.MatchTime}");
+                Model.HomeScore++;
+                OnScoreChange(e);
+            }
         }
 
         private void HomeUndoGoalButton_Click(object sender, RoutedEventArgs e)

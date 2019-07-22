@@ -23,7 +23,7 @@ namespace StoryScoreClient.Data
         private static void CreateTable(SQLiteConnection cn)
         {
             var sql = @"CREATE TABLE Teams (Id INTEGER PRIMARY KEY, Name VARCHAR(200), Coach VARCHAR(200), ShortName VARCHAR(200), LogoPath VARCHAR(200)); 
-                        CREATE TABLE Players (Id INTEGER PRIMARY KEY, Name VARCHAR(200), Position VARCHAR(40), PicturePath VARCHAR(200), PresentationVideoPath VARCHAR(200), 
+                        CREATE TABLE Players (Id INTEGER PRIMARY KEY, Name VARCHAR(200), PlayerNumber INTEGER, Position VARCHAR(40), PicturePath VARCHAR(200), PresentationVideoPath VARCHAR(200), 
                                               GoalVideoPath VARCHAR(200), TeamId INTEGER, FOREIGN KEY(TeamId) REFERENCES Teams(Id));";
 
             var cmd = new SQLiteCommand(sql, cn);

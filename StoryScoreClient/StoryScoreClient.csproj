@@ -179,6 +179,9 @@
     <Compile Include="Data\ITeamRepository.cs" />
     <Compile Include="Data\SqLiteDatabase.cs" />
     <Compile Include="Data\TeamRepository.cs" />
+    <Compile Include="GoalInputWindow.xaml.cs">
+      <DependentUpon>GoalInputWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="InputTimeWindow.xaml.cs">
       <DependentUpon>InputTimeWindow.xaml</DependentUpon>
     </Compile>
@@ -195,6 +198,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\MatchControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GoalInputWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
