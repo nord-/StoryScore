@@ -26,7 +26,7 @@ namespace StoryScore.Client.Controls
 
         private bool _matchStarted = false;
 
-        public event Action<object, EventArgs> ScoreChanged;
+        public event Action<object, GoalEventArgs> ScoreChanged;
         public event Action<object, EventArgs> MatchStarted;
         public event Action<object, EventArgs> ClockStarted;
         public event Action<object, ClockStoppedEventArgs> ClockStopped;
@@ -35,6 +35,15 @@ namespace StoryScore.Client.Controls
         {
             public TimeSpan TimerOffset { get; set; }
             public bool OffsetSet { get; set; } = false;
+        }
+
+        public class GoalEventArgs : EventArgs
+        {
+            public int Score { get; set; }
+            public int MatchTime { get; set; }
+            public Player Player { get; set; }
+            public bool IsHomeGoal { get; set; }
+            public bool IsCorrection { get; set; }
         }
 
         public MatchControl()
@@ -52,12 +61,12 @@ namespace StoryScore.Client.Controls
         private void HomeGoalButton_Click(object sender, RoutedEventArgs e)
         {
             Model.HomeScore++;
-            OnScoreChange(e);
+            OnScoreChange((int)Math.Ceiling(Model.Matchclock.TotalMinutes), null, true);
         }
         private void AwayGoalButton_Click(object sender, RoutedEventArgs e)
         {
             Model.AwayScore++;
-            OnScoreChange(e);
+            OnScoreChange((int)Math.Ceiling(Model.Matchclock.TotalMinutes), null, false);
         }
 
         private void StartMatchButton_Click(object sender, RoutedEventArgs e)
@@ -105,22 +114,22 @@ namespace StoryScore.Client.Controls
         private void StartClockButton_Click(object sender, RoutedEventArgs e)
         {
             StopClockButton.IsEnabled = true;
-            StartClockButton.IsEnabled = false;
+            StartClockButton.IsEnabled =
+                ChangeTimeButton.IsEnabled = false;
             OnClockStarted(e);
         }
 
         private void StopClockButton_Click(object sender, RoutedEventArgs e)
         {
             StopClockButton.IsEnabled = false;
-            StartClockButton.IsEnabled = true;
+            StartClockButton.IsEnabled =
+                ChangeTimeButton.IsEnabled = true;
             OnClockStopped(new ClockStoppedEventArgs { OffsetSet = false });
         }
 
         private void ChangeTimeButton_Click(object sender, RoutedEventArgs e)
         {
-            var inputTime = new InputTimeWindow();
-            // TODO: need to know what timer is...
-
+            var inputTime = new InputTimeWindow(Model.Matchclock);
             var args = new ClockStoppedEventArgs();
 
             inputTime.Owner = Window.GetWindow(this);
@@ -136,38 +145,56 @@ namespace StoryScore.Client.Controls
 
         private void HomeGoalScorerButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: need to know match time
-            var goalInput = new GoalInputWindow(new[] { new Player { Name = "Fidde Sundström", PlayerNumber = 2 }, new Player { Name = "Anders Mogren", PlayerNumber = 8 } });
+            // TODO: real player list
+            var goalInput = new GoalInputWindow(new[] { new Player { Name = "Fidde Sundström", PlayerNumber = 2 }, new Player { Name = "Anders Mogren", PlayerNumber = 8 } },
+                Model.Matchclock);
             goalInput.Owner = Window.GetWindow(this);
             if (goalInput.ShowDialog() ?? false)
             {
                 Debug.WriteLine($"Scorer: {goalInput.Player.Name}, time: {goalInput.MatchTime}");
                 Model.HomeScore++;
-                OnScoreChange(e);
+                OnScoreChange(goalInput.MatchTime, goalInput.Player, true);
             }
         }
 
         private void HomeUndoGoalButton_Click(object sender, RoutedEventArgs e)
         {
             Model.HomeScore--;
-            OnScoreChange(e);
+            OnScoreChange(0, null, true, true);
         }
 
         private void AwayGoalScorerButton_Click(object sender, RoutedEventArgs e)
         {
-
+            // TODO: real player list
+            var goalInput = new GoalInputWindow(new[] { new Player { Name = "Fidde Sundström", PlayerNumber = 2 }, new Player { Name = "Anders Mogren", PlayerNumber = 8 } },
+                Model.Matchclock);
+            goalInput.Owner = Window.GetWindow(this);
+            if (goalInput.ShowDialog() ?? false)
+            {
+                Debug.WriteLine($"Scorer: {goalInput.Player.Name}, time: {goalInput.MatchTime}");
+                Model.AwayScore++;
+                OnScoreChange(goalInput.MatchTime, goalInput.Player, false);
+            }
         }
 
         private void AwayUndoGoalButton_Click(object sender, RoutedEventArgs e)
         {
             Model.AwayScore--;
-            OnScoreChange(e);
+            OnScoreChange(0, null, false, true);
         }
 
         #region Event handlers
-        protected virtual void OnScoreChange(EventArgs e)
+        protected virtual void OnScoreChange(int matchTime, Player player, bool isHome, bool isCorrection = false)
         {
-            ScoreChanged?.Invoke(this, e);
+            var goal = new GoalEventArgs
+            {
+                Score = isHome ? Model.HomeScore : Model.AwayScore,
+                MatchTime = matchTime,
+                Player = player,
+                IsHomeGoal = isHome,
+                IsCorrection = isCorrection
+            };
+            ScoreChanged?.Invoke(this, goal);
         }
 
         protected virtual void OnMatchStarted(EventArgs e)

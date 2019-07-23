@@ -86,9 +86,10 @@ namespace StoryScore.Display
 
                 case Common.Constants.Mqtt.Goal:
                     var goal = JsonConvert.DeserializeObject<Goal>(messageAsJson);
+                    // TODO: show scorer presentation
+                    // TODO: play scorer goal video
                     if (goal.IsHomeTeam)
                     {
-                        // TODO: take care if adding or removing points
                         _model.HomeScore = goal.Score;
                     }
                     else

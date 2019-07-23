@@ -25,11 +25,14 @@ namespace StoryScore.Client
 
         public IEnumerable<Player> Players { get; set; }
 
-        public GoalInputWindow(IEnumerable<Player> players)
+        public GoalInputWindow(IEnumerable<Player> players, TimeSpan time)
         {
             InitializeComponent();
             Players = players;
             PlayerComboBox.ItemsSource = Players;
+
+            MatchTime = (int)Math.Ceiling(time.TotalMinutes);
+            EventTimeTextBox.Text = MatchTime.ToString();
         }
 
         private void OkButton_Click(object sender, RoutedEventArgs e)

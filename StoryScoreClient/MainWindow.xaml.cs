@@ -86,13 +86,23 @@ namespace StoryScore.Client
             await _displayService.UpdateAsync(_scoreboard);
         }
 
-        private async void Match_ScoreChanged(object arg1, EventArgs arg2)
+        private async void Match_ScoreChanged(object sender, Controls.MatchControl.GoalEventArgs args)
         {
-            _scoreboard.HomeScore = MatchControls.Model.HomeScore;
-            _scoreboard.AwayScore = MatchControls.Model.AwayScore;
+            if (args.IsHomeGoal)
+                _scoreboard.HomeScore = args.Score;
+            else
+                _scoreboard.AwayScore = args.Score;
 
-            await _displayService.UpdateGoalAsync(new Goal { IsHomeTeam = true, Score = _scoreboard.HomeScore });
-            await _displayService.UpdateGoalAsync(new Goal { IsHomeTeam = false, Score = _scoreboard.AwayScore });
+            await _displayService.UpdateGoalAsync(new Goal
+            {
+                Score = args.Score,
+                IsHomeTeam = args.IsHomeGoal,
+                IsCorrection = args.IsCorrection,
+                ScorerName = args.Player?.Name,
+                ScorerNumber = args.Player?.PlayerNumber ?? 0,
+                ScorerImagePath = args.Player?.PicturePath,
+                ScorerVideoPath = args.Player?.GoalVideoPath
+            });
         }
 
         private void TeamDetails_CancelClicked(object arg1, EventArgs arg2)

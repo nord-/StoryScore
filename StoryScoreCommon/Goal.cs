@@ -14,5 +14,6 @@ namespace StoryScore.Common
         public int ScorerNumber { get; set; }
         public string ScorerImagePath { get; set; }
         public string ScorerVideoPath { get; set; }
+        public bool IsCorrection { get; set; }
     }
 }

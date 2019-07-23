@@ -22,9 +22,12 @@ namespace StoryScore.Client
     {
         public TimeSpan OffsetTime { get; set; }
 
-        public InputTimeWindow()
+        public InputTimeWindow(TimeSpan time)
         {
             InitializeComponent();
+            OffsetTime = time;
+
+            TimeTextBox.Text = $"{Math.Floor(time.TotalMinutes):000}:{time.Seconds}";
         }
 
         private void OkButton_Click(object sender, RoutedEventArgs e) {
