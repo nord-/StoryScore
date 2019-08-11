@@ -81,7 +81,12 @@ namespace StoryScore.Client.Controls
 
         private void RemovePlayerButton_Click(object sender, RoutedEventArgs e)
         {
+            _repository.RemovePlayer(Mapper.Map<Player>(PlayersListBox.SelectedItem));
 
+            var localPlayers = _players.ToList();
+            localPlayers.Remove((PlayerViewModel)PlayersListBox.SelectedItem);
+            _players = localPlayers;
+            PlayersListBox.ItemsSource = _players;
         }
 
         private void PlayersListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
