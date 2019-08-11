@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using StoryScore.Client.Data;
 using StoryScore.Client.Model;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace StoryScore.Client.Controls
     public partial class PlayersControl : UserControl
     {
         private IEnumerable<PlayerViewModel> _players;
+        private readonly IPlayerRepository _repository;
 
         public event Action<PlayersControl> Close;
 
@@ -39,6 +41,37 @@ namespace StoryScore.Client.Controls
         public PlayersControl()
         {
             InitializeComponent();
+            _repository = new PlayerRepository();
+
+            EditPlayerControl.Init(_repository);
+            EditPlayerControl.Save += EditPlayerControl_Save;
+            EditPlayerControl.Cancel += EditPlayerControl_Cancel;
+        }
+
+        private void EditPlayerControl_Cancel(EditPlayerControl target, PlayerViewModel player)
+        {
+            //PlayersListBox.SelectedItem = player;
+            var localList = _players.ToList();
+            var index = -1;
+            foreach (var p in localList)
+            {
+                if (p.Id == player.Id)
+                {
+                    index = localList.IndexOf(p);
+                    break;
+                }
+            }
+
+            localList[index] = player;
+            _players = localList;
+
+            PlayersListBox.ItemsSource = _players;
+            PlayersListBox.SelectedIndex = -1;
+        }
+
+        private void EditPlayerControl_Save(EditPlayerControl target, PlayerViewModel player)
+        {
+            PlayersListBox.SelectedIndex = -1;
         }
 
         private void AddPlayerButton_Click(object sender, RoutedEventArgs e)

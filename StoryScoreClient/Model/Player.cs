@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dapper.Contrib.Extensions;
+using System;
 
 namespace StoryScore.Client.Model
 {
@@ -13,6 +14,7 @@ namespace StoryScore.Client.Model
         public string PresentationVideoPath { get; set; }
         public string GoalVideoPath { get; set; }
 
+        [Write(false)]
         public virtual Team Team { get; set; }
     }
 }

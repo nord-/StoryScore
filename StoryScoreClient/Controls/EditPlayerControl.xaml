@@ -22,18 +22,18 @@
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
         <TextBlock Text="Number" VerticalAlignment="Center"/>
-        <TextBox Grid.Column="1" x:Name="PlayerNumberTextBox" Height="23" Text="{Binding PlayerNumber}" />
+        <TextBox Grid.Column="1" x:Name="PlayerNumberTextBox" Height="23" Text="{Binding PlayerNumber, UpdateSourceTrigger=PropertyChanged}" />
 
         <TextBlock Text="Name" VerticalAlignment="Center" Grid.Row="1"/>
-        <TextBox Grid.Column="1" x:Name="NameTextBox" Height="23" Grid.Row="1" Text="{Binding Name}"/>
+        <TextBox Grid.Column="1" x:Name="NameTextBox" Height="23" Grid.Row="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
 
         <TextBlock Text="Position" VerticalAlignment="Center" Grid.Row="2"/>
-        <TextBox Grid.Column="1" x:Name="PositionTextBox" Height="23" Grid.Row="2" Text="{Binding Position}"/>
+        <TextBox Grid.Column="1" x:Name="PositionTextBox" Height="23" Grid.Row="2" Text="{Binding Position, UpdateSourceTrigger=PropertyChanged}"/>
 
         <TextBlock Text="Picture path" Grid.Row="3" Margin="0,5" />
         <StackPanel Grid.Column="1" Grid.Row="3" Margin="0,3,0,0">
             <StackPanel  Orientation="Horizontal">
-                <TextBox x:Name="PicturePathTextBox" Height="23" Width="350" Text="{Binding PicturePath}"/>
+                <TextBox x:Name="PicturePathTextBox" Height="23" Width="350" Text="{Binding PicturePath, UpdateSourceTrigger=PropertyChanged}"/>
                 <Button Height="23" VerticalContentAlignment="Bottom">
                     <TextBlock Text="&#xf141;" FontFamily="{StaticResource FontAwesomeSolid}"  />
                 </Button>
@@ -43,7 +43,7 @@
 
         <TextBlock Text="Pres.video path" VerticalAlignment="Center" Grid.Row="4" />
         <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal">
-            <TextBox x:Name="PresentationVideoTextBox" Height="23" Width="350" Text="{Binding PresentationVideoPath}"/>
+            <TextBox x:Name="PresentationVideoTextBox" Height="23" Width="350" Text="{Binding PresentationVideoPath, UpdateSourceTrigger=PropertyChanged}"/>
             <Button Height="23" VerticalContentAlignment="Bottom">
                 <TextBlock Text="&#xf141;" FontFamily="{StaticResource FontAwesomeSolid}"  />
             </Button>
@@ -51,7 +51,7 @@
 
         <TextBlock Text="Goal video path" VerticalAlignment="Center" Grid.Row="5"/>
         <StackPanel Grid.Column="1" Grid.Row="5" Orientation="Horizontal">
-            <TextBox x:Name="GoalVideoTextBox" Height="23" Width="350" Text="{Binding GoalVideoPath}"/>
+            <TextBox x:Name="GoalVideoTextBox" Height="23" Width="350" Text="{Binding GoalVideoPath, UpdateSourceTrigger=PropertyChanged}"/>
             <Button Height="23" VerticalContentAlignment="Bottom">
                 <TextBlock Text="&#xf141;" FontFamily="{StaticResource FontAwesomeSolid}"  />
             </Button>

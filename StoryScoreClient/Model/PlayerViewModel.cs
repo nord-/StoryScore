@@ -52,6 +52,10 @@ namespace StoryScore.Client.Model
         {
             CreateMap<Player, PlayerViewModel>()
                 ;
+
+            CreateMap<PlayerViewModel, Player>()
+                .ForMember(dest => dest.Team, opt => opt.Ignore())
+                ;
         }
     }
 
