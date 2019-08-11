@@ -16,29 +16,23 @@ using System.Windows.Shapes;
 namespace StoryScore.Client.Controls
 {
     /// <summary>
-    /// Interaction logic for PlayersControl.xaml
+    /// Interaction logic for EditPlayerControl.xaml
     /// </summary>
-    public partial class PlayersControl : UserControl
+    public partial class EditPlayerControl : UserControl
     {
-        public PlayersControl()
+        public EditPlayerControl()
         {
             InitializeComponent();
         }
 
-        private void AddPlayerButton_Click(object sender, RoutedEventArgs e)
+        private void SavePlayerButton_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void RemovePlayerButton_Click(object sender, RoutedEventArgs e)
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
 
-        }
-
-        private void PlayersListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            EditPlayerControl.DataContext = PlayersListBox.SelectedItem;
-            EditPlayerControl.Visibility  = Visibility.Visible;
         }
     }
 }

@@ -168,6 +168,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\EditPlayerControl.xaml.cs">
+      <DependentUpon>EditPlayerControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\EditTeamControl.xaml.cs">
       <DependentUpon>EditTeamControl.xaml</DependentUpon>
     </Compile>
@@ -197,6 +200,10 @@
     <Compile Include="Options.cs" />
     <Compile Include="Services\DisplayService.cs" />
     <Compile Include="Services\MqttClient.cs" />
+    <Page Include="Controls\EditPlayerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\EditTeamControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
