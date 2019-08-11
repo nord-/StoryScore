@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AutoMapper;
+using StoryScore.Client.Model;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,5 +15,10 @@ namespace StoryScore.Client
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            Mapper.Initialize(cfg => cfg.AddMaps(new[] { typeof(PlayerViewModel) }));
+            Mapper.AssertConfigurationIsValid();
+        }
     }
 }

@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:StoryScore.Client.Controls"
+             xmlns:Controls="clr-namespace:StoryScore.Client.Controls"
              mc:Ignorable="d" Background="White"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -22,14 +22,21 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Width="40" Height="20" Margin="2,0" x:Name="AddPlayerButton" Click="AddPlayerButton_Click">
-                <TextBlock Text="&#xF067;" FontFamily="{StaticResource FontAwesomeSolid}" />
-            </Button>
-            <Button Width="40" Height="20" Margin="2,0" x:Name="RemovePlayerButton" Click="RemovePlayerButton_Click">
-                <TextBlock Text="&#xF068;" FontFamily="{StaticResource FontAwesomeSolid}" />
-            </Button>
-        </StackPanel>
-        <local:EditPlayerControl Grid.Column="1" Grid.RowSpan="2" x:Name="EditPlayerControl" Visibility="Hidden" />
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Content="Close" Width="70" Height="23" HorizontalAlignment="Left" Margin="5,0" Click="CloseButton_Click" />
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Width="40" Height="20" Margin="2,0" x:Name="AddPlayerButton" Click="AddPlayerButton_Click">
+                    <TextBlock Text="&#xF067;" FontFamily="{StaticResource FontAwesomeSolid}" />
+                </Button>
+                <Button Width="40" Height="20" Margin="2,0" IsEnabled="False" x:Name="RemovePlayerButton" Click="RemovePlayerButton_Click">
+                    <TextBlock Text="&#xF068;" FontFamily="{StaticResource FontAwesomeSolid}" />
+                </Button>
+            </StackPanel>
+        </Grid>
+        <Controls:EditPlayerControl Grid.Column="1" Grid.RowSpan="2" x:Name="EditPlayerControl" Visibility="Hidden" />
     </Grid>
 </UserControl>

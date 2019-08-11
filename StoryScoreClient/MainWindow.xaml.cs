@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using AutoMapper;
+using Newtonsoft.Json;
+using StoryScore.Client.Controls;
 using StoryScore.Client.Data;
 using StoryScore.Client.Model;
 using StoryScore.Client.Services;
@@ -44,14 +46,30 @@ namespace StoryScore.Client
             var teams = _teamRepository.GetTeams();
             TeamsList.ItemsSource = teams;
 
-            TeamDetails.SaveClicked += TeamDetails_SaveClicked;
-            TeamDetails.CancelClicked += TeamDetails_CancelClicked;
+            TeamDetails.SaveClicked        += TeamDetails_SaveClicked;
+            TeamDetails.CancelClicked      += TeamDetails_CancelClicked;
+            TeamDetails.ViewPlayersClicked += TeamDetails_ViewPlayersClicked;
+
+            TeamPlayers.Close += TeamPlayers_Close;
 
             MatchControls.Init(teams);
             MatchControls.ScoreChanged += Match_ScoreChanged;
             MatchControls.MatchStarted += Match_MatchStarted;
             MatchControls.ClockStarted += Match_ClockStarted;
             MatchControls.ClockStopped += Match_ClockStopped;
+        }
+
+        private void TeamPlayers_Close(PlayersControl obj)
+        {
+            TeamPlayers.Visibility = Visibility.Hidden;
+        }
+
+        private void TeamDetails_ViewPlayersClicked(EditTeamControl target)
+        {
+            TeamDetails.Visibility = Visibility.Hidden;
+            TeamPlayers.Visibility = Visibility.Visible;
+            // load players
+            TeamPlayers.Players = Mapper.Map<PlayerViewModel[]>(((Team)TeamsList.SelectedItem).Players);
         }
 
         private void MatchClockTick(Heartbeat hb)

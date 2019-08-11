@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AutoMapper;
+using StoryScore.Client.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +22,20 @@ namespace StoryScore.Client.Controls
     /// </summary>
     public partial class PlayersControl : UserControl
     {
+        private IEnumerable<PlayerViewModel> _players;
+
+        public event Action<PlayersControl> Close;
+
+        public IEnumerable<PlayerViewModel> Players
+        {
+            get => _players;
+            set
+            {
+                _players = value;
+                PlayersListBox.ItemsSource = _players;
+            }
+        }
+
         public PlayersControl()
         {
             InitializeComponent();
@@ -37,8 +53,30 @@ namespace StoryScore.Client.Controls
 
         private void PlayersListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            EditPlayerControl.DataContext = PlayersListBox.SelectedItem;
-            EditPlayerControl.Visibility  = Visibility.Visible;
+            if (PlayersListBox.SelectedIndex >= 0)
+            {
+                EditPlayerControl.DataContext = PlayersListBox.SelectedItem;
+                EditPlayerControl.Visibility = Visibility.Visible;
+                RemovePlayerButton.IsEnabled = true;
+            }
+            else
+            {
+                EditPlayerControl.DataContext = null;
+                EditPlayerControl.Visibility = Visibility.Hidden;
+                RemovePlayerButton.IsEnabled = false;
+            }
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            OnClose();
+        }
+
+        protected void OnClose()
+        {
+            PlayersListBox.SelectedIndex = -1;
+            PlayersListBox.ItemsSource = null;
+            Close?.Invoke(this);
         }
     }
 }

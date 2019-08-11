@@ -13,6 +13,7 @@ namespace StoryScore.Client.Controls
     {
         public event Action<object, EventArgs> SaveClicked;
         public event Action<object, EventArgs> CancelClicked;
+        public event Action<EditTeamControl> ViewPlayersClicked;
 
         public EditTeamControl()
         {
@@ -50,7 +51,12 @@ namespace StoryScore.Client.Controls
 
         private void PlayersButton_Click(object sender, RoutedEventArgs e)
         {
+            OnViewPlayersClicked();
+        }
 
+        protected virtual void OnViewPlayersClicked()
+        {
+            ViewPlayersClicked?.Invoke(this);
         }
     }
 }

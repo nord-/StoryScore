@@ -38,7 +38,7 @@
                     <TextBlock Text="&#xf141;" FontFamily="{StaticResource FontAwesomeSolid}"  />
                 </Button>
             </StackPanel>
-            <Image MinHeight="100" MinWidth="100" Stretch="Uniform" StretchDirection="DownOnly" Margin="0,3,0,0" />
+            <Image Height="100" Margin="0,3,0,0" Source="{Binding PicturePath}" HorizontalAlignment="Left" />
         </StackPanel>
 
         <TextBlock Text="Pres.video path" VerticalAlignment="Center" Grid.Row="4" />

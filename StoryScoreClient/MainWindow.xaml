@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:StoryScore.Client"
         xmlns:Controls="clr-namespace:StoryScore.Client.Controls" x:Class="StoryScore.Client.MainWindow"
         mc:Ignorable="d"
         Title="Storyscore" Height="450" Width="800">
@@ -54,7 +53,7 @@
                     <!--<Canvas Grid.Row="1" Grid.Column="1" x:Name="TeamDetailsCanvas">
                     </Canvas>-->
                     <Controls:EditTeamControl Grid.Column="1" Grid.Row="1" Margin="10" x:Name="TeamDetails" Visibility="Hidden" />
-
+                    <Controls:PlayersControl Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2" x:Name="TeamPlayers" Visibility="Hidden" Panel.ZIndex="99"/>
 
                     <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
                         <Button Width="40" Height="20" Margin="2,0" Click="AddTeamButton_Click" x:Name="AddTeamButton">

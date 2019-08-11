@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -44,4 +45,14 @@ namespace StoryScore.Client.Model
 
         public string NameAndNumber => $"{PlayerNumber}. {Name}";
     }
+
+    public class PlayerViewModelMappings : Profile
+    {
+        public PlayerViewModelMappings()
+        {
+            CreateMap<Player, PlayerViewModel>()
+                ;
+        }
+    }
+
 }
