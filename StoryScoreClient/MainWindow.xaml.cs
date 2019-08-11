@@ -30,6 +30,7 @@ namespace StoryScore.Client
     {
         private bool isAdding = false;
         private ITeamRepository _teamRepository;
+        private IEnumerable<Team> _teams;
         private readonly DisplayService _displayService;
         private readonly Options _options = new Options();
         private readonly Scoreboard _scoreboard = new Scoreboard();
@@ -43,8 +44,8 @@ namespace StoryScore.Client
             _displayService = new DisplayService(new MqttClient(_options), _options);
             _displayService.MatchClockTick += MatchClockTick;
 
-            var teams = _teamRepository.GetTeams();
-            TeamsList.ItemsSource = teams;
+            _teams = _teamRepository.GetTeams();
+            TeamsList.ItemsSource = _teams;
 
             TeamDetails.SaveClicked        += TeamDetails_SaveClicked;
             TeamDetails.CancelClicked      += TeamDetails_CancelClicked;
@@ -52,7 +53,7 @@ namespace StoryScore.Client
 
             TeamPlayers.Close += TeamPlayers_Close;
 
-            MatchControls.Init(teams);
+            MatchControls.Init(_teams);
             MatchControls.ScoreChanged += Match_ScoreChanged;
             MatchControls.MatchStarted += Match_MatchStarted;
             MatchControls.ClockStarted += Match_ClockStarted;
@@ -62,6 +63,15 @@ namespace StoryScore.Client
         private void TeamPlayers_Close(PlayersControl obj)
         {
             TeamPlayers.Visibility = Visibility.Hidden;
+            TeamDetails.Visibility = Visibility.Visible;
+
+            var playerRepo = new PlayerRepository();
+            var localTeams = _teams.ToList();
+            var index = localTeams.IndexOf((Team)TeamsList.SelectedItem);
+            _teams.ElementAt(index).Players = playerRepo.GetPlayers(_teams.ElementAt(index))
+                                                        .ToList();
+            TeamsList.ItemsSource = _teams;
+            MatchControls.Init(_teams);
         }
 
         private void TeamDetails_ViewPlayersClicked(EditTeamControl target)

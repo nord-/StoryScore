@@ -6,7 +6,7 @@ namespace StoryScore.Client.Data
     internal interface IPlayerRepository
     {
         Player GetPlayer(int id);
-        IEnumerable<Player> GetPlayers(int teamId);
+        IEnumerable<Player> GetPlayers(Team team);
         void RemovePlayer(Player player);
         void SavePlayer(Player player);
     }

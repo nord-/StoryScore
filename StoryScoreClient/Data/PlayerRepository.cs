@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dapper;
 using Dapper.Contrib.Extensions;
 using StoryScore.Client.Model;
 
@@ -18,9 +19,17 @@ namespace StoryScore.Client.Data
             }
         }
 
-        public IEnumerable<Player> GetPlayers(int teamId)
+        public IEnumerable<Player> GetPlayers(Team team)
         {
-            throw new NotImplementedException();
+            const string Sql = "SELECT * FROM Players WHERE TeamId=@teamId ORDER BY PlayerNumber";
+            using (var cn = StoryScoreDbConnection())
+            {
+                var players = cn.Query<Player>(Sql, new { teamId = team.Id });
+                foreach (var p in players)
+                    p.Team = team;
+
+                return players;
+            }
         }
 
         public void RemovePlayer(Player player)
