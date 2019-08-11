@@ -11,7 +11,17 @@
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <ListBox x:Name="PlayersListBox"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+        <ListBox x:Name="PlayersListBox">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding NameAndNumber}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
         <Grid Grid.Column="1" Margin="5,0,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100"/>
@@ -25,21 +35,20 @@
                 <RowDefinition Height="27"/>
                 <RowDefinition Height="27"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="35"/>
             </Grid.RowDefinitions>
             <TextBlock Text="Number" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="1" x:Name="PlayerNumberTextBox" Height="23"/>
+            <TextBox Grid.Column="1" x:Name="PlayerNumberTextBox" Height="23" Text="{Binding PlayerNumber}" />
 
             <TextBlock Text="Name" VerticalAlignment="Center" Grid.Row="1"/>
-            <TextBox Grid.Column="1" x:Name="NameTextBox" Height="23" Grid.Row="1"/>
+            <TextBox Grid.Column="1" x:Name="NameTextBox" Height="23" Grid.Row="1" Text="{Binding Name}"/>
 
             <TextBlock Text="Position" VerticalAlignment="Center" Grid.Row="2"/>
-            <TextBox Grid.Column="1" x:Name="PositionTextBox" Height="23" Grid.Row="2"/>
+            <TextBox Grid.Column="1" x:Name="PositionTextBox" Height="23" Grid.Row="2" Text="{Binding Position}"/>
 
             <TextBlock Text="Picture path" Grid.Row="3" Margin="0,5" />
             <StackPanel Grid.Column="1" Grid.Row="3" Margin="0,3,0,0">
                 <StackPanel  Orientation="Horizontal">
-                    <TextBox x:Name="PicturePathTextBox" Height="23" Width="350"/>
+                    <TextBox x:Name="PicturePathTextBox" Height="23" Width="350" Text="{Binding PicturePath}"/>
                     <Button Height="23" VerticalContentAlignment="Bottom">
                         <TextBlock Text="&#xf141;" FontFamily="{StaticResource FontAwesomeSolid}"  />
                     </Button>
@@ -49,7 +58,7 @@
 
             <TextBlock Text="Pres.video path" VerticalAlignment="Center" Grid.Row="4" />
             <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal">
-                <TextBox x:Name="PresentationVideoTextBox" Height="23" Width="350"/>
+                <TextBox x:Name="PresentationVideoTextBox" Height="23" Width="350" Text="{Binding PresentationVideoPath}"/>
                 <Button Height="23" VerticalContentAlignment="Bottom">
                     <TextBlock Text="&#xf141;" FontFamily="{StaticResource FontAwesomeSolid}"  />
                 </Button>
@@ -57,16 +66,23 @@
 
             <TextBlock Text="Goal video path" VerticalAlignment="Center" Grid.Row="5"/>
             <StackPanel Grid.Column="1" Grid.Row="5" Orientation="Horizontal">
-                <TextBox x:Name="GoalVideoTextBox" Height="23" Width="350"/>
+                <TextBox x:Name="GoalVideoTextBox" Height="23" Width="350" Text="{Binding GoalVideoPath}"/>
                 <Button Height="23" VerticalContentAlignment="Bottom">
                     <TextBlock Text="&#xf141;" FontFamily="{StaticResource FontAwesomeSolid}"  />
                 </Button>
             </StackPanel>
-
-            <StackPanel Grid.Row="7" Grid.Column="1" Orientation="Horizontal">
-                <Button IsDefault="True" Content="OK" Width="70" Margin="5"/>
-                <Button IsCancel="True" Content="Cancel" Width="70" Margin="5"/>
-            </StackPanel>
         </Grid>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Width="40" Height="20" Margin="2,0" x:Name="AddPlayerButton" Click="AddPlayerButton_Click">
+                <TextBlock Text="&#xF067;" FontFamily="{StaticResource FontAwesomeSolid}" />
+            </Button>
+            <Button Width="40" Height="20" Margin="2,0" x:Name="RemovePlayerButton" Click="RemovePlayerButton_Click">
+                <TextBlock Text="&#xF068;" FontFamily="{StaticResource FontAwesomeSolid}" />
+            </Button>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Margin="100,0,0,0">
+            <Button IsDefault="True" Content="OK" Width="70" Margin="5" x:Name="SavePlayerButton" Click="SavePlayerButton_Click"/>
+            <Button IsCancel="True" Content="Cancel" Width="70" Margin="5" x:Name="CancelButton" Click="CancelButton_Click"/>
+        </StackPanel>
     </Grid>
 </UserControl>

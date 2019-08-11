@@ -24,5 +24,25 @@ namespace StoryScore.Client.Controls
         {
             InitializeComponent();
         }
+
+        private void AddPlayerButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RemovePlayerButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SavePlayerButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
