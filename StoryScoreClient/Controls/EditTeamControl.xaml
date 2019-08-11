@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:StoryScore.Client.Controls"
-             mc:Ignorable="d"
+             mc:Ignorable="d" Background="White"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -32,10 +32,12 @@
             <TextBlock Text="&#xf141;" FontFamily="{StaticResource FontAwesomeSolid}" />
         </Button>
         <Image x:Name="ImagePreview" Source="{Binding LogoPath}" HorizontalAlignment="Left" Stretch="Uniform" StretchDirection="DownOnly" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" MinHeight="100" MinWidth="100" />        <!--Width="150" Height="150" />-->
-        <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3">
+        <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2">
             <Button Content="Save" Width="80" Height="27" IsDefault="True" Click="Save_Clicked"/>
             <Button Content="Cancel" Width="80" Height="27" Margin="5,0" IsCancel="True" Click="Cancel_Clicked"/>
+
         </StackPanel>
+        <Button HorizontalAlignment="Right" Grid.Column="3" Grid.Row="4" Content="Players" Width="80" Height="27" x:Name="PlayersButton" Click="PlayersButton_Click" />
     </Grid>
-    
+
 </UserControl>

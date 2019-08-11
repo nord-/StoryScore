@@ -58,5 +58,10 @@ namespace StoryScore.Client.Controls
             if (openFileDialog.ShowDialog() == true)
                 ((Team)this.DataContext).LogoPath = openFileDialog.FileName;
         }
+
+        private void PlayersButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
