@@ -23,12 +23,12 @@ namespace StoryScore.Client.Controls
     /// </summary>
     public partial class PlayersControl : UserControl
     {
-        private IEnumerable<PlayerViewModel> _players;
+        private List<PlayerViewModel> _players;
         private readonly IPlayerRepository _repository;
 
         public event Action<PlayersControl> Close;
 
-        public IEnumerable<PlayerViewModel> Players
+        public List<PlayerViewModel> Players
         {
             get => _players;
             set
@@ -50,22 +50,22 @@ namespace StoryScore.Client.Controls
 
         private void EditPlayerControl_Cancel(EditPlayerControl target, PlayerViewModel player)
         {
-            //PlayersListBox.SelectedItem = player;
-            var localList = _players.ToList();
             var index = -1;
-            foreach (var p in localList)
+            foreach (var p in _players)
             {
                 if (p.Id == player.Id)
                 {
-                    index = localList.IndexOf(p);
+                    index = _players.IndexOf(p);
                     break;
                 }
             }
 
-            localList[index] = player;
-            _players = localList;
+            if (index > -1)
+            {
+                _players[index] = player;
+                PlayersListBox.ItemsSource = _players;
+            }
 
-            PlayersListBox.ItemsSource = _players;
             PlayersListBox.SelectedIndex = -1;
         }
 
@@ -83,9 +83,7 @@ namespace StoryScore.Client.Controls
         {
             _repository.RemovePlayer(Mapper.Map<Player>(PlayersListBox.SelectedItem));
 
-            var localPlayers = _players.ToList();
-            localPlayers.Remove((PlayerViewModel)PlayersListBox.SelectedItem);
-            _players = localPlayers;
+            _players.Remove((PlayerViewModel)PlayersListBox.SelectedItem);
             PlayersListBox.ItemsSource = _players;
         }
 

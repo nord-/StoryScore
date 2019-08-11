@@ -79,7 +79,7 @@ namespace StoryScore.Client
             TeamDetails.Visibility = Visibility.Hidden;
             TeamPlayers.Visibility = Visibility.Visible;
             // load players
-            TeamPlayers.Players = Mapper.Map<PlayerViewModel[]>(((Team)TeamsList.SelectedItem).Players);
+            TeamPlayers.Players = Mapper.Map<List<PlayerViewModel>>(((Team)TeamsList.SelectedItem).Players);
         }
 
         private void MatchClockTick(Heartbeat hb)
