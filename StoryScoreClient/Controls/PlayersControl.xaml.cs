@@ -76,7 +76,10 @@ namespace StoryScore.Client.Controls
 
         private void AddPlayerButton_Click(object sender, RoutedEventArgs e)
         {
-
+            var newItem = new PlayerViewModel();
+            _players.Add(newItem);
+            PlayersListBox.ItemsSource = _players;
+            PlayersListBox.SelectedItem = newItem;
         }
 
         private void RemovePlayerButton_Click(object sender, RoutedEventArgs e)
