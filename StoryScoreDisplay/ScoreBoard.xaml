@@ -23,16 +23,16 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="0" >
             <TextBlock x:Name="HomeScore" Text="{Binding HomeScore, FallbackValue=8}" FontSize="72" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-20,0,0"/>
-            <TextBlock x:Name="HomeTeamName" FontSize="18" Text="{Binding HomeTeamName, FallbackValue=FC Trollhättan}" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center" FontWeight="Normal" />
+            <TextBlock x:Name="HomeTeamName" FontSize="18" Text="{Binding HomeTeamName, FallbackValue=FC Trollhättan}" TextTrimming="CharacterEllipsis" TextAlignment="Center" FontWeight="Normal" TextWrapping="WrapWithOverflow" Margin="0,0" />
         </StackPanel>
         <StackPanel Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2">
             <TextBlock x:Name="GameClock" FontSize="72" Text="{Binding GameClockDisplay, FallbackValue=88:88}" HorizontalAlignment="Center" Margin="0,-10" />
             <TextBlock x:Name="ExtraTime" FontSize="18" Text="{Binding ExtraTimeDisplay, FallbackValue=+88}" HorizontalAlignment="Center" Foreground="Lime" />
-            <TextBlock x:Name="PeriodName" FontSize="18" Text="{Binding PeriodName, FallbackValue=Första halvlek}" HorizontalAlignment="Center" Foreground="Yellow" />
+            <TextBlock x:Name="PeriodName" FontSize="18" Text="{Binding PeriodName, FallbackValue=Första halvlek}" TextAlignment="Center" Foreground="Yellow" />
         </StackPanel>
         <StackPanel Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="2">
             <TextBlock x:Name="AwayScore"  FontSize="72" Text="{Binding AwayScore, FallbackValue=8}" Padding="0" HorizontalAlignment="Center" Margin="0,-20,0,0"/>
-            <TextBlock x:Name="AwayTeamName" FontSize="18" Text="{Binding AwayTeamName, FallbackValue=Assyriska Turabdin IK}" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center" FontWeight="Normal" />
+            <TextBlock x:Name="AwayTeamName" FontSize="18" Text="{Binding AwayTeamName, FallbackValue=Assyriska Turabin IK}" TextAlignment="Center" TextTrimming="CharacterEllipsis" FontWeight="Normal" TextWrapping="WrapWithOverflow" Margin="0,0" />
         </StackPanel>
         <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" x:Name="HomeInformationPanel"></StackPanel>
         <StackPanel Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3" x:Name="AwayInformationPanel"></StackPanel>
