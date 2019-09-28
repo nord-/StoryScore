@@ -51,6 +51,13 @@ namespace StoryScore.Client.Controls
         private void EditPlayerControl_Cancel(EditPlayerControl target, PlayerViewModel player)
         {
             var index = -1;
+            if (player == null)
+            {
+                // pressed cancel on new player
+                var p = _players.FirstOrDefault(pl => pl.Id == 0);
+                if (p != null) _players.Remove(p);
+            }
+
             foreach (var p in _players)
             {
                 if (p.Id == player.Id)
