@@ -8,10 +8,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryScoreClient", "StoryScoreClient\StoryScoreClient.csproj", "{F0F01F1D-F55D-4D93-B5A4-E69FE0AD90EE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{758CB116-5F8D-4910-AA92-9934D266B27C}"
-	ProjectSection(SolutionItems) = preProject
-		D:\Users\Rickard\Desktop\Login.sql = D:\Users\Rickard\Desktop\Login.sql
-		D:\Users\Rickard\Desktop\User.sql = D:\Users\Rickard\Desktop\User.sql
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryScoreCommon", "StoryScoreCommon\StoryScoreCommon.csproj", "{F6EAD5FC-FF70-43A7-B62C-30E9E52862CA}"
 EndProject
