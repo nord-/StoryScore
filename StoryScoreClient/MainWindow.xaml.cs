@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Newtonsoft.Json;
 using StoryScore.Client.Controls;
-using StoryScore.Client.Data;
 using StoryScore.Client.Model;
 using StoryScore.Client.Services;
 using StoryScore.Common;
+using StoryScore.Data.Repository;
 using StoryScoreData.Domain;
 using System;
 using System.Collections.Generic;

@@ -1,83 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using Dapper;
-using Dapper.Contrib.Extensions;
-using StoryScoreData.Domain;
+using System.Data.Entity;
+using StoryScore.Client.Data;
+using StoryScore.Data.Domain;
 
-namespace StoryScore.Client.Data
+namespace StoryScore.Data.Repository
 {
-    public class TeamRepository : SqLiteBaseRepository, ITeamRepository
+    public class TeamRepository : RepositoryBase, ITeamRepository
     {
         public Team GetTeam(int id)
         {
-            throw new NotImplementedException();
+            return Context.Teams.Find(id);
         }
 
         public IEnumerable<Team> GetTeams()
         {
-            const string sql = @"select t.*, p.id ""PlayerId"", p.name ""PlayerName"", p.* from teams t left join players p on t.id = p.teamid order by t.name, p.playernumber";
-            using (var cn = StoryScoreDbConnection())
-            {
-                var teamsDictionary = new Dictionary<int, Team>();
-
-                var teams = cn.Query<Team, Player, Team>(sql,
-                    (team, player) => {
-                        if (!teamsDictionary.TryGetValue(team.Id, out var teamEntry))
-                        {
-                            teamEntry = team;
-                            teamEntry.Players = new List<Player>();
-                            teamsDictionary.Add(teamEntry.Id, teamEntry);
-                        }
-
-                        if (player != null)
-                            player.Team = teamEntry;
-
-                        if (player != null && player.Id != 0)
-                            teamEntry.Players.Add(player);
-                        return teamEntry;
-                    },
-                    splitOn: "PlayerId")
-                    .Distinct()
-                    .ToList();
-
-                return teams;
-            }
+            return Context.Teams
+                          .Include(t => t.Players);
         }
 
-        public void SaveTeam(Team team)
+        public Team SaveTeam(Team team)
         {
-            using (var cn = StoryScoreDbConnection())
-            {
-                if (team.Id != 0)
-                {
-                    // update
-                    cn.Update<Team>(team);
-                }
-                else
-                {
-                    // insert
-                    cn.Insert(team);
-                }
-            }
+            Context.Teams.Attach(team);
+            Context.SaveChanges();
+
+            return team;
         }
 
         public void RemoveTeam(Team team)
         {
-            using (var cn = StoryScoreDbConnection())
-            {
-                // if players, remove them first --> no orphans!
-                if (team.Players.AnyEx())
-                {
-                    foreach (var player in team.Players)
-                    {
-                        cn.Delete(player);
-                    }
-                }
+            //Context.Teams.Attach(team);
 
-                cn.Delete(team);
+            if (team.Players.AnyEx())
+            {
+                foreach (var player in team.Players.ToList())
+                    Context.Players.Remove(player);
             }
+
+            Context.Teams.Remove(team);
         }
     }
 }

@@ -178,13 +178,6 @@
     <Compile Include="Controls\PlayersControl.xaml.cs">
       <DependentUpon>PlayersControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Data\IPlayerRepository.cs" />
-    <Compile Include="Data\LinqExtensions.cs" />
-    <Compile Include="Data\PlayerRepository.cs" />
-    <Compile Include="Data\SqLiteBaseRepository.cs" />
-    <Compile Include="Data\ITeamRepository.cs" />
-    <Compile Include="Data\SqLiteDatabase.cs" />
-    <Compile Include="Data\TeamRepository.cs" />
     <Compile Include="GoalInputWindow.xaml.cs">
       <DependentUpon>GoalInputWindow.xaml</DependentUpon>
     </Compile>

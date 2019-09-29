@@ -65,12 +65,18 @@
   <ItemGroup>
     <Compile Include="Domain\Player.cs" />
     <Compile Include="Domain\Team.cs" />
+    <Compile Include="Extensions\LinqExtensions.cs" />
     <Compile Include="Migrations\201909291439510_team-and-players.cs" />
     <Compile Include="Migrations\201909291439510_team-and-players.designer.cs">
       <DependentUpon>201909291439510_team-and-players.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\IPlayerRepository.cs" />
+    <Compile Include="Repository\ITeamRepository.cs" />
+    <Compile Include="Repository\PlayerRepository.cs" />
+    <Compile Include="Repository\RepositoryBase.cs" />
+    <Compile Include="Repository\TeamRepository.cs" />
     <Compile Include="StoryScoreContext.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using StoryScore.Client.Data;
 using StoryScore.Client.Model;
+using StoryScore.Data.Repository;
 using StoryScoreData.Domain;
 using System;
 using System.Collections.Generic;
