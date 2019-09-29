@@ -1,4 +1,5 @@
 ﻿using StoryScore.Client.Model;
+using StoryScore.Data.Domain;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -52,7 +53,7 @@ namespace StoryScore.Client.Controls
             this.DataContext = Model;
         }
 
-        public void Init(IEnumerable<Team> teams)
+        public void Init(IEnumerable<TeamViewModel> teams)
         {
             HomeTeamComboBox.ItemsSource = teams;
             AwayTeamComboBox.ItemsSource = teams;

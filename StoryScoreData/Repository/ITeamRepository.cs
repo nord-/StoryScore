@@ -1,16 +1,14 @@
-﻿using StoryScore.Client.Model;
+﻿using StoryScore.Data.Domain;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace StoryScore.Client.Data
+namespace StoryScore.Data.Repository
 {
     public interface ITeamRepository
     {
         Team GetTeam(int id);
         IEnumerable<Team> GetTeams();
         void RemoveTeam(Team team);
-        void SaveTeam(Team team);
+        void RemoveTeam(int id);
+        Team SaveTeam(Team team);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
-using StoryScore.Client.Data;
 using StoryScore.Client.Model;
+using StoryScore.Data.Domain;
+using StoryScore.Data.Repository;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -48,7 +49,7 @@ namespace StoryScore.Client.Controls
 
         private void SavePlayerButton_Click(object sender, RoutedEventArgs e)
         {
-            _repository.SavePlayer(Player);
+            Player = _repository.SavePlayer(Player);
             Save?.Invoke(this, ViewModel);
         }
 

@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryScoreCommon", "StoryScoreCommon\StoryScoreCommon.csproj", "{F6EAD5FC-FF70-43A7-B62C-30E9E52862CA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryScoreData", "StoryScoreData\StoryScoreData.csproj", "{4A7E9D9E-6A6A-4901-A24B-8F4E7E411E13}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{F6EAD5FC-FF70-43A7-B62C-30E9E52862CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6EAD5FC-FF70-43A7-B62C-30E9E52862CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6EAD5FC-FF70-43A7-B62C-30E9E52862CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A7E9D9E-6A6A-4901-A24B-8F4E7E411E13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A7E9D9E-6A6A-4901-A24B-8F4E7E411E13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A7E9D9E-6A6A-4901-A24B-8F4E7E411E13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A7E9D9E-6A6A-4901-A24B-8F4E7E411E13}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

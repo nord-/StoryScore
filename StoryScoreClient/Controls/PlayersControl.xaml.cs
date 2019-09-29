@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
-using StoryScore.Client.Data;
 using StoryScore.Client.Model;
+using StoryScore.Data.Repository;
+using StoryScore.Data.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Collections.ObjectModel;
 
 namespace StoryScore.Client.Controls
 {
@@ -23,13 +25,12 @@ namespace StoryScore.Client.Controls
     /// </summary>
     public partial class PlayersControl : UserControl
     {
-        private List<PlayerViewModel> _players;
-        private Team _team;
+        private ObservableCollection<PlayerViewModel> _players;
         private readonly IPlayerRepository _repository;
 
         public event Action<PlayersControl> Close;
 
-        public List<PlayerViewModel> Players
+        public ObservableCollection<PlayerViewModel> Players
         {
             get => _players;
             set
@@ -39,7 +40,7 @@ namespace StoryScore.Client.Controls
             }
         }
 
-        public Team Team { get => _team; internal set => _team = value; }
+        public TeamViewModel Team { get; internal set; }
 
         public PlayersControl()
         {
@@ -73,7 +74,6 @@ namespace StoryScore.Client.Controls
             if (index > -1)
             {
                 _players[index] = player;
-                PlayersListBox.ItemsSource = _players;
             }
 
             PlayersListBox.SelectedIndex = -1;
@@ -81,14 +81,14 @@ namespace StoryScore.Client.Controls
 
         private void EditPlayerControl_Save(EditPlayerControl target, PlayerViewModel player)
         {
+            _players[PlayersListBox.SelectedIndex] = player;
             PlayersListBox.SelectedIndex = -1;
         }
 
         private void AddPlayerButton_Click(object sender, RoutedEventArgs e)
         {
-            var newItem = new PlayerViewModel { Team = Team };
+            var newItem = new PlayerViewModel { TeamId = Team.Id };
             _players.Add(newItem);
-            PlayersListBox.ItemsSource = _players;
             PlayersListBox.SelectedItem = newItem;
         }
 
@@ -97,22 +97,20 @@ namespace StoryScore.Client.Controls
             _repository.RemovePlayer(Mapper.Map<Player>(PlayersListBox.SelectedItem));
 
             _players.Remove((PlayerViewModel)PlayersListBox.SelectedItem);
-            PlayersListBox.ItemsSource = _players;
+
         }
 
         private void PlayersListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (PlayersListBox.SelectedIndex >= 0)
             {
-                //EditPlayerControl.DataContext = PlayersListBox.SelectedItem;
-                EditPlayerControl.ViewModel = (PlayerViewModel)PlayersListBox.SelectedItem;
+                EditPlayerControl.ViewModel  = (PlayerViewModel)PlayersListBox.SelectedItem;
                 EditPlayerControl.Visibility = Visibility.Visible;
                 RemovePlayerButton.IsEnabled = true;
             }
             else
             {
-                //EditPlayerControl.DataContext = null;
-                EditPlayerControl.ViewModel = null;
+                EditPlayerControl.ViewModel  = null;
                 EditPlayerControl.Visibility = Visibility.Hidden;
                 RemovePlayerButton.IsEnabled = false;
             }

@@ -1,50 +1,27 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using StoryScore.Data.Domain;
+using System.ComponentModel;
 
 namespace StoryScore.Client.Model
 {
-    public class PlayerViewModel : ModelBase
+    public class PlayerViewModel : INotifyPropertyChanged
     {
-        private int    _id;
-        private string _name;
-        private int    _playerNumber;
-        private string _position;
-        private string _picturePath;
-        private string _presentationVideoPath;
-        private string _goalVideoPath;
+        public int    Id { get; set; }
+        // [AlsoNotifyFor("NameAndNumber")]
+        public string Name { get; set; }
+        // [AlsoNotifyFor("NameAndNumber")]
+        public int    PlayerNumber { get; set; }
+        public string Position { get; set; }
+        public string PicturePath { get; set; }
+        public string PresentationVideoPath { get; set; }
+        public string GoalVideoPath { get; set; }
+        public int    TeamId { get; set; }
 
-        public int    Id                    { get => _id; set { _id = value; NotifyChange(() => Id); } }
-        public string Name
-        {
-            get => _name;
-            set
-            {
-                _name = value;
-                NotifyChange(() => Name);
-                NotifyChange(() => NameAndNumber);
-            }
-        }
-        public int PlayerNumber
-        {
-            get => _playerNumber;
-            set
-            {
-                _playerNumber = value;
-                NotifyChange(() => PlayerNumber);
-                NotifyChange(() => NameAndNumber);
-            }
-        }
-        public string Position              { get => _position;              set { _position = value; NotifyChange(() => Position); } }
-        public string PicturePath           { get => _picturePath;           set { _picturePath = value; NotifyChange(() => PicturePath); } }
-        public string PresentationVideoPath { get => _presentationVideoPath; set { _presentationVideoPath = value; NotifyChange(() => PresentationVideoPath); } }
-        public string GoalVideoPath         { get => _goalVideoPath;         set { _goalVideoPath = value; NotifyChange(() => GoalVideoPath); } }
-        public Team Team { get; set; }
+        public Team   Team { get; set; }
 
         public string NameAndNumber => $"{PlayerNumber}. {Name}";
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 
     public class PlayerViewModelMappings : Profile

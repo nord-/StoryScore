@@ -1,13 +1,13 @@
-﻿using StoryScore.Client.Model;
+﻿using StoryScore.Data.Domain;
 using System.Collections.Generic;
 
-namespace StoryScore.Client.Data
+namespace StoryScore.Data.Repository
 {
-    internal interface IPlayerRepository
+    public interface IPlayerRepository
     {
         Player GetPlayer(int id);
         IEnumerable<Player> GetPlayers(Team team);
         void RemovePlayer(Player player);
-        void SavePlayer(Player player);
+        Player SavePlayer(Player player);
     }
 }
