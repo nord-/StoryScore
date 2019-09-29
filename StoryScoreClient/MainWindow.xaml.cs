@@ -5,6 +5,7 @@ using StoryScore.Client.Data;
 using StoryScore.Client.Model;
 using StoryScore.Client.Services;
 using StoryScore.Common;
+using StoryScoreData.Domain;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

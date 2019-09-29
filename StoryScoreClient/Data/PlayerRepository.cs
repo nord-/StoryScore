@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using Dapper.Contrib.Extensions;
-using StoryScore.Client.Model;
+using StoryScoreData.Domain;
 
 namespace StoryScore.Client.Data
 {

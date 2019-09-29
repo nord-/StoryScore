@@ -1,4 +1,4 @@
-﻿using StoryScore.Client.Model;
+﻿using StoryScoreData.Domain;
 using System.Collections.Generic;
 
 namespace StoryScore.Client.Data

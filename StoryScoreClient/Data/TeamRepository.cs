@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using Dapper;
 using Dapper.Contrib.Extensions;
-using StoryScore.Client.Model;
+using StoryScoreData.Domain;
 
 namespace StoryScore.Client.Data
 {
