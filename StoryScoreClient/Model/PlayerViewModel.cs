@@ -1,40 +1,25 @@
 ﻿using AutoMapper;
 using StoryScore.Data.Domain;
+using System.ComponentModel;
 
 namespace StoryScore.Client.Model
 {
-    public class PlayerViewModel : ModelBase
+    public class PlayerViewModel : INotifyPropertyChanged
     {
-        //public string Name
-        //{
-        //    get => _name;
-        //    set
-        //    {
-        //        _name = value;
-        //        NotifyChange(()             => Name);
-        //        NotifyChange(()             => NameAndNumber);
-        //    }
-        //}
-        //public int PlayerNumber
-        //{
-        //    get => _playerNumber;
-        //    set
-        //    {
-        //        _playerNumber               = value;
-        //        NotifyChange(()             => PlayerNumber);
-        //        NotifyChange(()             => NameAndNumber);
-        //    }
-        //}
-        public ObservableProperty<int>        Id { get; set; }
-        public ObservableProperty<string>     Name { get; set; }
-        public ObservableProperty<int>        PlayerNumber { get; set; }
-        public ObservableProperty<string>     Position { get; set; }
-        public ObservableProperty<string>     PicturePath { get; set; }
-        public ObservableProperty<string>     PresentationVideoPath { get; set; }
-        public ObservableProperty<string>     GoalVideoPath { get; set; }
-        public Team Team { get;               set; }
+        public int    Id { get; set; }
+        // [AlsoNotifyFor("NameAndNumber")]
+        public string Name { get; set; }
+        // [AlsoNotifyFor("NameAndNumber")]
+        public int    PlayerNumber { get; set; }
+        public string Position { get; set; }
+        public string PicturePath { get; set; }
+        public string PresentationVideoPath { get; set; }
+        public string GoalVideoPath { get; set; }
+        public Team   Team { get; set; }
 
         public string NameAndNumber => $"{PlayerNumber}. {Name}";
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 
     public class PlayerViewModelMappings : Profile

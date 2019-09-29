@@ -1,20 +1,18 @@
 ﻿using AutoMapper;
 using StoryScore.Data.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace StoryScore.Client.Model
 {
-    public class TeamViewModel
+    public class TeamViewModel : INotifyPropertyChanged
     {
-        public ObservableProperty<int> Id { get; set; } = new ObservableProperty<int>();
-        public ObservableProperty<string> Name { get; set; } = new ObservableProperty<string>();
-        public ObservableProperty<string> Coach { get; set; } = new ObservableProperty<string>();
-        public ObservableProperty<string> ShortName { get; set; } = new ObservableProperty<string>();
-        public ObservableProperty<string> LogoPath { get; set; } = new ObservableProperty<string>();
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Coach { get; set; }
+        public string ShortName { get; set; }
+        public string LogoPath { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 
     public class TeamViewModelMappings : Profile

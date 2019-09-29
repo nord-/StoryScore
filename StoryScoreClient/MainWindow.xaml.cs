@@ -165,7 +165,7 @@ namespace StoryScore.Client
 
             // save the team to db
             var team = _teamRepository.SaveTeam(Mapper.Map<Team>(theTeam));
-            theTeam.Id.Value = team.Id;
+            theTeam.Id = team.Id;
         }
 
         private void TeamsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -188,7 +188,7 @@ namespace StoryScore.Client
             var teams = new List<TeamViewModel>();
             teams.AddRange((IEnumerable<TeamViewModel>)TeamsList.ItemsSource);
 
-            var newTeam = new TeamViewModel { Name = new ObservableProperty<string>("New team") };
+            var newTeam = new TeamViewModel { Name = "New team" };
             teams.Add(newTeam);
 
             TeamsList.ItemsSource = teams;
@@ -211,7 +211,7 @@ namespace StoryScore.Client
         private void RemoveTeamButton_Click(object sender, RoutedEventArgs e)
         {
             var theTeam = (TeamViewModel)TeamsList.SelectedItem;
-            _teamRepository.RemoveTeam(theTeam.Id.Value);
+            _teamRepository.RemoveTeam(theTeam.Id);
             _teams.Remove(theTeam);
         }
     }

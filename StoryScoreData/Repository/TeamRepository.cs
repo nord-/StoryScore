@@ -4,6 +4,7 @@ using System.Linq;
 using System.Data.Entity;
 using StoryScore.Client.Data;
 using StoryScore.Data.Domain;
+using System.Data.Entity.Migrations;
 
 namespace StoryScore.Data.Repository
 {
@@ -23,11 +24,7 @@ namespace StoryScore.Data.Repository
 
         public Team SaveTeam(Team team)
         {
-            if (team.Id != 0)
-                Context.Teams.Attach(team);
-            else
-                Context.Teams.Add(team);
-
+            Context.Set<Team>().AddOrUpdate(team);
             Context.SaveChanges();
 
             return team;
@@ -35,8 +32,6 @@ namespace StoryScore.Data.Repository
 
         public void RemoveTeam(Team team)
         {
-            //Context.Teams.Attach(team);
-
             if (team.Players.AnyEx())
             {
                 foreach (var player in team.Players.ToList())

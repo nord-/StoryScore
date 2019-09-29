@@ -47,7 +47,7 @@ namespace StoryScore.Client.Controls
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Image files|*.png;*.jpeg;*.jpg|All files|*.*";
             if (openFileDialog.ShowDialog() == true)
-                self.LogoPath.Value = openFileDialog.FileName;
+                self.LogoPath = openFileDialog.FileName;
         }
 
         private void PlayersButton_Click(object sender, RoutedEventArgs e)
