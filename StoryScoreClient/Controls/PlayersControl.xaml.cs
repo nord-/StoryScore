@@ -39,7 +39,7 @@ namespace StoryScore.Client.Controls
             }
         }
 
-        public Team Team { get; internal set; }
+        public TeamViewModel Team { get; internal set; }
 
         public PlayersControl()
         {
@@ -86,7 +86,8 @@ namespace StoryScore.Client.Controls
 
         private void AddPlayerButton_Click(object sender, RoutedEventArgs e)
         {
-            var newItem = new PlayerViewModel { Team = Team };
+            var theTeam = Mapper.Map<Team>(Team);
+            var newItem = new PlayerViewModel { Team = theTeam };
             _players.Add(newItem);
             PlayersListBox.ItemsSource = _players;
             PlayersListBox.SelectedItem = newItem;

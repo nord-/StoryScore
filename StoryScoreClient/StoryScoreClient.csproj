@@ -186,9 +186,11 @@
     </Compile>
     <Compile Include="Model\MatchViewModel.cs" />
     <Compile Include="Model\ModelBase.cs" />
+    <Compile Include="Model\ObservableProperty.cs" />
     <Compile Include="Model\PlayerViewModel.cs" />
     <Compile Include="Model\Scoreboard.cs" />
     <Compile Include="Model\Settings.cs" />
+    <Compile Include="Model\TeamViewModel.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="Services\DisplayService.cs" />
     <Compile Include="Services\MqttClient.cs" />

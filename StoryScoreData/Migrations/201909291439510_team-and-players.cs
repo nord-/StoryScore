@@ -2,7 +2,7 @@
 {
     using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class teamandplayers : DbMigration
     {
         public override void Up()
@@ -23,7 +23,7 @@
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Teams", t => t.Team_Id)
                 .Index(t => t.Team_Id);
-            
+
             CreateTable(
                 "dbo.Teams",
                 c => new
@@ -35,9 +35,9 @@
                         LogoPath = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
-            
+
         }
-        
+
         public override void Down()
         {
             DropForeignKey("dbo.Players", "Team_Id", "dbo.Teams");

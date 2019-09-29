@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StoryScore.Data.Domain
 {
@@ -12,6 +13,8 @@ namespace StoryScore.Data.Domain
         public string PicturePath { get; set; }
         public string PresentationVideoPath { get; set; }
         public string GoalVideoPath { get; set; }
+        //[Column("Team_Id")]
+        //public int TeamId { get; set; }
 
         public virtual Team Team { get; set; }
     }

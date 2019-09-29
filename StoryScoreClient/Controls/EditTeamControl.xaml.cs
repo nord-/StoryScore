@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using StoryScore.Client.Model;
 using StoryScore.Data.Domain;
 using System;
 using System.Windows;
@@ -41,12 +42,12 @@ namespace StoryScore.Client.Controls
 
         private void FileOpen_Click(object sender, RoutedEventArgs e)
         {
-            Team self = (Team)this.DataContext;
+            var self = (TeamViewModel)DataContext;
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Image files|*.png;*.jpeg;*.jpg|All files|*.*";
             if (openFileDialog.ShowDialog() == true)
-                ((Team)this.DataContext).LogoPath = openFileDialog.FileName;
+                self.LogoPath.Value = openFileDialog.FileName;
         }
 
         private void PlayersButton_Click(object sender, RoutedEventArgs e)

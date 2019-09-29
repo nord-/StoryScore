@@ -8,6 +8,7 @@ namespace StoryScore.Data.Repository
         Team GetTeam(int id);
         IEnumerable<Team> GetTeams();
         void RemoveTeam(Team team);
+        void RemoveTeam(int id);
         Team SaveTeam(Team team);
     }
 }

@@ -17,12 +17,17 @@ namespace StoryScore.Data.Repository
         public IEnumerable<Team> GetTeams()
         {
             return Context.Teams
-                          .Include(t => t.Players);
+                          .Include(t => t.Players)
+                          ;
         }
 
         public Team SaveTeam(Team team)
         {
-            Context.Teams.Attach(team);
+            if (team.Id != 0)
+                Context.Teams.Attach(team);
+            else
+                Context.Teams.Add(team);
+
             Context.SaveChanges();
 
             return team;
@@ -39,6 +44,13 @@ namespace StoryScore.Data.Repository
             }
 
             Context.Teams.Remove(team);
+            Context.SaveChanges();
+        }
+
+        public void RemoveTeam(int id)
+        {
+            var team = Context.Teams.Find(id);
+            RemoveTeam(team);
         }
     }
 }

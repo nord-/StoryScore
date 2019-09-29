@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Collections.ObjectModel;
 
 namespace StoryScore.Client
 {
@@ -20,7 +21,7 @@ namespace StoryScore.Client
     {
         private bool isAdding = false;
         private ITeamRepository _teamRepository;
-        private IEnumerable<Team> _teams;
+        private ObservableCollection<TeamViewModel> _teams;
         private readonly DisplayService _displayService;
         private readonly Options _options = new Options();
         private readonly Scoreboard _scoreboard = new Scoreboard();
@@ -34,7 +35,8 @@ namespace StoryScore.Client
             _displayService = new DisplayService(new MqttClient(_options), _options);
             _displayService.MatchClockTick += MatchClockTick;
 
-            _teams = _teamRepository.GetTeams();
+            var teams = Mapper.Map<IEnumerable<TeamViewModel>>(_teamRepository.GetTeams());
+            _teams = new ObservableCollection<TeamViewModel>(teams);
             TeamsList.ItemsSource = _teams;
 
             TeamDetails.SaveClicked        += TeamDetails_SaveClicked;
@@ -56,10 +58,10 @@ namespace StoryScore.Client
             TeamDetails.Visibility = Visibility.Visible;
 
             var playerRepo = new PlayerRepository();
-            var localTeams = _teams.ToList();
-            var index = localTeams.IndexOf((Team)TeamsList.SelectedItem);
-            _teams.ElementAt(index).Players = playerRepo.GetPlayers(_teams.ElementAt(index))
-                                                        .ToList();
+            var index = _teams.IndexOf((TeamViewModel)TeamsList.SelectedItem);
+            // TODO: add players to view model
+            //_teams.ElementAt(index).Players = playerRepo.GetPlayers(_teams.ElementAt(index))
+            //                                            .ToList();
             TeamsList.ItemsSource = _teams;
             MatchControls.Init(_teams);
         }
@@ -69,8 +71,9 @@ namespace StoryScore.Client
             TeamDetails.Visibility = Visibility.Hidden;
             TeamPlayers.Visibility = Visibility.Visible;
             // load players
-            TeamPlayers.Team = (Team)TeamsList.SelectedItem;
-            TeamPlayers.Players = Mapper.Map<List<PlayerViewModel>>(((Team)TeamsList.SelectedItem).Players);
+            TeamPlayers.Team = (TeamViewModel)TeamsList.SelectedItem;
+            // TODO: add players to view model
+            //TeamPlayers.Players = Mapper.Map<List<PlayerViewModel>>((TeamPlayers.Team).Players);
         }
 
         private void MatchClockTick(Heartbeat hb)
@@ -150,7 +153,7 @@ namespace StoryScore.Client
 
         private void TeamDetails_SaveClicked(object arg1, EventArgs arg2)
         {
-            var theTeam = (Team)TeamDetails.DataContext;
+            var theTeam = (TeamViewModel)TeamDetails.DataContext;
             TeamDetails.Visibility = Visibility.Hidden;
             TeamDetails.DataContext = null;
 
@@ -161,7 +164,8 @@ namespace StoryScore.Client
             isAdding = false;
 
             // save the team to db
-            _teamRepository.SaveTeam(theTeam);
+            var team = _teamRepository.SaveTeam(Mapper.Map<Team>(theTeam));
+            theTeam.Id.Value = team.Id;
         }
 
         private void TeamsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -181,10 +185,10 @@ namespace StoryScore.Client
 
         private void AddTeamButton_Click(object sender, RoutedEventArgs e)
         {
-            var teams = new List<Team>();
-            teams.AddRange((IEnumerable<Team>)TeamsList.ItemsSource);
+            var teams = new List<TeamViewModel>();
+            teams.AddRange((IEnumerable<TeamViewModel>)TeamsList.ItemsSource);
 
-            var newTeam = new Team { Name = "New team" };
+            var newTeam = new TeamViewModel { Name = new ObservableProperty<string>("New team") };
             teams.Add(newTeam);
 
             TeamsList.ItemsSource = teams;
@@ -206,13 +210,9 @@ namespace StoryScore.Client
 
         private void RemoveTeamButton_Click(object sender, RoutedEventArgs e)
         {
-            var theTeam = (Team)TeamsList.SelectedItem;
-            _teamRepository.RemoveTeam(theTeam);
-            var teams = (IList<Team>)TeamsList.ItemsSource;
-            teams.Remove(theTeam);
-            TeamsList.SelectedItem = null;
-            TeamsList.ItemsSource = teams;
-            TeamsList.Items.Refresh();
+            var theTeam = (TeamViewModel)TeamsList.SelectedItem;
+            _teamRepository.RemoveTeam(theTeam.Id.Value);
+            _teams.Remove(theTeam);
         }
     }
 }

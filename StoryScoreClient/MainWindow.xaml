@@ -40,7 +40,7 @@
                     <ListBox Grid.Row="1" x:Name="TeamsList" SelectionChanged="TeamsList_SelectionChanged">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Name}" />
+                                <TextBlock Text="{Binding Name.Value}" />
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
