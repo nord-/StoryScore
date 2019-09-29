@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace StoryScore.Data.Repository
 {
-    internal interface IPlayerRepository
+    public interface IPlayerRepository
     {
         Player GetPlayer(int id);
         IEnumerable<Player> GetPlayers(Team team);

@@ -1,5 +1,5 @@
 ﻿using Microsoft.Win32;
-using StoryScoreData.Domain;
+using StoryScore.Data.Domain;
 using System;
 using System.Windows;
 using System.Windows.Controls;

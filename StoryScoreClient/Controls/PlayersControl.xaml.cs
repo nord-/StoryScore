@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using StoryScore.Client.Model;
 using StoryScore.Data.Repository;
-using StoryScoreData.Domain;
+using StoryScore.Data.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +25,6 @@ namespace StoryScore.Client.Controls
     public partial class PlayersControl : UserControl
     {
         private List<PlayerViewModel> _players;
-        private Team _team;
         private readonly IPlayerRepository _repository;
 
         public event Action<PlayersControl> Close;
@@ -40,7 +39,7 @@ namespace StoryScore.Client.Controls
             }
         }
 
-        public Team Team { get => _team; internal set => _team = value; }
+        public Team Team { get; internal set; }
 
         public PlayersControl()
         {

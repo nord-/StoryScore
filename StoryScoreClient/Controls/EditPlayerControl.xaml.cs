@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using StoryScore.Client.Data;
 using StoryScore.Client.Model;
-using StoryScoreData.Domain;
+using StoryScore.Data.Domain;
+using StoryScore.Data.Repository;
 using System;
 using System.Windows;
 using System.Windows.Controls;

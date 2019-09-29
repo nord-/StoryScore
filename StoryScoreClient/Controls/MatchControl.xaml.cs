@@ -1,5 +1,5 @@
 ﻿using StoryScore.Client.Model;
-using StoryScoreData.Domain;
+using StoryScore.Data.Domain;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
