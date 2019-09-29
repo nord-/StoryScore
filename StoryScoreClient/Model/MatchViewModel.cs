@@ -1,66 +1,16 @@
 ﻿using StoryScore.Data.Domain;
 using System;
+using System.ComponentModel;
 
 namespace StoryScore.Client.Model
 {
-    public class MatchViewModel : ModelBase
+    public class MatchViewModel : INotifyPropertyChanged
     {
-        private int _homeScore;
-        private int _awayScore;
-        private Team _homeTeam;
-        private Team _awayTeam;
-        private TimeSpan _matchclock;
-
-        public Team HomeTeam
-        {
-            get => _homeTeam;
-            set
-            {
-                _homeTeam = value;
-                NotifyChange(() => HomeTeam);
-            }
-        }
-
-        public Team AwayTeam
-        {
-            get => _awayTeam;
-            set
-            {
-                _awayTeam = value;
-                NotifyChange(() => AwayTeam);
-            }
-        }
-
-        public int HomeScore
-        {
-            get => _homeScore;
-            set
-            {
-                _homeScore = value;
-                NotifyChange(() => HomeScore);
-            }
-        }
-
-        public int AwayScore
-        {
-            get => _awayScore;
-            set
-            {
-                _awayScore = value;
-                NotifyChange(() => AwayScore);
-            }
-        }
-
-        public TimeSpan Matchclock
-        {
-            get => _matchclock;
-            set
-            {
-                _matchclock = value;
-                NotifyChange(() => Matchclock);
-                NotifyChange(() => MatchclockDisplay);
-            }
-        }
+        public Team HomeTeam { get; set; }
+        public Team AwayTeam { get; set; }
+        public int HomeScore { get; set; }
+        public int AwayScore { get; set; }
+        public TimeSpan Matchclock { get; set; }
 
         public string MatchclockDisplay
         {
@@ -69,5 +19,7 @@ namespace StoryScore.Client.Model
                 return $"{Math.Floor(Matchclock.TotalMinutes):00}:{Matchclock.Seconds:00}";
             }
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

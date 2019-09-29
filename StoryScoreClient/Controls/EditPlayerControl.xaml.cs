@@ -49,7 +49,7 @@ namespace StoryScore.Client.Controls
 
         private void SavePlayerButton_Click(object sender, RoutedEventArgs e)
         {
-            _repository.SavePlayer(Player);
+            Player = _repository.SavePlayer(Player);
             Save?.Invoke(this, ViewModel);
         }
 

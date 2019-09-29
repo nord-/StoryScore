@@ -72,8 +72,7 @@ namespace StoryScore.Client
             TeamPlayers.Visibility = Visibility.Visible;
             // load players
             TeamPlayers.Team = (TeamViewModel)TeamsList.SelectedItem;
-            // TODO: add players to view model
-            //TeamPlayers.Players = Mapper.Map<List<PlayerViewModel>>((TeamPlayers.Team).Players);
+            TeamPlayers.Players = TeamPlayers.Team.Players;
         }
 
         private void MatchClockTick(Heartbeat hb)

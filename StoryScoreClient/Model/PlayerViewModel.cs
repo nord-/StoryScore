@@ -15,6 +15,8 @@ namespace StoryScore.Client.Model
         public string PicturePath { get; set; }
         public string PresentationVideoPath { get; set; }
         public string GoalVideoPath { get; set; }
+        public int    TeamId { get; set; }
+
         public Team   Team { get; set; }
 
         public string NameAndNumber => $"{PlayerNumber}. {Name}";
