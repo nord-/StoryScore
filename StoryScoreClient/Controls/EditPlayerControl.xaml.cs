@@ -17,6 +17,24 @@ namespace StoryScore.Client.Controls
         public event Action<EditPlayerControl, PlayerViewModel> Save;
         public event Action<EditPlayerControl, PlayerViewModel> Cancel;
 
+        internal PlayerViewModel ViewModel
+        {
+            get => (PlayerViewModel)DataContext;
+            set => DataContext = value;
+        }
+        private Player Player
+        {
+            get
+            {
+                return Mapper.Map<Player>(ViewModel);
+            }
+
+            set
+            {
+                ViewModel = Mapper.Map<PlayerViewModel>(value);
+            }
+        }
+
         public EditPlayerControl()
         {
             InitializeComponent();
@@ -27,16 +45,20 @@ namespace StoryScore.Client.Controls
             _repository = repository;
         }
 
+
         private void SavePlayerButton_Click(object sender, RoutedEventArgs e)
         {
-            _repository.SavePlayer(Mapper.Map<Player>(DataContext));
-            Save?.Invoke(this, (PlayerViewModel)DataContext);
+            _repository.SavePlayer(Player);
+            Save?.Invoke(this, ViewModel);
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            DataContext = Mapper.Map<PlayerViewModel>(_repository.GetPlayer(((PlayerViewModel)DataContext).Id));
-            Cancel?.Invoke(this, (PlayerViewModel)DataContext);
+            if (Player.Id != 0)
+                Player = _repository.GetPlayer(Player.Id);
+
+            //DataContext = Mapper.Map<PlayerViewModel>(_repository.GetPlayer(((PlayerViewModel)DataContext).Id));
+            Cancel?.Invoke(this, ViewModel);
         }
     }
 }

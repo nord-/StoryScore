@@ -79,6 +79,7 @@ namespace StoryScore.Client
             TeamDetails.Visibility = Visibility.Hidden;
             TeamPlayers.Visibility = Visibility.Visible;
             // load players
+            TeamPlayers.Team = (Team)TeamsList.SelectedItem;
             TeamPlayers.Players = Mapper.Map<List<PlayerViewModel>>(((Team)TeamsList.SelectedItem).Players);
         }
 

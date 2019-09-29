@@ -24,6 +24,7 @@ namespace StoryScore.Client.Controls
     public partial class PlayersControl : UserControl
     {
         private List<PlayerViewModel> _players;
+        private Team _team;
         private readonly IPlayerRepository _repository;
 
         public event Action<PlayersControl> Close;
@@ -37,6 +38,8 @@ namespace StoryScore.Client.Controls
                 PlayersListBox.ItemsSource = _players;
             }
         }
+
+        public Team Team { get => _team; internal set => _team = value; }
 
         public PlayersControl()
         {
@@ -83,7 +86,7 @@ namespace StoryScore.Client.Controls
 
         private void AddPlayerButton_Click(object sender, RoutedEventArgs e)
         {
-            var newItem = new PlayerViewModel();
+            var newItem = new PlayerViewModel { Team = Team };
             _players.Add(newItem);
             PlayersListBox.ItemsSource = _players;
             PlayersListBox.SelectedItem = newItem;
@@ -101,13 +104,15 @@ namespace StoryScore.Client.Controls
         {
             if (PlayersListBox.SelectedIndex >= 0)
             {
-                EditPlayerControl.DataContext = PlayersListBox.SelectedItem;
+                //EditPlayerControl.DataContext = PlayersListBox.SelectedItem;
+                EditPlayerControl.ViewModel = (PlayerViewModel)PlayersListBox.SelectedItem;
                 EditPlayerControl.Visibility = Visibility.Visible;
                 RemovePlayerButton.IsEnabled = true;
             }
             else
             {
-                EditPlayerControl.DataContext = null;
+                //EditPlayerControl.DataContext = null;
+                EditPlayerControl.ViewModel = null;
                 EditPlayerControl.Visibility = Visibility.Hidden;
                 RemovePlayerButton.IsEnabled = false;
             }

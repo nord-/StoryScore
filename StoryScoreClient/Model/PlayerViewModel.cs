@@ -42,6 +42,7 @@ namespace StoryScore.Client.Model
         public string PicturePath           { get => _picturePath;           set { _picturePath = value; NotifyChange(() => PicturePath); } }
         public string PresentationVideoPath { get => _presentationVideoPath; set { _presentationVideoPath = value; NotifyChange(() => PresentationVideoPath); } }
         public string GoalVideoPath         { get => _goalVideoPath;         set { _goalVideoPath = value; NotifyChange(() => GoalVideoPath); } }
+        public Team Team { get; set; }
 
         public string NameAndNumber => $"{PlayerNumber}. {Name}";
     }
@@ -54,7 +55,7 @@ namespace StoryScore.Client.Model
                 ;
 
             CreateMap<PlayerViewModel, Player>()
-                .ForMember(dest => dest.Team, opt => opt.Ignore())
+                //.ForMember(dest => dest.Team, opt => opt.Ignore())
                 ;
         }
     }
