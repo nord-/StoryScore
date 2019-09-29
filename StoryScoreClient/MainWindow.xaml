@@ -71,7 +71,10 @@
             <TabItem x:Name="ResourcesTab" Header="Resources"/>
             <TabItem x:Name="SettingsTab" Header="Settings"/>
             <TabItem x:Name="MatchTab" Header="Match">
-                <Controls:MatchControl x:Name="MatchControls" />
+                <StackPanel>
+                    <Controls:MatchControl x:Name="MatchControls" Visibility="Collapsed" />
+                    <Button Content="New game" Margin="50" Click="NewGameButton_Click"/>
+                </StackPanel>
             </TabItem>
         </TabControl>
     </Grid>

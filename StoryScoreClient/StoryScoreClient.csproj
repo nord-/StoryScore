@@ -188,6 +188,10 @@
     <Compile Include="InputTimeWindow.xaml.cs">
       <DependentUpon>InputTimeWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="LineUp.xaml.cs">
+      <DependentUpon>LineUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LineupViewModel.cs" />
     <Compile Include="Model\MatchViewModel.cs" />
     <Compile Include="Model\PlayerViewModel.cs" />
     <Compile Include="Model\Scoreboard.cs" />
@@ -217,6 +221,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="InputTimeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LineUp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

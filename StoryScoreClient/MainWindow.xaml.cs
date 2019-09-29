@@ -213,5 +213,14 @@ namespace StoryScore.Client
             _teamRepository.RemoveTeam(theTeam.Id);
             _teams.Remove(theTeam);
         }
+
+        private void NewGameButton_Click(object sender, RoutedEventArgs e)
+        {
+            var lineup = new LineUp();
+            lineup.ViewModel.Teams = _teams;
+            lineup.ShowDialog();
+
+            // TODO: populera MatchControls med valda lag och line-up
+        }
     }
 }
