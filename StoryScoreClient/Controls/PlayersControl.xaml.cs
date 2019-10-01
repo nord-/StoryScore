@@ -25,7 +25,7 @@ namespace StoryScore.Client.Controls
     /// </summary>
     public partial class PlayersControl : UserControl
     {
-        private ObservableCollection<PlayerViewModel> _players;
+        private ObservableCollection<PlayerViewModel> _players = new ObservableCollection<PlayerViewModel>();
         private readonly IPlayerRepository _repository;
 
         public event Action<PlayersControl> Close;

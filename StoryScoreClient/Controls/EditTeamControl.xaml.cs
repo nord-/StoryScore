@@ -16,6 +16,8 @@ namespace StoryScore.Client.Controls
         public event Action<object, EventArgs> CancelClicked;
         public event Action<EditTeamControl> ViewPlayersClicked;
 
+        public TeamViewModel ViewModel { get => (TeamViewModel)DataContext; set => DataContext = value; }
+
         public EditTeamControl()
         {
             InitializeComponent();
@@ -42,16 +44,19 @@ namespace StoryScore.Client.Controls
 
         private void FileOpen_Click(object sender, RoutedEventArgs e)
         {
-            var self = (TeamViewModel)DataContext;
-
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Image files|*.png;*.jpeg;*.jpg|All files|*.*";
             if (openFileDialog.ShowDialog() == true)
-                self.LogoPath = openFileDialog.FileName;
+                ViewModel.LogoPath = openFileDialog.FileName;
         }
 
         private void PlayersButton_Click(object sender, RoutedEventArgs e)
         {
+            if (ViewModel.Id == 0)
+            {
+                MessageBox.Show("Please save the team first.");
+                return;
+            }
             OnViewPlayersClicked();
         }
 
