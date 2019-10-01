@@ -61,5 +61,14 @@ namespace StoryScore.Client.Controls
             //DataContext = Mapper.Map<PlayerViewModel>(_repository.GetPlayer(((PlayerViewModel)DataContext).Id));
             Cancel?.Invoke(this, ViewModel);
         }
+
+        private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            var self = sender as UserControl;
+            if (self.Visibility == Visibility.Visible)
+            {
+                PlayerNumberTextBox.Focus();
+            }
+        }
     }
 }
