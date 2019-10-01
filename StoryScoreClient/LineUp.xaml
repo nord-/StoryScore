@@ -43,7 +43,8 @@
             </ComboBox>
         </StackPanel>
 
-        <ListBox Grid.Row="1" ItemsSource="{Binding HomeTeam.Players}">
+        <!-- home team -->
+        <ListBox Grid.Row="1" ItemsSource="{Binding HomeTeam.Players}" SelectedItem="{Binding SelectedHomePlayerPool}" MouseDoubleClick="AddHomePlayer_DoubleClick">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding NameNumberAndPosition}" />
@@ -51,10 +52,34 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center">
-            <Button Margin="5"><TextBlock Text="&#xf101;" FontFamily="{StaticResource FontAwesomeSolid}" VerticalAlignment="Center" /></Button>
-            <Button Margin="5"><TextBlock Text="&#xf100;" FontFamily="{StaticResource FontAwesomeSolid}" VerticalAlignment="Center" /></Button>
+            <Button Margin="5" Click="AddHomePlayer_Click"><TextBlock Text="&#xf101;" FontFamily="{StaticResource FontAwesomeSolid}" VerticalAlignment="Center" /></Button>
+            <Button Margin="5" Click="RemoveHomePlayer_Click"><TextBlock Text="&#xf100;" FontFamily="{StaticResource FontAwesomeSolid}" VerticalAlignment="Center" /></Button>
         </StackPanel>
-        <ListView ItemsSource="{Binding HomeLineUp}"  Grid.Row="1" Grid.Column="2">
+        <ListView ItemsSource="{Binding HomeLineUp}"  Grid.Row="1" Grid.Column="2" SelectedItem="{Binding SelectedHomePlayerLineup}" MouseDoubleClick="RemoveHomePlayer_DoubleClick">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding NameNumberAndPosition}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListView>
+
+        <!-- away team -->
+        <ListBox Grid.Column="3" Grid.Row="1"  ItemsSource="{Binding AwayTeam.Players}" SelectedItem="{Binding SelectedAwayPlayerPool}" MouseDoubleClick="AddAwayPlayer_DoubleClick">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding NameNumberAndPosition}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <StackPanel Grid.Row="1" Grid.Column="4" VerticalAlignment="Center">
+            <Button Margin="5" Click="AddAwayPlayer_Click">
+                <TextBlock Text="&#xf101;" FontFamily="{StaticResource FontAwesomeSolid}" VerticalAlignment="Center" />
+            </Button>
+            <Button Margin="5" Click="RemoveAwayPlayer_Click">
+                <TextBlock Text="&#xf100;" FontFamily="{StaticResource FontAwesomeSolid}" VerticalAlignment="Center" />
+            </Button>
+        </StackPanel>
+        <ListView ItemsSource="{Binding AwayLineUp}" Grid.Row="1" Grid.Column="5" SelectedItem="{Binding SelectedAwayPlayerLineup}" MouseDoubleClick="RemoveAwayPlayer_DoubleClick">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding NameNumberAndPosition}" />
