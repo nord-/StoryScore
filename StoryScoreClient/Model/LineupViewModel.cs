@@ -24,20 +24,21 @@ namespace StoryScore.Client.Model
         public PlayerViewModel SelectedAwayPlayerLineup { get; set; }
 
         private ICommand _okClickCommand;
-        public ICommand OkClickCommand
-        {
-            get
-            {
-                return _okClickCommand ?? (_okClickCommand = new CommandHandler(() => OkClickAction(), () => CanExecute));
-            }
-        }
-
+        public ICommand OkClickCommand => _okClickCommand ?? (_okClickCommand = new CommandHandler(() => OkClickAction(), () => OkCanExecute));
         // check if executing is allowed, i.e., validate, check if a process is running, etc.
-        public bool CanExecute => true;
+        public bool OkCanExecute => true;
 
-        public void OkClickAction()
+        private void OkClickAction()
         {
             System.Windows.MessageBox.Show("Hej!");
+        }
+
+        private ICommand _cancelClickCommand;
+        public ICommand CancelClickCommand => _cancelClickCommand ?? (_cancelClickCommand = new CommandHandler(() => CancelClickAction(), () => true));
+
+        private void CancelClickAction()
+        {
+            throw new NotImplementedException();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
