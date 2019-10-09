@@ -55,6 +55,7 @@
             <Button Margin="5" Click="AddHomePlayer_Click"><TextBlock Text="&#xf101;" FontFamily="{StaticResource FontAwesomeSolid}" VerticalAlignment="Center" /></Button>
             <Button Margin="5" Click="RemoveHomePlayer_Click"><TextBlock Text="&#xf100;" FontFamily="{StaticResource FontAwesomeSolid}" VerticalAlignment="Center" /></Button>
         </StackPanel>
+        <TextBlock Text="{Binding HomeLineUp.Count}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Row="1" Grid.Column="1" Margin="5,0" FontSize="10" />
         <ListView ItemsSource="{Binding HomeLineUp}"  Grid.Row="1" Grid.Column="2" SelectedItem="{Binding SelectedHomePlayerLineup}" MouseDoubleClick="RemoveHomePlayer_DoubleClick">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -79,6 +80,7 @@
                 <TextBlock Text="&#xf100;" FontFamily="{StaticResource FontAwesomeSolid}" VerticalAlignment="Center" />
             </Button>
         </StackPanel>
+        <TextBlock Text="{Binding AwayLineUp.Count}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Row="1" Grid.Column="4" Margin="5,0" FontSize="10" />
         <ListView ItemsSource="{Binding AwayLineUp}" Grid.Row="1" Grid.Column="5" SelectedItem="{Binding SelectedAwayPlayerLineup}" MouseDoubleClick="RemoveAwayPlayer_DoubleClick">
             <ListBox.ItemTemplate>
                 <DataTemplate>
