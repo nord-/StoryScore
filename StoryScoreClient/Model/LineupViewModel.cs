@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace StoryScore.Client.Model
 {
@@ -21,6 +22,23 @@ namespace StoryScore.Client.Model
         public PlayerViewModel SelectedAwayPlayerPool { get; set; }
         public PlayerViewModel SelectedHomePlayerLineup { get; set; }
         public PlayerViewModel SelectedAwayPlayerLineup { get; set; }
+
+        private ICommand _okClickCommand;
+        public ICommand OkClickCommand
+        {
+            get
+            {
+                return _okClickCommand ?? (_okClickCommand = new CommandHandler(() => OkClickAction(), () => CanExecute));
+            }
+        }
+
+        // check if executing is allowed, i.e., validate, check if a process is running, etc.
+        public bool CanExecute => true;
+
+        public void OkClickAction()
+        {
+            System.Windows.MessageBox.Show("Hej!");
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

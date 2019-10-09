@@ -88,5 +88,15 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListView>
+
+        <Grid Grid.Column="5" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Content="OK" IsDefault="True" Margin="2,4" Command="{Binding OkClickCommand}" />
+            <Button Content="Cancel" IsCancel="True" Grid.Column="1" Margin="2,4" />
+
+        </Grid>
     </Grid>
 </Window>

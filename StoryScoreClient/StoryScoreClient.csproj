@@ -191,6 +191,7 @@
     <Compile Include="LineUp.xaml.cs">
       <DependentUpon>LineUp.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\CommandHandler.cs" />
     <Compile Include="Model\LineupViewModel.cs" />
     <Compile Include="Model\MatchViewModel.cs" />
     <Compile Include="Model\PlayerViewModel.cs" />
