@@ -23,6 +23,18 @@ namespace StoryScore.Client.Model
         public PlayerViewModel SelectedHomePlayerLineup { get; set; }
         public PlayerViewModel SelectedAwayPlayerLineup { get; set; }
 
+        public event Action<LineupViewModel, EventArgs> OkClicked;
+        protected virtual void OnOkClicked(EventArgs e)
+        {
+            OkClicked?.Invoke(this, e);
+        }
+
+        public event Action<EventArgs> CancelClicked;
+        protected virtual void OnCancelClicked(EventArgs e)
+        {
+            CancelClicked?.Invoke(e);
+        }
+
         private ICommand _okClickCommand;
         public ICommand OkClickCommand => _okClickCommand ?? (_okClickCommand = new CommandHandler(() => OkClickAction(), () => OkCanExecute));
         // check if executing is allowed, i.e., validate, check if a process is running, etc.
@@ -30,7 +42,7 @@ namespace StoryScore.Client.Model
 
         private void OkClickAction()
         {
-            System.Windows.MessageBox.Show("Hej!");
+            OnOkClicked(null);
         }
 
         private ICommand _cancelClickCommand;
@@ -38,7 +50,7 @@ namespace StoryScore.Client.Model
 
         private void CancelClickAction()
         {
-            throw new NotImplementedException();
+            OnCancelClicked(null);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

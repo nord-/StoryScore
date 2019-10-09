@@ -218,9 +218,13 @@ namespace StoryScore.Client
         {
             var lineup = new LineUp();
             lineup.ViewModel.Teams = _teams;
-            lineup.ShowDialog();
 
-            // TODO: populera MatchControls med valda lag och line-up
+            if (lineup.ShowDialog() ?? false)
+            {
+                // TODO: populera MatchControls med valda lag och line-up
+                MessageBox.Show(lineup.ViewModel.HomeLineUp.Count.ToString());
+            }
+
         }
     }
 }

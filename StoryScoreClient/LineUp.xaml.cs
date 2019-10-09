@@ -28,6 +28,20 @@ namespace StoryScore.Client
         {
             InitializeComponent();
             DataContext = ViewModel;
+            ViewModel.OkClicked += ViewModel_OkClicked;
+            ViewModel.CancelClicked += ViewModel_CancelClicked;
+        }
+
+        private void ViewModel_CancelClicked(EventArgs e)
+        {
+            DialogResult = false;
+            this.Close();
+        }
+
+        private void ViewModel_OkClicked(LineupViewModel model, EventArgs e)
+        {
+            DialogResult = true;
+            Close();
         }
 
         private void AddHomePlayer_Click(object sender, RoutedEventArgs e)
