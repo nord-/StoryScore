@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using StoryScore.Client.Model;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -14,7 +15,9 @@ namespace StoryScore.Client
     {
         public App()
         {
+#pragma warning disable CS0618 // Type or member is obsolete
             Mapper.Initialize(cfg => cfg.AddMaps(new[] { typeof(PlayerViewModel) }));
+#pragma warning restore CS0618 // Type or member is obsolete
             Mapper.AssertConfigurationIsValid();
         }
 
