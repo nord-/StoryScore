@@ -1,13 +1,15 @@
 ﻿using StoryScore.Data.Domain;
 using System;
 using System.ComponentModel;
+using PropertyChanged;
 
 namespace StoryScore.Client.Model
 {
-    public class MatchViewModel : INotifyPropertyChanged
+    [AddINotifyPropertyChangedInterface]
+    public class MatchViewModel //: INotifyPropertyChanged
     {
-        public Team HomeTeam { get; set; }
-        public Team AwayTeam { get; set; }
+        public TeamViewModel HomeTeam { get; set; }
+        public TeamViewModel AwayTeam { get; set; }
         public int HomeScore { get; set; }
         public int AwayScore { get; set; }
         public TimeSpan Matchclock { get; set; }
@@ -20,6 +22,6 @@ namespace StoryScore.Client.Model
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        //public event PropertyChangedEventHandler PropertyChanged;
     }
 }

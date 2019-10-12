@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
+using PropertyChanged;
 using StoryScore.Data.Domain;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace StoryScore.Client.Model
 {
-    public class TeamViewModel : INotifyPropertyChanged
+    [AddINotifyPropertyChangedInterface]
+    public class TeamViewModel
     {
         public int    Id { get; set; }
         public string Name { get; set; }
@@ -15,7 +17,7 @@ namespace StoryScore.Client.Model
 
         public ObservableCollection<PlayerViewModel> Players { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        //public event PropertyChangedEventHandler PropertyChanged;
     }
 
     public class TeamViewModelMappings : Profile

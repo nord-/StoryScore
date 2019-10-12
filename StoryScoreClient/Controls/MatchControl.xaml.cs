@@ -19,11 +19,11 @@ using System.Windows.Shapes;
 namespace StoryScore.Client.Controls
 {
     /// <summary>
-    /// Interaction logic for MacthControl.xaml
+    /// Interaction logic for MatchControl.xaml
     /// </summary>
     public partial class MatchControl : UserControl
     {
-        public MatchViewModel Model = new MatchViewModel();
+        public MatchViewModel PageViewModel = new MatchViewModel();
 
         private bool _matchStarted = false;
 
@@ -50,7 +50,7 @@ namespace StoryScore.Client.Controls
         public MatchControl()
         {
             InitializeComponent();
-            this.DataContext = Model;
+            this.DataContext = PageViewModel;
         }
 
         public void Init(IEnumerable<TeamViewModel> teams)
@@ -61,13 +61,13 @@ namespace StoryScore.Client.Controls
 
         private void HomeGoalButton_Click(object sender, RoutedEventArgs e)
         {
-            Model.HomeScore++;
-            OnScoreChange((int)Math.Ceiling(Model.Matchclock.TotalMinutes), null, true);
+            PageViewModel.HomeScore++;
+            OnScoreChange((int)Math.Ceiling(PageViewModel.Matchclock.TotalMinutes), null, true);
         }
         private void AwayGoalButton_Click(object sender, RoutedEventArgs e)
         {
-            Model.AwayScore++;
-            OnScoreChange((int)Math.Ceiling(Model.Matchclock.TotalMinutes), null, false);
+            PageViewModel.AwayScore++;
+            OnScoreChange((int)Math.Ceiling(PageViewModel.Matchclock.TotalMinutes), null, false);
         }
 
         private void StartMatchButton_Click(object sender, RoutedEventArgs e)
@@ -130,7 +130,7 @@ namespace StoryScore.Client.Controls
 
         private void ChangeTimeButton_Click(object sender, RoutedEventArgs e)
         {
-            var inputTime = new InputTimeWindow(Model.Matchclock);
+            var inputTime = new InputTimeWindow(PageViewModel.Matchclock);
             var args = new ClockStoppedEventArgs();
 
             inputTime.Owner = Window.GetWindow(this);
@@ -148,19 +148,19 @@ namespace StoryScore.Client.Controls
         {
             // TODO: real player list
             var goalInput = new GoalInputWindow(new[] { new Player { Name = "Fidde Sundström", PlayerNumber = 2 }, new Player { Name = "Anders Mogren", PlayerNumber = 8 } },
-                Model.Matchclock);
+                PageViewModel.Matchclock);
             goalInput.Owner = Window.GetWindow(this);
             if (goalInput.ShowDialog() ?? false)
             {
                 Debug.WriteLine($"Scorer: {goalInput.Player.Name}, time: {goalInput.MatchTime}");
-                Model.HomeScore++;
+                PageViewModel.HomeScore++;
                 OnScoreChange(goalInput.MatchTime, goalInput.Player, true);
             }
         }
 
         private void HomeUndoGoalButton_Click(object sender, RoutedEventArgs e)
         {
-            Model.HomeScore--;
+            PageViewModel.HomeScore--;
             OnScoreChange(0, null, true, true);
         }
 
@@ -168,19 +168,19 @@ namespace StoryScore.Client.Controls
         {
             // TODO: real player list
             var goalInput = new GoalInputWindow(new[] { new Player { Name = "Fidde Sundström", PlayerNumber = 2 }, new Player { Name = "Anders Mogren", PlayerNumber = 8 } },
-                Model.Matchclock);
+                PageViewModel.Matchclock);
             goalInput.Owner = Window.GetWindow(this);
             if (goalInput.ShowDialog() ?? false)
             {
                 Debug.WriteLine($"Scorer: {goalInput.Player.Name}, time: {goalInput.MatchTime}");
-                Model.AwayScore++;
+                PageViewModel.AwayScore++;
                 OnScoreChange(goalInput.MatchTime, goalInput.Player, false);
             }
         }
 
         private void AwayUndoGoalButton_Click(object sender, RoutedEventArgs e)
         {
-            Model.AwayScore--;
+            PageViewModel.AwayScore--;
             OnScoreChange(0, null, false, true);
         }
 
@@ -189,7 +189,7 @@ namespace StoryScore.Client.Controls
         {
             var goal = new GoalEventArgs
             {
-                Score = isHome ? Model.HomeScore : Model.AwayScore,
+                Score = isHome ? PageViewModel.HomeScore : PageViewModel.AwayScore,
                 MatchTime = matchTime,
                 Player = player,
                 IsHomeGoal = isHome,

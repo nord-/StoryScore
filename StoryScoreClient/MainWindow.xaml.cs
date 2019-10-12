@@ -77,7 +77,7 @@ namespace StoryScore.Client
 
         private void MatchClockTick(Heartbeat hb)
         {
-            MatchControls.Model.Matchclock = hb.Matchclock;
+            MatchControls.PageViewModel.Matchclock = hb.Matchclock;
         }
 
         private async void Match_ClockStopped(object arg1, Controls.MatchControl.ClockStoppedEventArgs arg2)
@@ -97,7 +97,7 @@ namespace StoryScore.Client
         {
             // TODO: subscribe to clock event from display
 
-            var model = MatchControls.Model;
+            var model = MatchControls.PageViewModel;
             _scoreboard.HomeTeamName = model.HomeTeam.Name;
             _scoreboard.AwayTeamName = model.AwayTeam.Name;
             _scoreboard.HomeScore = model.HomeScore;
@@ -222,7 +222,11 @@ namespace StoryScore.Client
             if (lineup.ShowDialog() ?? false)
             {
                 // TODO: populera MatchControls med valda lag och line-up
-                MessageBox.Show(lineup.ViewModel.HomeLineUp.Count.ToString());
+                //MessageBox.Show(lineup.ViewModel.HomeLineUp.Count.ToString());
+                MatchControls.PageViewModel.HomeTeam = lineup.ViewModel.HomeTeam;
+                MatchControls.PageViewModel.AwayTeam = lineup.ViewModel.AwayTeam;
+
+                MatchControls.Visibility = Visibility.Visible;
             }
 
         }
