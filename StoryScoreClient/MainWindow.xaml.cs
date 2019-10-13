@@ -224,7 +224,9 @@ namespace StoryScore.Client
                 // TODO: populera MatchControls med valda lag och line-up
                 //MessageBox.Show(lineup.ViewModel.HomeLineUp.Count.ToString());
                 MatchControls.PageViewModel.HomeTeam = lineup.ViewModel.HomeTeam;
+                MatchControls.PageViewModel.HomeTeam.Players = lineup.ViewModel.HomeLineUp.Any() ? lineup.ViewModel.HomeLineUp : lineup.ViewModel.HomeTeam.Players;
                 MatchControls.PageViewModel.AwayTeam = lineup.ViewModel.AwayTeam;
+                MatchControls.PageViewModel.AwayTeam.Players = lineup.ViewModel.AwayLineUp.Any() ? lineup.ViewModel.AwayLineUp : lineup.ViewModel.AwayTeam.Players;
 
                 MatchControls.Visibility = Visibility.Visible;
                 NewGameButton.Visibility = Visibility.Collapsed;

@@ -43,7 +43,7 @@ namespace StoryScore.Client.Controls
         {
             public int Score { get; set; }
             public int MatchTime { get; set; }
-            public Player Player { get; set; }
+            public PlayerViewModel Player { get; set; }
             public bool IsHomeGoal { get; set; }
             public bool IsCorrection { get; set; }
         }
@@ -143,8 +143,9 @@ namespace StoryScore.Client.Controls
         private void HomeGoalScorerButton_Click(object sender, RoutedEventArgs e)
         {
             // TODO: real player list
-            var goalInput = new GoalInputWindow(new[] { new Player { Name = "Fidde Sundström", PlayerNumber = 2 }, new Player { Name = "Anders Mogren", PlayerNumber = 8 } },
-                PageViewModel.Matchclock);
+            //var goalInput = new GoalInputWindow(new[] { new Player { Name = "Fidde Sundström", PlayerNumber = 2 }, new Player { Name = "Anders Mogren", PlayerNumber = 8 } },
+            //    PageViewModel.Matchclock);
+            var goalInput = new GoalInputWindow(PageViewModel.HomeTeam.Players, PageViewModel.Matchclock);
             goalInput.Owner = Window.GetWindow(this);
             if (goalInput.ShowDialog() ?? false)
             {
@@ -163,8 +164,8 @@ namespace StoryScore.Client.Controls
         private void AwayGoalScorerButton_Click(object sender, RoutedEventArgs e)
         {
             // TODO: real player list
-            var goalInput = new GoalInputWindow(new[] { new Player { Name = "Fidde Sundström", PlayerNumber = 2 }, new Player { Name = "Anders Mogren", PlayerNumber = 8 } },
-                PageViewModel.Matchclock);
+            //var goalInput = new GoalInputWindow(new[] { new Player { Name = "Fidde Sundström", PlayerNumber = 2 }, new Player { Name = "Anders Mogren", PlayerNumber = 8 } },
+            var goalInput = new GoalInputWindow(PageViewModel.AwayTeam.Players, PageViewModel.Matchclock);
             goalInput.Owner = Window.GetWindow(this);
             if (goalInput.ShowDialog() ?? false)
             {
@@ -181,7 +182,7 @@ namespace StoryScore.Client.Controls
         }
 
         #region Event handlers
-        protected virtual void OnScoreChange(int matchTime, Player player, bool isHome, bool isCorrection = false)
+        protected virtual void OnScoreChange(int matchTime, PlayerViewModel player, bool isHome, bool isCorrection = false)
         {
             var goal = new GoalEventArgs
             {

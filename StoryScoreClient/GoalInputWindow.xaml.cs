@@ -1,4 +1,5 @@
-﻿using StoryScore.Data.Domain;
+﻿using StoryScore.Client.Model;
+using StoryScore.Data.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,11 +22,11 @@ namespace StoryScore.Client
     public partial class GoalInputWindow : Window
     {
         public int MatchTime { get; set; }
-        public Player Player { get; set; }
+        public PlayerViewModel Player { get; set; }
 
-        public IEnumerable<Player> Players { get; set; }
+        public IEnumerable<PlayerViewModel> Players { get; set; }
 
-        public GoalInputWindow(IEnumerable<Player> players, TimeSpan time)
+        public GoalInputWindow(IEnumerable<PlayerViewModel> players, TimeSpan time)
         {
             InitializeComponent();
             Players = players;
@@ -38,7 +39,7 @@ namespace StoryScore.Client
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
             MatchTime = int.Parse(EventTimeTextBox.Text);
-            Player = (Player)PlayerComboBox.SelectedItem;
+            Player = (PlayerViewModel)PlayerComboBox.SelectedItem;
 
             DialogResult = true;
             Close();
