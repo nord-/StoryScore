@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace StoryScore.Client.Services
 {
 
-    public class DisplayService
+    public class DisplayService : IDisplayService
     {
         private readonly MqttClient _mqttClient;
         private readonly Options _options;
@@ -70,6 +70,13 @@ namespace StoryScore.Client.Services
         {
             var topic = GetTopic(Common.Constants.Mqtt.Goal);
             await _mqttClient.SendMessageAsync(topic, JsonConvert.SerializeObject(goal));
+        }
+
+        public async Task SendLineupAsync(IEnumerable<PlayerViewModel> homeLineUp, IEnumerable<PlayerViewModel> awayLineUp) {
+            var topic = GetTopic(Common.Constants.Mqtt.LineUp);
+            var message = new { home = homeLineUp, away = awayLineUp };
+
+            await _mqttClient.SendMessageAsync(topic, JsonConvert.SerializeObject(message));
         }
     }
 }

@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace StoryScore.Client.Services
 {
-    public class MqttClient : IDisposable
+    public class MqttClient : IDisposable, IMqttClient
     {
         private const string ClientID = "Control";
         private readonly IManagedMqttClient _mqttClient;
 
         public delegate void MessageReceived(MqttApplicationMessageReceivedEventArgs eventArgs);
-        public event MessageReceived MessageReceivedEvent;
+        public event Action<MessageReceived> MessageReceivedEvent;
 
         public MqttClient(Options options)
         {

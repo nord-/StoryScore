@@ -7,6 +7,7 @@
         public const string Stop   = "stop";
         public const string Goal   = "goal";
         public const string Status = "status";
+        public const string LineUp = "lineup";
     }
 
     public class Topic

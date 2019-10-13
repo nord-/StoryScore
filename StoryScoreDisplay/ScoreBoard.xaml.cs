@@ -97,6 +97,9 @@ namespace StoryScore.Display
                         _model.AwayScore = goal.Score;
                     }
                     break;
+
+                case Common.Constants.Mqtt.LineUp:
+                    var 
             }
         }
 

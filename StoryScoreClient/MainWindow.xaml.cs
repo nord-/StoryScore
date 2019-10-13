@@ -22,7 +22,7 @@ namespace StoryScore.Client
         private bool isAdding = false;
         private ITeamRepository _teamRepository;
         private ObservableCollection<TeamViewModel> _teams;
-        private readonly DisplayService _displayService;
+        private readonly IDisplayService _displayService;
         private readonly Options _options = new Options();
         private readonly Scoreboard _scoreboard = new Scoreboard();
 
@@ -214,7 +214,7 @@ namespace StoryScore.Client
             _teams.Remove(theTeam);
         }
 
-        private void NewGameButton_Click(object sender, RoutedEventArgs e)
+        private async void NewGameButton_Click(object sender, RoutedEventArgs e)
         {
             var lineup = new LineUp();
             lineup.ViewModel.Teams = _teams;
@@ -227,6 +227,9 @@ namespace StoryScore.Client
                 MatchControls.PageViewModel.HomeTeam.Players = lineup.ViewModel.HomeLineUp.Any() ? lineup.ViewModel.HomeLineUp : lineup.ViewModel.HomeTeam.Players;
                 MatchControls.PageViewModel.AwayTeam = lineup.ViewModel.AwayTeam;
                 MatchControls.PageViewModel.AwayTeam.Players = lineup.ViewModel.AwayLineUp.Any() ? lineup.ViewModel.AwayLineUp : lineup.ViewModel.AwayTeam.Players;
+
+                await _displayService.SendLineupAsync(MatchControls.PageViewModel.HomeTeam.Players, MatchControls.PageViewModel.AwayTeam.Players);
+
 
                 MatchControls.Visibility = Visibility.Visible;
                 NewGameButton.Visibility = Visibility.Collapsed;
