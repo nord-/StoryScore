@@ -49,7 +49,9 @@ namespace StoryScore.Client
             MatchControls.MatchStarted += Match_MatchStarted;
             MatchControls.ClockStarted += Match_ClockStarted;
             MatchControls.ClockStopped += Match_ClockStopped;
+            MatchControls.CloseMatch   += MatchControls_CloseMatch;
         }
+
 
         private void TeamPlayers_Close(PlayersControl obj)
         {
@@ -225,8 +227,15 @@ namespace StoryScore.Client
                 MatchControls.PageViewModel.AwayTeam = lineup.ViewModel.AwayTeam;
 
                 MatchControls.Visibility = Visibility.Visible;
+                NewGameButton.Visibility = Visibility.Collapsed;
             }
-
         }
+
+        private void MatchControls_CloseMatch()
+        {
+            MatchControls.Visibility = Visibility.Collapsed;
+            NewGameButton.Visibility = Visibility.Visible;
+        }
+
     }
 }

@@ -31,6 +31,7 @@ namespace StoryScore.Client.Controls
         public event Action<object, EventArgs> MatchStarted;
         public event Action<object, EventArgs> ClockStarted;
         public event Action<object, ClockStoppedEventArgs> ClockStopped;
+        public event Action CloseMatch;
 
         public class ClockStoppedEventArgs : EventArgs
         {
@@ -77,6 +78,8 @@ namespace StoryScore.Client.Controls
                     HomeGoalButton.IsEnabled =
                     AwayGoalButton.IsEnabled = true;
 
+                CloseMatchButton.IsEnabled = false;
+
                 StartMatchButton.Content = "Stop match";
                 StartMatchButton.Background = Brushes.Red;
                 _matchStarted = true;
@@ -94,6 +97,9 @@ namespace StoryScore.Client.Controls
                     AwayUndoGoalButton.IsEnabled =
                     HomeGoalButton.IsEnabled =
                     AwayGoalButton.IsEnabled = false;
+
+                CloseMatchButton.IsEnabled = true;
+
                 OnClockStopped(new ClockStoppedEventArgs { OffsetSet = true, TimerOffset = TimeSpan.Zero });
 
                 StartMatchButton.Content = "Start match";
@@ -203,5 +209,10 @@ namespace StoryScore.Client.Controls
             ClockStopped?.Invoke(this, e);
         }
         #endregion
+
+        private void CloseMatchButton_Click(object sender, RoutedEventArgs e)
+        {
+            CloseMatch?.Invoke();
+        }
     }
 }

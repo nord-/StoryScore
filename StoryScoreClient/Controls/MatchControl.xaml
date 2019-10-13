@@ -25,7 +25,7 @@
         <TextBlock Text="{Binding HomeTeam.Name, FallbackValue='FC Trollhättan'}" FontSize="22" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ColumnSpan="3" />
         <TextBlock Text="{Binding AwayTeam.Name, FallbackValue='Assyriska Turabdin AIK'}" FontSize="22" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="3" Grid.ColumnSpan="3" />
 
-        <StackPanel Grid.Row="1" Grid.ColumnSpan="6" Orientation="Horizontal">
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="5" Orientation="Horizontal">
             <Button Width="75" Height="22" Margin="5,0" Content="Start match" Background="Green" Foreground="White" Click="StartMatchButton_Click" x:Name="StartMatchButton" />
             <Button Width="75" Height="22" Margin="5,0" Click="StartClockButton_Click" x:Name="StartClockButton" Background="Green" Foreground="White" IsEnabled="False">
                 <StackPanel Orientation="Horizontal" >
@@ -45,7 +45,11 @@
                     <TextBlock Text="Change time" Margin="5,0" VerticalAlignment="Center" />
                 </StackPanel>
             </Button>
+
         </StackPanel>
+
+        <Button Width="100" Height="22" Margin="5,0" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="6" Content="Stäng" x:Name="CloseMatchButton" Click="CloseMatchButton_Click" />
+
         <TextBlock Grid.Row="2" Grid.ColumnSpan="2" TextWrapping="NoWrap" Text="{Binding HomeScore}" TextAlignment="Center" VerticalAlignment="Center" FontSize="24" x:Name="HomeScore" />
         <TextBlock Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Text="{Binding MatchclockDisplay}" TextAlignment="Center" VerticalAlignment="Center" FontSize="24"/>
         <TextBlock Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2" TextWrapping="NoWrap" Text="{Binding AwayScore}" TextAlignment="Center" VerticalAlignment="Center" FontSize="24" x:Name="AwayScore" />

@@ -73,7 +73,7 @@
             <TabItem x:Name="MatchTab" Header="Match">
                 <StackPanel>
                     <Controls:MatchControl x:Name="MatchControls" Visibility="Collapsed" />
-                    <Button Content="New game" Margin="50" Click="NewGameButton_Click"/>
+                    <Button Content="New game" Margin="50" Click="NewGameButton_Click" x:Name="NewGameButton" />
                 </StackPanel>
             </TabItem>
         </TabControl>
