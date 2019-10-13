@@ -45,7 +45,6 @@ namespace StoryScore.Client
 
             TeamPlayers.Close += TeamPlayers_Close;
 
-            MatchControls.Init(_teams);
             MatchControls.ScoreChanged += Match_ScoreChanged;
             MatchControls.MatchStarted += Match_MatchStarted;
             MatchControls.ClockStarted += Match_ClockStarted;
@@ -63,7 +62,6 @@ namespace StoryScore.Client
             //_teams.ElementAt(index).Players = playerRepo.GetPlayers(_teams.ElementAt(index))
             //                                            .ToList();
             TeamsList.ItemsSource = _teams;
-            MatchControls.Init(_teams);
         }
 
         private void TeamDetails_ViewPlayersClicked(EditTeamControl target)

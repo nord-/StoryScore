@@ -21,20 +21,10 @@
             <RowDefinition Height="50" />
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <ComboBox Height="22" Margin="10,0,10,0" x:Name="HomeTeamComboBox" SelectedItem="{Binding HomeTeam}" Grid.ColumnSpan="3" IsEnabled="False">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Name}"/>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
-        <ComboBox Grid.Column="3" Grid.ColumnSpan="3" Margin="10,0,10,0" Height="22" x:Name="AwayTeamComboBox" SelectedItem="{Binding AwayTeam}" IsEnabled="False">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Name}"/>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
+
+        <TextBlock Text="{Binding HomeTeam.Name, FallbackValue='FC Trollhättan'}" FontSize="22" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ColumnSpan="3" />
+        <TextBlock Text="{Binding AwayTeam.Name, FallbackValue='Assyriska Turabdin AIK'}" FontSize="22" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="3" Grid.ColumnSpan="3" />
+
         <StackPanel Grid.Row="1" Grid.ColumnSpan="6" Orientation="Horizontal">
             <Button Width="75" Height="22" Margin="5,0" Content="Start match" Background="Green" Foreground="White" Click="StartMatchButton_Click" x:Name="StartMatchButton" />
             <Button Width="75" Height="22" Margin="5,0" Click="StartClockButton_Click" x:Name="StartClockButton" Background="Green" Foreground="White" IsEnabled="False">

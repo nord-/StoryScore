@@ -53,12 +53,6 @@ namespace StoryScore.Client.Controls
             this.DataContext = PageViewModel;
         }
 
-        public void Init(IEnumerable<TeamViewModel> teams)
-        {
-            HomeTeamComboBox.ItemsSource = teams;
-            AwayTeamComboBox.ItemsSource = teams;
-        }
-
         private void HomeGoalButton_Click(object sender, RoutedEventArgs e)
         {
             PageViewModel.HomeScore++;
@@ -74,8 +68,6 @@ namespace StoryScore.Client.Controls
         {
             if (!_matchStarted)
             {
-                HomeTeamComboBox.IsEnabled =
-                    AwayTeamComboBox.IsEnabled = false;
                 StartClockButton.IsEnabled =
                     ChangeTimeButton.IsEnabled =
                     HomeGoalScorerButton.IsEnabled =
@@ -93,8 +85,6 @@ namespace StoryScore.Client.Controls
             }
             else
             {
-                HomeTeamComboBox.IsEnabled =
-                    AwayTeamComboBox.IsEnabled = true;
                 StartClockButton.IsEnabled =
                     StopClockButton.IsEnabled =
                     ChangeTimeButton.IsEnabled =
