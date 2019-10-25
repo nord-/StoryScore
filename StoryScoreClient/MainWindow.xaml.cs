@@ -11,6 +11,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
+using Team = StoryScore.Data.Domain.Team;
 
 namespace StoryScore.Client
 {
