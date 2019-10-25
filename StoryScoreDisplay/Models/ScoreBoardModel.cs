@@ -1,4 +1,5 @@
 ﻿using PropertyChanged;
+using StoryScore.Common;
 using System;
 using System.Collections.Generic;
 
@@ -20,7 +21,8 @@ namespace StoryScore.Display
         public IList<GameEvent> HomeEvents { get; set; }
         public IList<GameEvent> AwayEvents { get; set; }
 
-        //public IList<Player MyProperty { get; set; }
+        public IList<Player> HomePlayers { get; set; }
+        public IList<Player> AwayPlayers { get; set; }
 
         public TimeSpan GameClock { get; set; }
         public string GameClockDisplay => $"{Math.Floor(GameClock.TotalMinutes):00}:{GameClock.Seconds:00}";

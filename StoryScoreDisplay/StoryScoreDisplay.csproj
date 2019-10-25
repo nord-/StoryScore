@@ -119,6 +119,7 @@
     </ApplicationDefinition>
     <Compile Include="CustomControls\SmoothScrollViewer.cs" />
     <Compile Include="Models\GameEvent.cs" />
+    <Compile Include="Models\LineupModel.cs" />
     <Compile Include="Models\ScoreBoardModel.cs" />
     <Page Include="ScoreBoard.xaml">
       <Generator>MSBuild:Compile</Generator>

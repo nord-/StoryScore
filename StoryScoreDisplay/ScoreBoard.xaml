@@ -37,12 +37,12 @@
         </StackPanel>
 
         <!-- Home Team scrolling info -->
-        <my:SmoothScrollViewer x:Name="homeScroll" Grid.Row="1" Grid.ColumnSpan="3" CanContentScroll="False" VerticalScrollBarVisibility="Hidden">
+        <my:SmoothScrollViewer x:Name="homeScroll" Grid.Row="1" Grid.ColumnSpan="3" CanContentScroll="False" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden" Visibility="Collapsed">
             <ListBox x:Name="HomeInformationList" Background="Transparent" BorderThickness="0" />
         </my:SmoothScrollViewer>
 
         <!-- Away Team scrolling info -->
-        <my:SmoothScrollViewer x:Name="awayScroll" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3" CanContentScroll="False" VerticalScrollBarVisibility="Hidden">
+        <my:SmoothScrollViewer x:Name="awayScroll" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3" CanContentScroll="False" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden" Visibility="Collapsed">
             <ListBox x:Name="AwayInformationList" Background="Transparent" BorderThickness="0" />
         </my:SmoothScrollViewer>
 

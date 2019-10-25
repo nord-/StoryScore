@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
 using StoryScore.Common;
 using StoryScore.Display.CustomControls;
+using StoryScore.Display.Models;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -120,12 +122,54 @@ namespace StoryScore.Display
 
                 case Common.Constants.Mqtt.LineUp:
                     Debug.Print($"{messageAsJson}\n");
+                    var msg = JsonConvert.DeserializeObject<LineupModel>(messageAsJson);
+                    _model.HomePlayers = msg.Home;
+                    _model.AwayPlayers = msg.Away;
+
+                    Dispatcher.Invoke(() => DisplayLineup());
+
+                    _homeAndAwayScrollTimer.Start();
+
                     break;
 
                 default:
                     Debug.Print("Unknown message");
                     break;
             }
+        }
+
+        private void DisplayLineup()
+        {
+            HomeInformationList.Items.Clear();
+            foreach (var p in _model.HomePlayers)
+            {
+                var tb = new TextBlock
+                {
+                    FontSize = 18,
+                    Foreground = new SolidColorBrush(Colors.White),
+                    TextTrimming = TextTrimming.CharacterEllipsis,
+                    MaxWidth = HomeInformationList.ActualWidth,
+                    Text = p.NameNumberAndPosition
+                };
+                HomeInformationList.Items.Add(tb);
+            }
+            homeScroll.Visibility = Visibility.Visible;
+
+            AwayInformationList.Items.Clear();
+            foreach (var p in _model.AwayPlayers)
+            {
+                var tb = new TextBlock
+                {
+                    FontSize = 18,
+                    Foreground = new SolidColorBrush(Colors.White),
+                    TextTrimming = TextTrimming.CharacterEllipsis,
+                    MaxWidth = AwayInformationList.ActualWidth,
+                    Text = p.NameNumberAndPosition
+                };
+                AwayInformationList.Items.Add(tb);
+            }
+            awayScroll.Visibility = Visibility.Visible;
+
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -179,6 +223,11 @@ namespace StoryScore.Display
         {
             Dispatcher.Invoke(() =>
             {
+                foreach (TextBlock tb in HomeInformationList.Items.Cast<TextBlock>())
+                    tb.MaxWidth = homeScroll.ActualWidth - (homeScroll.Padding.Left + homeScroll.Padding.Right);
+                foreach (TextBlock tb in AwayInformationList.Items.Cast<TextBlock>())
+                    tb.MaxWidth = awayScroll.ActualWidth - (awayScroll.Padding.Left + awayScroll.Padding.Right);
+
                 ScrollHomeAndAwayInformation();
             });
         }
@@ -191,25 +240,28 @@ namespace StoryScore.Display
             var offset = (double)homeScroll.GetValue(SmoothScrollViewer.MyOffsetProperty);
             var content = homeScroll.Content as ListBox;
             Debug.Print($"{homeScroll.ContentVerticalOffset}\t{offset}\t{content.RenderSize.Height}");
+            DoubleAnimation goDown;
             if (offset > (content.RenderSize.Height - homeScroll.RenderSize.Height))
-                offset = 0;
-
-            DoubleAnimation goDown = new DoubleAnimation(
-                offset,
-                offset + OffsetAmount,
-                new Duration(TimeSpan.FromSeconds(NumberOfSeconds)));
+            {
+                goDown = new DoubleAnimation(offset, 0, new Duration(TimeSpan.FromSeconds(NumberOfSeconds)));
+            }
+            else
+            {
+                goDown = new DoubleAnimation(offset, offset + OffsetAmount, new Duration(TimeSpan.FromSeconds(NumberOfSeconds)));
+            }
             homeScroll.BeginAnimation(SmoothScrollViewer.MyOffsetProperty, goDown);
 
             offset = (double)awayScroll.GetValue(SmoothScrollViewer.MyOffsetProperty);
             content = awayScroll.Content as ListBox;
             Debug.Print($"{awayScroll.ContentVerticalOffset}\t{offset}\t{content.RenderSize.Height}");
             if (offset > (content.RenderSize.Height - homeScroll.RenderSize.Height))
-                offset = 0;
-
-            goDown = new DoubleAnimation(
-                offset,
-                offset + OffsetAmount,
-                new Duration(TimeSpan.FromSeconds(NumberOfSeconds)));
+            {
+                goDown = new DoubleAnimation(offset, 0, new Duration(TimeSpan.FromSeconds(NumberOfSeconds)));
+            }
+            else
+            {
+                goDown = new DoubleAnimation(offset, offset + OffsetAmount, new Duration(TimeSpan.FromSeconds(NumberOfSeconds)));
+            }
             awayScroll.BeginAnimation(SmoothScrollViewer.MyOffsetProperty, goDown);
         }
     }
