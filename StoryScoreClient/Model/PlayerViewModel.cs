@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Newtonsoft.Json;
 using StoryScore.Data.Domain;
 using System.ComponentModel;
 
@@ -17,6 +18,7 @@ namespace StoryScore.Client.Model
         public string GoalVideoPath { get; set; }
         public int TeamId { get; set; }
 
+        [JsonIgnore]
         public Team Team { get; set; }
 
         public string NameAndNumber => $"{PlayerNumber}. {Name}";

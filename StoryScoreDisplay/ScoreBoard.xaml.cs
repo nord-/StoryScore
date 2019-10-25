@@ -39,7 +39,7 @@ namespace StoryScore.Display
 
             _timer.Elapsed += Timer_Elapsed;
             _homeAndAwayScrollTimer.Elapsed += HomeAndAwayScrollTimer_Elapsed;
-            _homeAndAwayScrollTimer.Start();
+            //_homeAndAwayScrollTimer.Start();
 
 
             _model = new ScoreBoardModel();
@@ -51,27 +51,27 @@ namespace StoryScore.Display
             _mqttClient.Subscribe($"{Common.Constants.Topic.Display}/{_options.ClientId}/#"); // subscribe to all updates meant for me!
             Task.Run(async () => await _mqttClient.SendMessageAsync($"{Common.Constants.Topic.Display}/{_options.ClientId}/{Common.Constants.Mqtt.Status}", "online"));  // tell the world I'm here!
 
-            for (int i = 1; i < 50; i++)
-            {
-                var tb = new TextBlock
-                {
-                    Text = $"{i}: Item {i}",
-                    Foreground = new SolidColorBrush(Colors.White),
-                    FontSize = 16
-                };
-                HomeInformationList.Items.Add(tb);
-            }
+            //for (int i = 1; i < 50; i++)
+            //{
+            //    var tb = new TextBlock
+            //    {
+            //        Text = $"{i}: Item {i}",
+            //        Foreground = new SolidColorBrush(Colors.White),
+            //        FontSize = 16
+            //    };
+            //    HomeInformationList.Items.Add(tb);
+            //}
 
-            for (int i = 1; i < 100; i++)
-            {
-                var tb = new TextBlock
-                {
-                    Text = $"{i}: Item {i}",
-                    Foreground = new SolidColorBrush(Colors.White),
-                    FontSize = 16
-                };
-                AwayInformationList.Items.Add(tb);
-            }
+            //for (int i = 1; i < 100; i++)
+            //{
+            //    var tb = new TextBlock
+            //    {
+            //        Text = $"{i}: Item {i}",
+            //        Foreground = new SolidColorBrush(Colors.White),
+            //        FontSize = 16
+            //    };
+            //    AwayInformationList.Items.Add(tb);
+            //}
 
         }
 
