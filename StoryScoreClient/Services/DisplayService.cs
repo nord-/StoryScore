@@ -13,12 +13,12 @@ namespace StoryScore.Client.Services
 
     public class DisplayService : IDisplayService
     {
-        private readonly MqttClient _mqttClient;
+        private readonly IMqttClient _mqttClient;
         private readonly Options _options;
 
         public event Action<Heartbeat> MatchClockTick;
 
-        public DisplayService(MqttClient mqttClient, Options options)
+        public DisplayService(IMqttClient mqttClient, Options options)
         {
             _mqttClient = mqttClient;
             _options = options;

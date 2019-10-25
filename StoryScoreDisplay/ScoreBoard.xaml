@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StoryScore.Display"
+        xmlns:my="clr-namespace:StoryScore.Display.CustomControls"
         mc:Ignorable="d"
         Title="MainWindow" Height="288" Width="480" ResizeMode="NoResize" Topmost="True" WindowStyle="None" Background="Black"
         TextBlock.Foreground="White" TextBlock.FontWeight="Bold" Top="0" Left="0" Loaded="Window_Loaded">
@@ -34,9 +35,19 @@
             <TextBlock x:Name="AwayScore"  FontSize="72" Text="{Binding AwayScore, FallbackValue=8}" Padding="0" HorizontalAlignment="Center" Margin="0,-20,0,0"/>
             <TextBlock x:Name="AwayTeamName" FontSize="18" Text="{Binding AwayTeamName, FallbackValue=Assyriska Turabin IK}" TextAlignment="Center" TextTrimming="CharacterEllipsis" FontWeight="Normal" TextWrapping="WrapWithOverflow" Margin="0,0" />
         </StackPanel>
-        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" x:Name="HomeInformationPanel"></StackPanel>
-        <StackPanel Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3" x:Name="AwayInformationPanel"></StackPanel>
+
+        <!-- Home Team scrolling info -->
+        <my:SmoothScrollViewer x:Name="homeScroll" Grid.Row="1" Grid.ColumnSpan="3" CanContentScroll="False" VerticalScrollBarVisibility="Hidden">
+            <ListBox x:Name="HomeInformationList" Background="Transparent" BorderThickness="0" />
+        </my:SmoothScrollViewer>
+
+        <!-- Away Team scrolling info -->
+        <my:SmoothScrollViewer x:Name="awayScroll" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3" CanContentScroll="False" VerticalScrollBarVisibility="Hidden">
+            <ListBox x:Name="AwayInformationList" Background="Transparent" BorderThickness="0" />
+        </my:SmoothScrollViewer>
+
         <TextBlock x:Name="TitleLabel" FontSize="14" Text="{Binding Title, FallbackValue=Edsborgs IP\, Trollhättan}" Grid.ColumnSpan="6" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" />
+
         <Canvas Width="480" Height="288">
             <Image x:Name="FullScreenImage" Source="C:\Users\ricka\OneDrive\Bilder\FCT\DSC_6210.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="480" Height="288" Stretch="Fill" Visibility="Hidden" />
             <Image x:Name="LowerPartImage" Source="C:\Users\ricka\OneDrive\Bilder\FCT\Cheerleader.jpg" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="480" Height="188" Stretch="Fill" Canvas.Bottom="0" Visibility="Hidden" />

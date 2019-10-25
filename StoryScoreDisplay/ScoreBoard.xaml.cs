@@ -1,8 +1,7 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using StoryScore.Common;
+using StoryScore.Display.CustomControls;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -10,13 +9,8 @@ using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Media.Animation;
 
 namespace StoryScore.Display
 {
@@ -25,7 +19,8 @@ namespace StoryScore.Display
     /// </summary>
     public partial class ScoreBoardWindow : Window
     {
-        private Timer _timer;
+        private readonly Timer _timer = new Timer(1000);
+        private readonly Timer _homeAndAwayScrollTimer = new Timer(2000);
 
         private DateTime _startTime = DateTime.MinValue;
         private TimeSpan _currentElapsedTime = TimeSpan.Zero;
@@ -42,9 +37,10 @@ namespace StoryScore.Display
         {
             InitializeComponent();
 
-            _timer = new Timer();
-            _timer.Interval = 1000;
             _timer.Elapsed += Timer_Elapsed;
+            _homeAndAwayScrollTimer.Elapsed += HomeAndAwayScrollTimer_Elapsed;
+            _homeAndAwayScrollTimer.Start();
+
 
             _model = new ScoreBoardModel();
             this.DataContext = _model;
@@ -54,7 +50,31 @@ namespace StoryScore.Display
             _mqttClient.MessageReceivedEvent += MqttClient_MessageReceivedEvent;
             _mqttClient.Subscribe($"{Common.Constants.Topic.Display}/{_options.ClientId}/#"); // subscribe to all updates meant for me!
             Task.Run(async () => await _mqttClient.SendMessageAsync($"{Common.Constants.Topic.Display}/{_options.ClientId}/{Common.Constants.Mqtt.Status}", "online"));  // tell the world I'm here!
+
+            for (int i = 1; i < 50; i++)
+            {
+                var tb = new TextBlock
+                {
+                    Text = $"{i}: Item {i}",
+                    Foreground = new SolidColorBrush(Colors.White),
+                    FontSize = 16
+                };
+                HomeInformationList.Items.Add(tb);
+            }
+
+            for (int i = 1; i < 100; i++)
+            {
+                var tb = new TextBlock
+                {
+                    Text = $"{i}: Item {i}",
+                    Foreground = new SolidColorBrush(Colors.White),
+                    FontSize = 16
+                };
+                AwayInformationList.Items.Add(tb);
+            }
+
         }
+
 
         private void MqttClient_MessageReceivedEvent(MQTTnet.MqttApplicationMessageReceivedEventArgs eventArgs)
         {
@@ -99,7 +119,12 @@ namespace StoryScore.Display
                     break;
 
                 case Common.Constants.Mqtt.LineUp:
-                    var 
+                    Debug.Print($"{messageAsJson}\n");
+                    break;
+
+                default:
+                    Debug.Print("Unknown message");
+                    break;
             }
         }
 
@@ -148,6 +173,44 @@ namespace StoryScore.Display
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+        }
+
+        private void HomeAndAwayScrollTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                ScrollHomeAndAwayInformation();
+            });
+        }
+
+        private void ScrollHomeAndAwayInformation()
+        {
+            const int OffsetAmount = 50;
+            const int NumberOfSeconds = 2;
+
+            var offset = (double)homeScroll.GetValue(SmoothScrollViewer.MyOffsetProperty);
+            var content = homeScroll.Content as ListBox;
+            Debug.Print($"{homeScroll.ContentVerticalOffset}\t{offset}\t{content.RenderSize.Height}");
+            if (offset > (content.RenderSize.Height - homeScroll.RenderSize.Height))
+                offset = 0;
+
+            DoubleAnimation goDown = new DoubleAnimation(
+                offset,
+                offset + OffsetAmount,
+                new Duration(TimeSpan.FromSeconds(NumberOfSeconds)));
+            homeScroll.BeginAnimation(SmoothScrollViewer.MyOffsetProperty, goDown);
+
+            offset = (double)awayScroll.GetValue(SmoothScrollViewer.MyOffsetProperty);
+            content = awayScroll.Content as ListBox;
+            Debug.Print($"{awayScroll.ContentVerticalOffset}\t{offset}\t{content.RenderSize.Height}");
+            if (offset > (content.RenderSize.Height - homeScroll.RenderSize.Height))
+                offset = 0;
+
+            goDown = new DoubleAnimation(
+                offset,
+                offset + OffsetAmount,
+                new Duration(TimeSpan.FromSeconds(NumberOfSeconds)));
+            awayScroll.BeginAnimation(SmoothScrollViewer.MyOffsetProperty, goDown);
         }
     }
 }

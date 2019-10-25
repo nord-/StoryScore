@@ -15,8 +15,8 @@ namespace StoryScore.Client.Services
         private const string ClientID = "Control";
         private readonly IManagedMqttClient _mqttClient;
 
-        public delegate void MessageReceived(MqttApplicationMessageReceivedEventArgs eventArgs);
-        public event Action<MessageReceived> MessageReceivedEvent;
+        //public delegate void MessageReceived(MqttApplicationMessageReceivedEventArgs eventArgs);
+        public event Action<MqttApplicationMessageReceivedEventArgs> MessageReceivedEvent;
 
         public MqttClient(Options options)
         {

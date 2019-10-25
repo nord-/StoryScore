@@ -113,6 +113,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CustomControls\SmoothScrollViewer.cs" />
     <Compile Include="Models\GameEvent.cs" />
     <Compile Include="Models\ScoreBoardModel.cs" />
     <Page Include="ScoreBoard.xaml">

@@ -1,11 +1,12 @@
-﻿using System;
+﻿using MQTTnet;
+using System;
 using System.Threading.Tasks;
 
 namespace StoryScore.Client.Services
 {
-    internal interface IMqttClient
+    public interface IMqttClient
     {
-        event Action<MqttClient.MessageReceived> MessageReceivedEvent;
+        event Action<MqttApplicationMessageReceivedEventArgs> MessageReceivedEvent;
 
         Task SendMessageAsync(string topic, string message);
         void Subscribe(string topic);
