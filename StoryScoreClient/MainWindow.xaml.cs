@@ -51,8 +51,8 @@ namespace StoryScore.Client
             MatchControls.ClockStarted += Match_ClockStarted;
             MatchControls.ClockStopped += Match_ClockStopped;
             MatchControls.CloseMatch   += MatchControls_CloseMatch;
+            MatchControls.HideLineup += MatchControls_HideLineup;
         }
-
 
         private void TeamPlayers_Close(PlayersControl obj)
         {
@@ -241,6 +241,11 @@ namespace StoryScore.Client
         {
             MatchControls.Visibility = Visibility.Collapsed;
             NewGameButton.Visibility = Visibility.Visible;
+        }
+
+        private async void MatchControls_HideLineup()
+        {
+            await _displayService.HideLineup();
         }
 
     }

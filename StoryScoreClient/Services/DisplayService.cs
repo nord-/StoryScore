@@ -78,5 +78,11 @@ namespace StoryScore.Client.Services
 
             await _mqttClient.SendMessageAsync(topic, JsonConvert.SerializeObject(message));
         }
+
+        public async Task HideLineup()
+        {
+            var topic = GetTopic(Common.Constants.Mqtt.HideLineup);
+            await _mqttClient.SendMessageAsync(topic, "empty");
+        }
     }
 }

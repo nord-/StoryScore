@@ -19,6 +19,7 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="25"/>
             <RowDefinition Height="50" />
+            <RowDefinition Height="35" />
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -45,6 +46,7 @@
                     <TextBlock Text="Change time" Margin="5,0" VerticalAlignment="Center" />
                 </StackPanel>
             </Button>
+            <Button Content="Line-up" Width="60" Height="22" Click="LineUpButton_Click" />
 
         </StackPanel>
 

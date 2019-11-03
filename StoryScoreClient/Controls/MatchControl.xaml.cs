@@ -32,6 +32,7 @@ namespace StoryScore.Client.Controls
         public event Action<object, EventArgs> ClockStarted;
         public event Action<object, ClockStoppedEventArgs> ClockStopped;
         public event Action CloseMatch;
+        public event Action HideLineup;
 
         public class ClockStoppedEventArgs : EventArgs
         {
@@ -214,6 +215,11 @@ namespace StoryScore.Client.Controls
         private void CloseMatchButton_Click(object sender, RoutedEventArgs e)
         {
             CloseMatch?.Invoke();
+        }
+
+        private void LineUpButton_Click(object sender, RoutedEventArgs e)
+        {
+            HideLineup?.Invoke();
         }
     }
 }

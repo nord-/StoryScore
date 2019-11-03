@@ -132,6 +132,15 @@ namespace StoryScore.Display
 
                     break;
 
+                case Common.Constants.Mqtt.HideLineup:
+                    _homeAndAwayScrollTimer.Stop();
+                    Dispatcher.Invoke(() =>
+                    {
+                        homeScroll.Visibility =
+                            awayScroll.Visibility = Visibility.Collapsed;
+                    });
+                    break;
+
                 default:
                     Debug.Print("Unknown message");
                     break;

@@ -16,5 +16,6 @@ namespace StoryScore.Client.Services
         Task StopTimerAsync(TimeSpan offset);
         Task UpdateAsync(Scoreboard scoreboard);
         Task UpdateGoalAsync(Goal goal);
+        Task HideLineup();
     }
 }
