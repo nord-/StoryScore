@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Linq;
 
 namespace StoryScore.Display.TcpServer
 {
@@ -20,7 +21,7 @@ namespace StoryScore.Display.TcpServer
             get
             {
                 var iphostInfo = Dns.GetHostEntry(Dns.GetHostName());
-                return iphostInfo.AddressList[0];
+                return iphostInfo.AddressList.FirstOrDefault(p => !p.IsIPv6LinkLocal) ?? iphostInfo.AddressList[0];                
             }
         }
 
@@ -49,10 +50,13 @@ namespace StoryScore.Display.TcpServer
                         var bytes = new byte[1024];
                         var data = new List<byte>();
                         int length;
+                        long totalLength = 0;
 
                         while ((length = nwStream.Read(bytes, 0, bytes.Length)) != 0)
                         {
                             stream.Write(bytes, 0, length);
+                            totalLength += length;
+                            //if (totalLength % 1024 == 0) Debug.Print($"{totalLength/(1024^2)} MiB written");
                         }
                     }
                 }
