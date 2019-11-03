@@ -71,6 +71,12 @@ namespace StoryScore.Display.Mqtt
             });
         }
 
+        public async Task SendMessageAsync(string topic, object message)
+        {
+            var messageAsJson = Newtonsoft.Json.JsonConvert.SerializeObject(message);
+            await SendMessageAsync(topic, messageAsJson);
+        }
+
         public async Task SendMessageAsync(string topic, string message)
         {
             var msg = new MqttApplicationMessageBuilder()

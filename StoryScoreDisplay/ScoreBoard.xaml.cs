@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
@@ -21,8 +22,8 @@ namespace StoryScore.Display
     /// </summary>
     public partial class ScoreBoardWindow : Window
     {
-        private readonly Timer _timer = new Timer(1000);
-        private readonly Timer _homeAndAwayScrollTimer = new Timer(2000);
+        private readonly System.Timers.Timer _timer = new System.Timers.Timer(1000);
+        private readonly System.Timers.Timer _homeAndAwayScrollTimer = new System.Timers.Timer(2000);
 
         private DateTime _startTime = DateTime.MinValue;
         private TimeSpan _currentElapsedTime = TimeSpan.Zero;
@@ -41,7 +42,6 @@ namespace StoryScore.Display
 
             _timer.Elapsed += Timer_Elapsed;
             _homeAndAwayScrollTimer.Elapsed += HomeAndAwayScrollTimer_Elapsed;
-            //_homeAndAwayScrollTimer.Start();
 
 
             _model = new ScoreBoardModel();
@@ -52,29 +52,6 @@ namespace StoryScore.Display
             _mqttClient.MessageReceivedEvent += MqttClient_MessageReceivedEvent;
             _mqttClient.Subscribe($"{Common.Constants.Topic.Display}/{_options.ClientId}/#"); // subscribe to all updates meant for me!
             Task.Run(async () => await _mqttClient.SendMessageAsync($"{Common.Constants.Topic.Display}/{_options.ClientId}/{Common.Constants.Mqtt.Status}", "online"));  // tell the world I'm here!
-
-            //for (int i = 1; i < 50; i++)
-            //{
-            //    var tb = new TextBlock
-            //    {
-            //        Text = $"{i}: Item {i}",
-            //        Foreground = new SolidColorBrush(Colors.White),
-            //        FontSize = 16
-            //    };
-            //    HomeInformationList.Items.Add(tb);
-            //}
-
-            //for (int i = 1; i < 100; i++)
-            //{
-            //    var tb = new TextBlock
-            //    {
-            //        Text = $"{i}: Item {i}",
-            //        Foreground = new SolidColorBrush(Colors.White),
-            //        FontSize = 16
-            //    };
-            //    AwayInformationList.Items.Add(tb);
-            //}
-
         }
 
 
@@ -141,10 +118,32 @@ namespace StoryScore.Display
                     });
                     break;
 
+                case Common.Constants.Mqtt.SendFile:
+                    StartReceiveFile(messageAsJson);
+                    break;
+
                 default:
                     Debug.Print("Unknown message");
                     break;
             }
+        }
+
+        private void StartReceiveFile(string messageAsJson)
+        {
+            var filename = messageAsJson;
+            var fileService = new TcpServer.ReceiveFile(filename, _options);
+            var message = new Common.TcpServer
+            {
+                IPAddress = fileService.PublicIPAddress.ToString(),
+                Port = TcpServer.ReceiveFile.Port
+            };
+
+            var thread = new Thread(new ThreadStart(fileService.Listen));
+            thread.Start();
+
+            message.Timestamp = DateTime.Now;
+
+            Task.Run(async () => await _mqttClient.SendMessageAsync($"{Common.Constants.Topic.Display}/{_options.ClientId}/{Common.Constants.Mqtt.ReceiveFile}", message));
         }
 
         private void DisplayLineup()

@@ -10,6 +10,7 @@ namespace StoryScore.Display
     public class Options
     {
         private int? _port = null;
+        private string _fileStoreFolderPath;
 
         public int Port
         {
@@ -36,6 +37,26 @@ namespace StoryScore.Display
             get
             {
                 return ConfigurationManager.AppSettings["clientid"];
+            }
+        }
+
+        public string FileStorePath
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(_fileStoreFolderPath))
+                    _fileStoreFolderPath = ConfigurationManager.AppSettings["filestorepath"];
+
+                if (string.IsNullOrEmpty(_fileStoreFolderPath))
+                {
+                    _fileStoreFolderPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+                        System.Reflection.Assembly.GetExecutingAssembly().GetName().Name);
+
+                    if (!System.IO.Directory.Exists(_fileStoreFolderPath))
+                        System.IO.Directory.CreateDirectory(_fileStoreFolderPath);
+                }
+
+                return _fileStoreFolderPath;
             }
         }
     }
