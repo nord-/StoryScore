@@ -9,6 +9,7 @@ namespace StoryScore.Client.Services
     public interface IDisplayService
     {
         event Action<Heartbeat> MatchClockTick;
+        event Action<Common.TcpServer> ReadySendFile;
 
         Task SendLineupAsync(IEnumerable<PlayerViewModel> homeLineUp, IEnumerable<PlayerViewModel> awayLineUp);
         Task StartTimerAsync();
@@ -17,5 +18,7 @@ namespace StoryScore.Client.Services
         Task UpdateAsync(Scoreboard scoreboard);
         Task UpdateGoalAsync(Goal goal);
         Task HideLineup();
+
+        Task SendFile(string fileName);
     }
 }

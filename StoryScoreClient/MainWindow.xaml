@@ -68,7 +68,12 @@
                     </StackPanel>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="ResourcesTab" Header="Resources"/>
+            <TabItem x:Name="ResourcesTab" Header="Resources">
+                <StackPanel>
+                    <Controls:FileTransferControl Height="25" x:Name="FileTransfer" />
+
+                </StackPanel>
+            </TabItem>
             <TabItem x:Name="SettingsTab" Header="Settings"/>
             <TabItem x:Name="MatchTab" Header="Match">
                 <StackPanel>

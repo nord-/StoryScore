@@ -132,6 +132,8 @@ namespace StoryScore.Display
         {
             var filename = messageAsJson;
             var fileService = new TcpServer.ReceiveFile(filename, _options);
+            fileService.FileReceived += FileService_FileReceived;
+
             var message = new Common.TcpServer
             {
                 IPAddress = fileService.PublicIPAddress.ToString(),
@@ -144,6 +146,11 @@ namespace StoryScore.Display
             message.Timestamp = DateTime.Now;
 
             Task.Run(async () => await _mqttClient.SendMessageAsync($"{Common.Constants.Topic.Display}/{_options.ClientId}/{Common.Constants.Mqtt.ReceiveFile}", message));
+        }
+
+        private void FileService_FileReceived(TcpServer.ReceiveFileInfo obj)
+        {
+            Debug.Print($"File received: {obj.FileName} took {obj.ElapsedMilliseconds} ms.");
         }
 
         private void DisplayLineup()

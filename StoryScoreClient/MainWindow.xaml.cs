@@ -23,6 +23,7 @@ namespace StoryScore.Client
         private bool isAdding = false;
         private ITeamRepository _teamRepository;
         private ObservableCollection<TeamViewModel> _teams;
+        private TcpClient _tcpClient;
         private readonly IDisplayService _displayService;
         private readonly Options _options = new Options();
         private readonly Scoreboard _scoreboard = new Scoreboard();
@@ -35,6 +36,7 @@ namespace StoryScore.Client
             _teamRepository = new TeamRepository();
             _displayService = new DisplayService(new MqttClient(_options), _options);
             _displayService.MatchClockTick += MatchClockTick;
+            _displayService.ReadySendFile += SendFile;
 
             var teams = Mapper.Map<IEnumerable<TeamViewModel>>(_teamRepository.GetTeams());
             _teams = new ObservableCollection<TeamViewModel>(teams);
@@ -52,6 +54,19 @@ namespace StoryScore.Client
             MatchControls.ClockStopped += Match_ClockStopped;
             MatchControls.CloseMatch   += MatchControls_CloseMatch;
             MatchControls.HideLineup += MatchControls_HideLineup;
+
+            FileTransfer.SendFile += FileTransfer_SendFile;
+        }
+
+        private void FileTransfer_SendFile(string filename)
+        {
+            _tcpClient = new TcpClient(filename);
+            _displayService.SendFile(filename);
+        }
+
+        private void SendFile(TcpServer obj)
+        {
+            _tcpClient.SendFile(obj);
         }
 
         private void TeamPlayers_Close(PlayersControl obj)

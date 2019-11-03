@@ -201,6 +201,9 @@
     <Compile Include="Controls\EditTeamControl.xaml.cs">
       <DependentUpon>EditTeamControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\FileTransferControl.xaml.cs">
+      <DependentUpon>FileTransferControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\MatchControl.xaml.cs">
       <DependentUpon>MatchControl.xaml</DependentUpon>
     </Compile>
@@ -228,11 +231,16 @@
     <Compile Include="Services\IDisplayService.cs" />
     <Compile Include="Services\IMqttClient.cs" />
     <Compile Include="Services\MqttClient.cs" />
+    <Compile Include="Services\TcpClient.cs" />
     <Page Include="Controls\EditPlayerControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\EditTeamControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\FileTransferControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
