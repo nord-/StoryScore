@@ -25,8 +25,9 @@ namespace StoryScore.Client.Services
             _options = options;
 
             _mqttClient.MessageReceivedEvent += MqttClient_MessageReceivedEvent;
-            _mqttClient.Subscribe(Common.Constants.Topic.Sync);
-            _mqttClient.Subscribe($"{Common.Constants.Topic.Display}/+/{Common.Constants.Mqtt.ReceiveFile}");
+            //_mqttClient.Subscribe(Common.Constants.Topic.Sync);
+            //_mqttClient.Subscribe($"{Common.Constants.Topic.Display}/+/{Common.Constants.Mqtt.ReceiveFile}");
+            _mqttClient.Subscribe("#");
         }
 
         private void MqttClient_MessageReceivedEvent(MqttApplicationMessageReceivedEventArgs eventArgs)
