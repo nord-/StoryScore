@@ -32,7 +32,7 @@ namespace StoryScore.Client.Model
     public class MediaFolder
     {
         private string _name;
-        private SolidColorBrush _backgroundColor = new SolidColorBrush(Colors.White);
+        private SolidColorBrush _backgroundColor = new SolidColorBrush(Colors.Black);
 
         public string Name
         {

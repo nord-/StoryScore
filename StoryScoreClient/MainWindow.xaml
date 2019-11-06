@@ -4,8 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Controls="clr-namespace:StoryScore.Client.Controls" x:Class="StoryScore.Client.MainWindow"
+        xmlns:my="clr-namespace:StoryScore.Client"
         mc:Ignorable="d"
-        Title="Storyscore" Height="450" Width="800">
+        Title="Storyscore" Height="{my:SettingBinding MainWindow_Height}"
+        Width="{my:SettingBinding MainWindow_Width}"
+        Left="{my:SettingBinding MainWindow_Left}"
+        Top="{my:SettingBinding MainWindow_Top}">
     <Grid>
         <TabControl TabStripPlacement="Left" >
             <TabControl.Resources>

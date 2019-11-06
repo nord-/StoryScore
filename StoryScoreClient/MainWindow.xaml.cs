@@ -32,6 +32,8 @@ namespace StoryScore.Client
         {
             InitializeComponent();
 
+            
+
             // TODO: Dep inject
             _teamRepository = new TeamRepository();
             _displayService = new DisplayService(new MqttClient(_options), _options);

@@ -28,12 +28,21 @@ namespace StoryScore.Client.Controls
         {
             InitializeComponent();
 
+            GetFolderPath();
             PopulateMedia();
             BuildMediaButtons();
 
             PageModel.PropertyChanged += PageModel_PropertyChanged;
-
             DataContext = PageModel;
+        }
+
+        private void GetFolderPath()
+        {
+            PageModel.FolderPath = (string)Properties.Settings.Default["MediaFolderPath"];
+            if (string.IsNullOrWhiteSpace(PageModel.FolderPath))
+            {
+                PageModel.FolderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            }
         }
 
         private void PageModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -43,6 +52,8 @@ namespace StoryScore.Client.Controls
                 case nameof(PageModel.FolderPath):
                     PopulateMedia();
                     BuildMediaButtons();
+
+                    Properties.Settings.Default["MediaFolderPath"] = PageModel.FolderPath;
                     break;
             }
         }

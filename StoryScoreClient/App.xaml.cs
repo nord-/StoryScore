@@ -24,13 +24,17 @@ namespace StoryScore.Client
         protected override void OnStartup(StartupEventArgs e)
         {
             // Select the text in a TextBox when it receives focus.
-            EventManager.RegisterClassHandler(typeof(TextBox), TextBox.PreviewMouseLeftButtonDownEvent,
-                new MouseButtonEventHandler(SelectivelyIgnoreMouseButton));
-            EventManager.RegisterClassHandler(typeof(TextBox), TextBox.GotKeyboardFocusEvent,
-                new RoutedEventHandler(SelectAllText));
-            EventManager.RegisterClassHandler(typeof(TextBox), TextBox.MouseDoubleClickEvent,
-                new RoutedEventHandler(SelectAllText));
+            EventManager.RegisterClassHandler(typeof(TextBox), TextBox.PreviewMouseLeftButtonDownEvent, new MouseButtonEventHandler(SelectivelyIgnoreMouseButton));
+            EventManager.RegisterClassHandler(typeof(TextBox), TextBox.GotKeyboardFocusEvent, new RoutedEventHandler(SelectAllText));
+            EventManager.RegisterClassHandler(typeof(TextBox), TextBox.MouseDoubleClickEvent, new RoutedEventHandler(SelectAllText));
+
             base.OnStartup(e);
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            Client.Properties.Settings.Default.Save();
+            base.OnExit(e);
         }
 
         void SelectivelyIgnoreMouseButton(object sender, MouseButtonEventArgs e)

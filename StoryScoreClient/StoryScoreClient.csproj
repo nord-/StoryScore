@@ -217,6 +217,7 @@
     <Compile Include="Controls\Utils\FolderEntry.xaml.cs">
       <DependentUpon>FolderEntry.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\SettingBindingExtension.cs" />
     <Compile Include="GoalInputWindow.xaml.cs">
       <DependentUpon>GoalInputWindow.xaml</DependentUpon>
     </Compile>
