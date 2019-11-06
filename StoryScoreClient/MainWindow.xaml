@@ -69,10 +69,11 @@
                 </Grid>
             </TabItem>
             <TabItem x:Name="ResourcesTab" Header="Resources">
-                <StackPanel>
-                    <Controls:FileTransferControl Height="25" x:Name="FileTransfer" />
+                <DockPanel LastChildFill="True">
+                    <Controls:FileTransferControl Height="25" x:Name="FileTransfer" DockPanel.Dock="Top" />
+                    <Controls:MediaControl VerticalAlignment="Stretch"/>
 
-                </StackPanel>
+                </DockPanel>
             </TabItem>
             <TabItem x:Name="SettingsTab" Header="Settings"/>
             <TabItem x:Name="MatchTab" Header="Match">

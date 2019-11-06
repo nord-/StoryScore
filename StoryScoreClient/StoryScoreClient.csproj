@@ -162,6 +162,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -207,8 +208,14 @@
     <Compile Include="Controls\MatchControl.xaml.cs">
       <DependentUpon>MatchControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\MediaControl.xaml.cs">
+      <DependentUpon>MediaControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\PlayersControl.xaml.cs">
       <DependentUpon>PlayersControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Utils\FolderEntry.xaml.cs">
+      <DependentUpon>FolderEntry.xaml</DependentUpon>
     </Compile>
     <Compile Include="GoalInputWindow.xaml.cs">
       <DependentUpon>GoalInputWindow.xaml</DependentUpon>
@@ -222,6 +229,8 @@
     <Compile Include="Model\CommandHandler.cs" />
     <Compile Include="Model\LineupViewModel.cs" />
     <Compile Include="Model\MatchViewModel.cs" />
+    <Compile Include="Model\MediaControlViewModel.cs" />
+    <Compile Include="Model\MediaFolder.cs" />
     <Compile Include="Model\PlayerViewModel.cs" />
     <Compile Include="Model\Scoreboard.cs" />
     <Compile Include="Model\Settings.cs" />
@@ -248,7 +257,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\MediaControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\PlayersControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Utils\FolderEntry.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

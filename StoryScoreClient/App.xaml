@@ -12,5 +12,9 @@
             <Setter Property="FontWeight" Value="Bold" />
         </Style>
 
+        <Style x:Key="DesignTimeStyle" TargetType="{x:Type UserControl}">
+            <Setter Property="Background" Value="White" />
+        </Style>
+
     </Application.Resources>
 </Application>
