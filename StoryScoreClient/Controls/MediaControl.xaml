@@ -7,6 +7,11 @@
              xmlns:my="clr-namespace:StoryScore.Client"
              mc:Ignorable="d" d:DesignStyle="{StaticResource DesignTimeStyle}"
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ContextMenu x:Key="SyncContextMenu">
+            <MenuItem Header="Sync" Click="SyncContextMenu_Click" />
+        </ContextMenu>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -17,12 +22,37 @@
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
             <Label Content="Folder" VerticalAlignment="Center" />
-            <!--<TextBox x:Name="FilesFolder" Height="22" Width="250" />
-            <Button Content="..." Width="20" Height="22" Click="FolderPathButton_Click" />-->
             <Utils:FolderEntry Text="{Binding Path=FolderPath}" Width="250" Height="22" Description="Folder" />
         </StackPanel>
-        <ScrollViewer Grid.Row="2" HorizontalScrollBarVisibility="Hidden">
-            <StackPanel x:Name="ButtonsStackPanel" />
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel x:Name="ButtonsStackPanel">
+                <!--<TextBlock Background="Orange" Text="Heading" TextAlignment="Center" FontWeight="Bold" />
+                <WrapPanel >
+                    <Canvas Width="100" Height="100">
+                        <Button Width="100" Height="100">
+                        <Viewbox>
+                            <TextBlock Width="100" Text="Sand storm" TextAlignment="Center" TextWrapping="Wrap" />
+                        </Viewbox>
+                        </Button>
+                        <TextBlock Text="&#xf127;" FontFamily="{StaticResource FontAwesomeSolid}" Canvas.Right="5" Canvas.Bottom="5" Foreground="DarkGray"/>
+                        <TextBlock Text="&#xf0c1;" FontFamily="{StaticResource FontAwesomeSolid}" Canvas.Right="5" Canvas.Bottom="5"/>
+                    </Canvas>
+                    <Button Width="100" Height="100" />
+                    <Button Width="100" Height="100" />
+                    <Button Width="100" Height="100" />
+                    <Button Width="100" Height="100" />
+                    <Button Width="100" Height="100" />
+                    <Button Width="100" Height="100" />
+                    <Button Width="100" Height="100" />
+                    <Button Width="100" Height="100" />
+                    <Button Width="100" Height="100" />
+                    <Button Width="100" Height="100" />
+                    <Button Width="100" Height="100" />
+                    <Button Width="100" Height="100" />
+                    <Button Width="100" Height="100" />
+                    <Button Width="100" Height="100" />
+                </WrapPanel>-->
+            </StackPanel>
         </ScrollViewer>
     </Grid>
 </UserControl>

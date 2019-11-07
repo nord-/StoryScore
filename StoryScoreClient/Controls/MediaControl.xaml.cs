@@ -2,6 +2,7 @@
 using StoryScore.Client.Model;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -60,27 +61,50 @@ namespace StoryScore.Client.Controls
 
         private void BuildMediaButtons()
         {
+            const double ButtonHeight = 100.0;
+            const double ButtonWidth = 100.0;
+
             var basePanel = ButtonsStackPanel;
             basePanel.Children.Clear();
 
+            var ctxMenu = this.FindResource("SyncContextMenu") as ContextMenu;
+
             foreach (var f in PageModel.MediaFolders)
             {
-                var tb = new TextBlock { Text = f.Name, Background = f.BackgroundColor, Foreground = f.ForegroundColor, TextAlignment = TextAlignment.Center };
+                var tb = new TextBlock { Text = f.Name, Background = f.BackgroundColor, Foreground = f.ForegroundColor, TextAlignment = TextAlignment.Center, FontWeight = FontWeights.Bold };
                 basePanel.Children.Add(tb);
 
-                var wp = new WrapPanel { Orientation = Orientation.Horizontal };
+                var wp = new WrapPanel() ; // { Orientation = Orientation.Horizontal };
                 foreach (var mediafile in f.Files)
                 {
-                    var button = new Button { Height = 100, Width = 100, Margin = new Thickness(2, 4, 2, 4) };
+                    var button = new Button { Height = ButtonHeight, Width = ButtonWidth };
                     button.Content = new Viewbox
                     {
                         Stretch = Stretch.Uniform,
                         StretchDirection = StretchDirection.DownOnly,
                         Child =
-                        new TextBlock { Text = mediafile.Name, TextWrapping = TextWrapping.Wrap, Width = 50, TextAlignment = TextAlignment.Center }
+                        new TextBlock { Text = mediafile.Name, TextWrapping = TextWrapping.Wrap, Width = ButtonWidth, TextAlignment = TextAlignment.Center }
                     };
                     // TODO: click handler
-                    wp.Children.Add(button);
+
+                    button.ContextMenu = ctxMenu;
+
+                    var canvas = new Canvas { Width = ButtonWidth, Height = ButtonHeight, Margin = new Thickness(2, 4, 2, 4) };
+                    canvas.Children.Add(button);
+
+                    var fontFamily = App.Current.FindResource("FontAwesomeSolid") as FontFamily;
+                    var brokenLink = new TextBlock { Text = "\uf127", Foreground = new SolidColorBrush(Colors.DarkGray), FontFamily = fontFamily,
+                                                     Visibility = (mediafile.Synced ? Visibility.Collapsed : Visibility.Visible) };
+                    brokenLink.SetValue(Canvas.RightProperty, 5.0);
+                    brokenLink.SetValue(Canvas.BottomProperty, 5.0);
+                    canvas.Children.Add(brokenLink);
+                    var solidLink = new TextBlock { Text = "\uf0c1", FontFamily = fontFamily,
+                                                    Visibility = (mediafile.Synced ? Visibility.Visible : Visibility.Collapsed) };
+                    solidLink.SetValue(Canvas.RightProperty, 5.0);
+                    solidLink.SetValue(Canvas.BottomProperty, 5.0);
+                    canvas.Children.Add(solidLink);
+
+                    wp.Children.Add(canvas);
                 }
                 basePanel.Children.Add(wp);
             }
@@ -112,6 +136,12 @@ namespace StoryScore.Client.Controls
             }
 
             PageModel.MediaFolders = new System.Collections.ObjectModel.ObservableCollection<MediaFolder>(mediaFolders);
+        }
+
+        private void SyncContextMenu_Click(object sender, RoutedEventArgs e)
+        {
+            Debug.Print((sender as Control).Name);
+            MessageBox.Show($"{((((((e.Source as MenuItem).Parent as ContextMenu).Parent as System.Windows.Controls.Primitives.Popup).PlacementTarget as Button).Content as Viewbox).Child as TextBlock).Text}");
         }
     }
 }
