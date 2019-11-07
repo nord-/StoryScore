@@ -217,6 +217,8 @@
     <Compile Include="Controls\Utils\FolderEntry.xaml.cs">
       <DependentUpon>FolderEntry.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Extensions\SettingBindingExtension.cs" />
     <Compile Include="GoalInputWindow.xaml.cs">
       <DependentUpon>GoalInputWindow.xaml</DependentUpon>

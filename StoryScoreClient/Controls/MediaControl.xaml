@@ -8,9 +8,8 @@
              mc:Ignorable="d" d:DesignStyle="{StaticResource DesignTimeStyle}"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <ContextMenu x:Key="SyncContextMenu">
-            <MenuItem Header="Sync" Click="SyncContextMenu_Click" />
-        </ContextMenu>
+        <my:BooleanToVisibilityConverter x:Key="BoolToVis" True="Visible" False="Collapsed"  />
+        <my:BooleanToVisibilityConverter x:Key="InverseBoolToVis" True="Collapsed" False="Visible"  />
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -25,34 +24,41 @@
             <Utils:FolderEntry Text="{Binding Path=FolderPath}" Width="250" Height="22" Description="Folder" />
         </StackPanel>
         <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-            <StackPanel x:Name="ButtonsStackPanel">
-                <!--<TextBlock Background="Orange" Text="Heading" TextAlignment="Center" FontWeight="Bold" />
-                <WrapPanel >
-                    <Canvas Width="100" Height="100">
-                        <Button Width="100" Height="100">
-                        <Viewbox>
-                            <TextBlock Width="100" Text="Sand storm" TextAlignment="Center" TextWrapping="Wrap" />
-                        </Viewbox>
-                        </Button>
-                        <TextBlock Text="&#xf127;" FontFamily="{StaticResource FontAwesomeSolid}" Canvas.Right="5" Canvas.Bottom="5" Foreground="DarkGray"/>
-                        <TextBlock Text="&#xf0c1;" FontFamily="{StaticResource FontAwesomeSolid}" Canvas.Right="5" Canvas.Bottom="5"/>
-                    </Canvas>
-                    <Button Width="100" Height="100" />
-                    <Button Width="100" Height="100" />
-                    <Button Width="100" Height="100" />
-                    <Button Width="100" Height="100" />
-                    <Button Width="100" Height="100" />
-                    <Button Width="100" Height="100" />
-                    <Button Width="100" Height="100" />
-                    <Button Width="100" Height="100" />
-                    <Button Width="100" Height="100" />
-                    <Button Width="100" Height="100" />
-                    <Button Width="100" Height="100" />
-                    <Button Width="100" Height="100" />
-                    <Button Width="100" Height="100" />
-                    <Button Width="100" Height="100" />
-                </WrapPanel>-->
-            </StackPanel>
+            <ItemsControl x:Name="MediaFolderItems" ItemsSource="{Binding MediaFolders}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Name}" Foreground="{Binding ForegroundColor}" Background="{Binding BackgroundColor}"
+                                       TextAlignment="Center" FontWeight="Bold" />
+                            <ItemsControl ItemsSource="{Binding Files}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Canvas Width="100" Height="100" Margin="2,4">
+                                            <Button Height="100" Width="100">
+                                                <Button.ContextMenu>
+                                                    <ContextMenu>
+                                                        <MenuItem Header="Sync" /> <!--Command=""-->
+                                                    </ContextMenu>
+                                                </Button.ContextMenu>
+                                                <Viewbox Stretch="Uniform" StretchDirection="DownOnly">
+                                                    <TextBlock Text="{Binding Name}" TextWrapping="Wrap" Width="100" TextAlignment="Center" />
+                                                </Viewbox>
+                                            </Button>
+                                            <TextBlock Text="&#xf127;" FontFamily="{StaticResource FontAwesomeSolid}" Canvas.Right="5" Canvas.Bottom="5" Foreground="DarkGray" Visibility="{Binding Synced, Converter={StaticResource InverseBoolToVis}}"/>
+                                            <TextBlock Text="&#xf0c1;" FontFamily="{StaticResource FontAwesomeSolid}" Canvas.Right="5" Canvas.Bottom="5" Visibility="{Binding Synced, Converter={StaticResource BoolToVis}}"/>
+                                        </Canvas>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </ScrollViewer>
     </Grid>
 </UserControl>

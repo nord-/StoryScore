@@ -64,50 +64,54 @@ namespace StoryScore.Client.Controls
             const double ButtonHeight = 100.0;
             const double ButtonWidth = 100.0;
 
-            var basePanel = ButtonsStackPanel;
-            basePanel.Children.Clear();
+            //var basePanel = ButtonsStackPanel;
+            //var basePanel = MediaFileItems;
+            //basePanel.ItemsSource = PageModel.MediaFolders.First().Files;
 
-            var ctxMenu = this.FindResource("SyncContextMenu") as ContextMenu;
 
-            foreach (var f in PageModel.MediaFolders)
-            {
-                var tb = new TextBlock { Text = f.Name, Background = f.BackgroundColor, Foreground = f.ForegroundColor, TextAlignment = TextAlignment.Center, FontWeight = FontWeights.Bold };
-                basePanel.Children.Add(tb);
+            //basePanel.Children.Clear();
 
-                var wp = new WrapPanel() ; // { Orientation = Orientation.Horizontal };
-                foreach (var mediafile in f.Files)
-                {
-                    var button = new Button { Height = ButtonHeight, Width = ButtonWidth };
-                    button.Content = new Viewbox
-                    {
-                        Stretch = Stretch.Uniform,
-                        StretchDirection = StretchDirection.DownOnly,
-                        Child =
-                        new TextBlock { Text = mediafile.Name, TextWrapping = TextWrapping.Wrap, Width = ButtonWidth, TextAlignment = TextAlignment.Center }
-                    };
-                    // TODO: click handler
+            //var ctxMenu = this.FindResource("SyncContextMenu") as ContextMenu;
 
-                    button.ContextMenu = ctxMenu;
+            //foreach (var f in PageModel.MediaFolders)
+            //{
+            //    var tb = new TextBlock { Text = f.Name, Background = f.BackgroundColor, Foreground = f.ForegroundColor, TextAlignment = TextAlignment.Center, FontWeight = FontWeights.Bold };
+            //    basePanel.Children.Add(tb);
 
-                    var canvas = new Canvas { Width = ButtonWidth, Height = ButtonHeight, Margin = new Thickness(2, 4, 2, 4) };
-                    canvas.Children.Add(button);
+            //    var wp = new WrapPanel();
+            //    foreach (var mediafile in f.Files)
+            //    {
+            //        var button = new Button { Height = ButtonHeight, Width = ButtonWidth };
+            //        button.Content = new Viewbox
+            //        {
+            //            Stretch = Stretch.Uniform,
+            //            StretchDirection = StretchDirection.DownOnly,
+            //            Child =
+            //            new TextBlock { Text = mediafile.Name, TextWrapping = TextWrapping.Wrap, Width = ButtonWidth, TextAlignment = TextAlignment.Center }
+            //        };
+            //        // TODO: click handler
 
-                    var fontFamily = App.Current.FindResource("FontAwesomeSolid") as FontFamily;
-                    var brokenLink = new TextBlock { Text = "\uf127", Foreground = new SolidColorBrush(Colors.DarkGray), FontFamily = fontFamily,
-                                                     Visibility = (mediafile.Synced ? Visibility.Collapsed : Visibility.Visible) };
-                    brokenLink.SetValue(Canvas.RightProperty, 5.0);
-                    brokenLink.SetValue(Canvas.BottomProperty, 5.0);
-                    canvas.Children.Add(brokenLink);
-                    var solidLink = new TextBlock { Text = "\uf0c1", FontFamily = fontFamily,
-                                                    Visibility = (mediafile.Synced ? Visibility.Visible : Visibility.Collapsed) };
-                    solidLink.SetValue(Canvas.RightProperty, 5.0);
-                    solidLink.SetValue(Canvas.BottomProperty, 5.0);
-                    canvas.Children.Add(solidLink);
+            //        button.ContextMenu = ctxMenu;
 
-                    wp.Children.Add(canvas);
-                }
-                basePanel.Children.Add(wp);
-            }
+            //        var canvas = new Canvas { Width = ButtonWidth, Height = ButtonHeight, Margin = new Thickness(2, 4, 2, 4) };
+            //        canvas.Children.Add(button);
+
+            //        var fontFamily = App.Current.FindResource("FontAwesomeSolid") as FontFamily;
+            //        var brokenLink = new TextBlock { Text = "\uf127", Foreground = new SolidColorBrush(Colors.DarkGray), FontFamily = fontFamily,
+            //                                         Visibility = (mediafile.Synced ? Visibility.Collapsed : Visibility.Visible) };
+            //        brokenLink.SetValue(Canvas.RightProperty, 5.0);
+            //        brokenLink.SetValue(Canvas.BottomProperty, 5.0);
+            //        canvas.Children.Add(brokenLink);
+            //        var solidLink = new TextBlock { Text = "\uf0c1", FontFamily = fontFamily,
+            //                                        Visibility = (mediafile.Synced ? Visibility.Visible : Visibility.Collapsed) };
+            //        solidLink.SetValue(Canvas.RightProperty, 5.0);
+            //        solidLink.SetValue(Canvas.BottomProperty, 5.0);
+            //        canvas.Children.Add(solidLink);
+
+            //        wp.Children.Add(canvas);
+            //    }
+            //    basePanel.Children.Add(wp);
+            //}
         }
 
         private void PopulateMedia()

@@ -27,6 +27,8 @@ namespace StoryScore.Client.Model
         public FileInfo File { get; set; }
         public bool SyncToDisplay { get; set; }
         public bool Synced { get; set; }
+
+        public System.Windows.Visibility SyncedVisibility => Synced ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
     }
 
     public class MediaFolder
