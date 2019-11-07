@@ -4,13 +4,18 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:StoryScore.Client.Controls"
+             xmlns:model="clr-namespace:StoryScore.Client.Model"
              xmlns:my="clr-namespace:StoryScore.Client"
              mc:Ignorable="d" d:DesignStyle="{StaticResource DesignTimeStyle}"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <my:BooleanToVisibilityConverter x:Key="BoolToVis" True="Visible" False="Collapsed"  />
         <my:BooleanToVisibilityConverter x:Key="InverseBoolToVis" True="Collapsed" False="Visible"  />
+        <my:BindingProxy x:Key="Proxy" Data="{Binding}" />
     </UserControl.Resources>
+    <UserControl.DataContext>
+        <model:MediaControlViewModel />
+    </UserControl.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -39,10 +44,11 @@
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <Canvas Width="100" Height="100" Margin="2,4">
-                                            <Button Height="100" Width="100">
+                                            <Button Height="100" Width="100" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.SyncCommand}"
+                                                                  CommandParameter="{Binding}">
                                                 <Button.ContextMenu>
                                                     <ContextMenu>
-                                                        <MenuItem Header="Sync" /> <!--Command=""-->
+                                                        <MenuItem Header="Sync" Command="{Binding Source={StaticResource Proxy}, Path=Data.SyncCommand}" CommandParameter="{Binding}" />
                                                     </ContextMenu>
                                                 </Button.ContextMenu>
                                                 <Viewbox Stretch="Uniform" StretchDirection="DownOnly">
