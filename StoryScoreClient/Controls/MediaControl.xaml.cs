@@ -71,19 +71,20 @@ namespace StoryScore.Client.Controls
             var folders = new System.IO.DirectoryInfo(PageModel.FolderPath).GetDirectories();
             foreach (var f in folders)
             {
-                var files = f.GetFiles();
-                var folder = new MediaFolder
+                var files = f.GetFiles()
+                             .Where(p => !p.Attributes.HasFlag(System.IO.FileAttributes.Hidden))
+                             .Select(p => new MediaFile
+                             {
+                                 Name = p.Name,
+                                 Extension = System.IO.Path.GetExtension(p.FullName),
+                                 Path = p.FullName,
+                                 File = p
+                             }).ToArray();
+
+                var folder = new MediaFolder(f.FullName, files)
                 {
                     Name   = f.Name,
-                    Path   = f.FullName,
-                    Folder = f,
-                    Files  = files.Select(p => new MediaFile
-                    {
-                        Name      = p.Name,
-                        Extension = System.IO.Path.GetExtension(p.FullName),
-                        Path      = p.FullName,
-                        File      = p
-                    }).ToArray()
+                    Folder = f
                 };
 
                 mediaFolders.Add(folder);

@@ -34,9 +34,18 @@ namespace StoryScore.Client.Model
 
     public class MediaFolder
     {
+        private string _settingsFile;
+
         private string _name;
         private SolidColorBrush _backgroundColor = new SolidColorBrush(Colors.Black);
         private MediaFile[] _files;
+
+        public MediaFolder(string path, MediaFile[] mediaFiles)
+        {
+            _settingsFile = System.IO.Path.Combine(path, "storyscore.json");
+            Path = path;
+            Files = mediaFiles;
+        }
 
         public string Name
         {
@@ -59,9 +68,15 @@ namespace StoryScore.Client.Model
         public MediaFile[] Files
         {
             get => _files;
-            set { _files = value;
+            set {
+                _files = value;
+
+                var o2 = GetFileSyncStatus();
                 foreach (var f in _files)
                 {
+                    if (o2.TryGetValue(f.Name, out var tokenValue))
+                        f.Synced = f.SyncToDisplay = (bool)tokenValue;
+
                     f.PropertyChanged += MediaFile_PropertyChanged;
                 }
             }
@@ -92,20 +107,7 @@ namespace StoryScore.Client.Model
 
         private void UpdateFileSyncedStatus(string filename)
         {
-            var settingsFile = System.IO.Path.Combine(Path, "storyscore.json");
-            JObject o2;
-            if (File.Exists(settingsFile))
-            {
-                using (StreamReader file = File.OpenText(settingsFile))
-                using (JsonTextReader reader = new JsonTextReader(file))
-                {
-                    o2 = (JObject)JToken.ReadFrom(reader);
-                }
-            }
-            else
-            {
-                o2 = new JObject();
-            }
+            var o2 = GetFileSyncStatus();
 
             if (o2.TryGetValue(filename, out var value))
             {
@@ -116,11 +118,29 @@ namespace StoryScore.Client.Model
                 o2.Add(filename, true);
             }
 
-            using (StreamWriter file = File.CreateText(settingsFile))
+            using (StreamWriter file = File.CreateText(_settingsFile))
             using (JsonTextWriter writer = new JsonTextWriter(file))
             {
                 o2.WriteTo(writer);
             }
+
+            var fi = new FileInfo(_settingsFile);
+            fi.Attributes |= FileAttributes.Hidden;
+        }
+
+        private JObject GetFileSyncStatus()
+        {
+            JObject o2 = new JObject();
+            if (File.Exists(_settingsFile))
+            {
+                using (StreamReader file = File.OpenText(_settingsFile))
+                using (JsonTextReader reader = new JsonTextReader(file))
+                {
+                    o2 = (JObject)JToken.ReadFrom(reader);
+                }
+            }
+
+            return o2;
         }
     }
 }

@@ -44,8 +44,9 @@
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <Canvas Width="100" Height="100" Margin="2,4">
-                                            <Button Height="100" Width="100" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.SyncCommand}"
-                                                                  CommandParameter="{Binding}">
+                                            <Button Height="100" Width="100">
+                                                <!--Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.SyncCommand}"
+                                                                  CommandParameter="{Binding}">-->
                                                 <Button.ContextMenu>
                                                     <ContextMenu>
                                                         <MenuItem Header="Sync" Command="{Binding Source={StaticResource Proxy}, Path=Data.SyncCommand}" CommandParameter="{Binding}" />
