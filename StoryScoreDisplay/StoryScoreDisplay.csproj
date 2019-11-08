@@ -121,6 +121,7 @@
     <Compile Include="Models\GameEvent.cs" />
     <Compile Include="Models\LineupModel.cs" />
     <Compile Include="Models\ScoreBoardModel.cs" />
+    <Compile Include="Services\FileManagerService.cs" />
     <Compile Include="TcpServer\ReceiveFile.cs" />
     <Page Include="ScoreBoard.xaml">
       <Generator>MSBuild:Compile</Generator>

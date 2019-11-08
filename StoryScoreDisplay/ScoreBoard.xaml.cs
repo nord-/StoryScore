@@ -4,11 +4,9 @@ using StoryScore.Display.CustomControls;
 using StoryScore.Display.Models;
 using StoryScore.Display.Services;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
@@ -23,8 +21,8 @@ namespace StoryScore.Display
     /// </summary>
     public partial class ScoreBoardWindow : Window
     {
-        private readonly System.Timers.Timer _timer = new System.Timers.Timer(1000);
-        private readonly System.Timers.Timer _homeAndAwayScrollTimer = new System.Timers.Timer(2000);
+        private readonly Timer _timer = new Timer(1000);
+        private readonly Timer _homeAndAwayScrollTimer = new Timer(2000);
 
         private DateTime _startTime = DateTime.MinValue;
         private TimeSpan _currentElapsedTime = TimeSpan.Zero;
@@ -125,6 +123,11 @@ namespace StoryScore.Display
 
                 case Common.Constants.Mqtt.SendFile:
                     Task.Run(async () => await _fileManagerService.StartReceiveFileAsync(messageAsJson));
+                    break;
+
+                case Common.Constants.Mqtt.ReqListFiles:
+                    var files = _fileManagerService.GetRemoteFiles();
+                    Task.Run(async () => await _mqttClient.SendMessageAsync(_mqttClient.GetTopic(Common.Constants.Mqtt.ListFiles), files));
                     break;
 
                 default:

@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Linq;
 using StoryScore.Common;
+using StoryScore.Display.Services;
 
 namespace StoryScore.Display.TcpServer
 {
@@ -14,7 +15,7 @@ namespace StoryScore.Display.TcpServer
         public const int Port = 17073;
         private readonly string _fileName;
         private readonly long _fileSize;
-        private readonly Options _options;
+        private readonly FileManagerService _fileManager;
 
         public event Action<FileTransferStatus> FileReceived;
         public event Action<FileTransferStatus> FileTransferStatus;
@@ -28,17 +29,16 @@ namespace StoryScore.Display.TcpServer
             }
         }
 
-        public ReceiveFile(FileTransferStatus file, Options options)
+        public ReceiveFile(FileTransferStatus file, FileManagerService fileManager)
         {
-            _fileName = file.Name;
-            _fileSize = file.FileSize;
-            _options  = options;
+            _fileName    = file.Name;
+            _fileSize    = file.FileSize;
+            _fileManager = fileManager;
         }
 
         public void Listen()
         {
             var sw            = new Stopwatch();
-            var file          = Path.Combine(_options.FileStorePath, _fileName);
             var localEndpoint = new IPEndPoint(PublicIPAddress, Port);
             var tcpListener   = new TcpListener(localEndpoint);
             var fileStatus    = new FileTransferStatus { Name = _fileName, FileSize = _fileSize, TransferredBytes = 0 };
@@ -53,7 +53,7 @@ namespace StoryScore.Display.TcpServer
                 sw.Start();
                 using (var nwStream = tcpClient.GetStream())
                 {
-                    using (var stream = new FileStream(file, FileMode.Create))
+                    using (var stream = _fileManager.CreateFile(_fileName))
                     {
                         var bytes = new byte[1024];
                         var data = new List<byte>();

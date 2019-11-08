@@ -2,11 +2,11 @@
 using System.IO;
 using System.Security.Cryptography;
 
-namespace StoryScore.Common.FileIO
+namespace StoryScore.Common
 {
-    public class Checksum
+    public class FileIO
     {
-        private static string GetChecksum(string file)
+        public static string GetChecksum(string file)
         {
             using (var stream = new BufferedStream(File.OpenRead(file), 512000))
             {

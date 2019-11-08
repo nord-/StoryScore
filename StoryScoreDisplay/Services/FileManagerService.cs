@@ -4,6 +4,7 @@ using StoryScore.Display.Mqtt;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -23,10 +24,32 @@ namespace StoryScore.Display.Services
             _mqttClient = mqttClient;
         }
 
+        public string FileStorePath => _options.FileStorePath;
+
+        public FileStream CreateFile(string filename)
+        {
+            var file = new FileStream(Path.Combine(FileStorePath, filename), FileMode.Create);
+            return file;
+        }
+
+        public IEnumerable<RemoteFileInfo> GetRemoteFiles()
+        {
+            var fileStore = new DirectoryInfo(FileStorePath);
+            foreach (var f in fileStore.GetFiles())
+                yield return new RemoteFileInfo
+                {
+                    Name = f.Name,
+                    AbsolutePath = f.FullName,
+                    FileSize = f.Length,
+                    ModifiedDate = f.LastWriteTime,
+                    Checksum = Common.FileIO.GetChecksum(f.FullName)
+                };
+        }
+
         public async Task<Thread> StartReceiveFileAsync(string messageAsJson)
         {
             var fileInfo                   = JsonConvert.DeserializeObject<FileTransferStatus>(messageAsJson);
-            var fileService                = new TcpServer.ReceiveFile(fileInfo, _options);
+            var fileService                = new TcpServer.ReceiveFile(fileInfo, this);
             fileService.FileReceived       += FileService_FileReceived;
             fileService.FileTransferStatus += FileService_FileTransferStatus;
 
