@@ -2,6 +2,7 @@
 using StoryScore.Common;
 using StoryScore.Display.CustomControls;
 using StoryScore.Display.Models;
+using StoryScore.Display.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -33,7 +34,8 @@ namespace StoryScore.Display
         private Options _options = new Options();
         private Mqtt.Server _mqttServer;
         private Mqtt.Client _mqttClient;
-        private Thread _fileTransferThread;
+        //private Thread _fileTransferThread;
+        private FileManagerService _fileManagerService;
 
         private ScoreBoardModel _model;
 
@@ -53,6 +55,8 @@ namespace StoryScore.Display
             _mqttClient.MessageReceivedEvent += MqttClient_MessageReceivedEvent;
             _mqttClient.Subscribe($"{Common.Constants.Topic.Display}/{_options.ClientId}/#"); // subscribe to all updates meant for me!
             Task.Run(async () => await _mqttClient.SendMessageAsync($"{Common.Constants.Topic.Display}/{_options.ClientId}/{Common.Constants.Mqtt.Status}", "online"));  // tell the world I'm here!
+
+            _fileManagerService = new FileManagerService(_options, _mqttClient);
         }
 
 
@@ -120,50 +124,12 @@ namespace StoryScore.Display
                     break;
 
                 case Common.Constants.Mqtt.SendFile:
-                    StartReceiveFile(messageAsJson);
+                    Task.Run(async () => await _fileManagerService.StartReceiveFileAsync(messageAsJson));
                     break;
 
                 default:
                     Debug.Print("Unknown message");
                     break;
-            }
-        }
-
-        private void StartReceiveFile(string messageAsJson)
-        {
-            var fileInfo = JsonConvert.DeserializeObject<FileTransferStatus>(messageAsJson);
-            var fileService = new TcpServer.ReceiveFile(fileInfo, _options);
-            fileService.FileReceived += FileService_FileReceived;
-            fileService.FileTransferStatus += FileService_FileTransferStatus;
-
-            var message = new Common.TcpServer
-            {
-                IPAddress = fileService.PublicIPAddress.ToString(),
-                Port = TcpServer.ReceiveFile.Port
-            };
-
-            _fileTransferThread = new Thread(new ThreadStart(fileService.Listen));
-            _fileTransferThread.Start();
-
-            message.Timestamp = DateTime.Now;
-
-            Task.Run(async () => await _mqttClient.SendMessageAsync(_mqttClient.GetTopic(Common.Constants.Mqtt.ReceiveFile), message));
-        }
-
-        private async void FileService_FileTransferStatus(FileTransferStatus txStatus)
-        {
-            await _mqttClient.SendMessageAsync(_mqttClient.GetTopic(Common.Constants.Mqtt.TransferStatus), txStatus);
-        }
-
-        private async void FileService_FileReceived(FileTransferStatus txStatus)
-        {
-            Debug.Print($"File received: {txStatus.Name} took {txStatus.ElapsedMilliseconds} ms.");
-            await _mqttClient.SendMessageAsync(_mqttClient.GetTopic(Common.Constants.Mqtt.TransferStatus), txStatus);
-
-            if (_fileTransferThread.IsAlive)
-            {
-                _fileTransferThread.Abort();
-                _fileTransferThread = null;
             }
         }
 

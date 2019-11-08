@@ -12,6 +12,7 @@
         public const string SendFile       = "sendfile";
         public const string ReceiveFile    = "receivefile";
         public const string TransferStatus = "transferstatus";
+        public const string ListFiles      = "listfiles";
     }
 
     public class Topic
