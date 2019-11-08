@@ -1,18 +1,14 @@
-﻿using PropertyChanged;
-using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel;
-using System.Globalization;
+using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace StoryScore.Client.Model
 {
-    [AddINotifyPropertyChangedInterface]
-    public class MediaFile //: INotifyPropertyChanged
+    //[AddINotifyPropertyChangedInterface]
+    public class MediaFile : INotifyPropertyChanged
     {
         private string _name;
 
@@ -32,12 +28,15 @@ namespace StoryScore.Client.Model
         public bool Synced { get; set; }
 
         public decimal TransferProgress { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 
     public class MediaFolder
     {
         private string _name;
         private SolidColorBrush _backgroundColor = new SolidColorBrush(Colors.Black);
+        private MediaFile[] _files;
 
         public string Name
         {
@@ -56,8 +55,18 @@ namespace StoryScore.Client.Model
 
         public SolidColorBrush BackgroundColor => _backgroundColor;
 
-        public string        Path { get; set; }
-        public MediaFile[]   Files { get; set; }
+        public string Path { get; set; }
+        public MediaFile[] Files
+        {
+            get => _files;
+            set { _files = value;
+                foreach (var f in _files)
+                {
+                    f.PropertyChanged += MediaFile_PropertyChanged;
+                }
+            }
+        }
+
         public DirectoryInfo Folder { get; set; }
 
         public SolidColorBrush ForegroundColor
@@ -69,6 +78,48 @@ namespace StoryScore.Client.Model
                 var color = (Y / 255.0) > 0.5 ? Colors.Black : Colors.White;
 
                 return new SolidColorBrush(color);
+            }
+        }
+
+        private void MediaFile_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(MediaFile.Synced))
+            {
+                var file = sender as MediaFile;
+                UpdateFileSyncedStatus(file.Name);
+            }
+        }
+
+        private void UpdateFileSyncedStatus(string filename)
+        {
+            var settingsFile = System.IO.Path.Combine(Path, "storyscore.json");
+            JObject o2;
+            if (File.Exists(settingsFile))
+            {
+                using (StreamReader file = File.OpenText(settingsFile))
+                using (JsonTextReader reader = new JsonTextReader(file))
+                {
+                    o2 = (JObject)JToken.ReadFrom(reader);
+                }
+            }
+            else
+            {
+                o2 = new JObject();
+            }
+
+            if (o2.TryGetValue(filename, out var value))
+            {
+                Debug.Print(((bool)value).ToString());
+            }
+            else
+            {
+                o2.Add(filename, true);
+            }
+
+            using (StreamWriter file = File.CreateText(settingsFile))
+            using (JsonTextWriter writer = new JsonTextWriter(file))
+            {
+                o2.WriteTo(writer);
             }
         }
     }
