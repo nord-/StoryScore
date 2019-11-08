@@ -11,6 +11,7 @@ namespace StoryScore.Client.Model
     public class MediaFile : INotifyPropertyChanged
     {
         private string _name;
+        private decimal _transferProgress;
 
         public string Name
         {
@@ -27,7 +28,7 @@ namespace StoryScore.Client.Model
         public bool SyncToDisplay { get; set; }
         public bool Synced { get; set; }
 
-        public decimal TransferProgress { get; set; }
+        public decimal TransferProgress { get => _transferProgress; set => _transferProgress = value*100; }
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

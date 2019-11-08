@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:StoryScore.Client.Controls"
              xmlns:model="clr-namespace:StoryScore.Client.Model"
              xmlns:my="clr-namespace:StoryScore.Client"
              mc:Ignorable="d" d:DesignStyle="{StaticResource DesignTimeStyle}"
@@ -21,14 +20,23 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="35" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="35" />
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Horizontal" Grid.Row="2">
             <Label Content="Folder" VerticalAlignment="Center" />
             <Utils:FolderEntry Text="{Binding Path=FolderPath}" Width="250" Height="22" Description="Folder" />
         </StackPanel>
-        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <!--<Grid>
+            <Canvas x:Name="ButtonCanvas" Width="100" Height="100">
+                <Button Content="Button name" Width="{Binding ActualWidth, ElementName=ButtonCanvas}" Height="{Binding ActualHeight, ElementName=ButtonCanvas}" />
+                <DockPanel Margin="0" Canvas.Bottom="0" Canvas.Right="0" Width="{Binding ActualWidth, ElementName=ButtonCanvas}" LastChildFill="True">
+                    <TextBlock Text="&#xf127;" FontFamily="{StaticResource FontAwesomeSolid}" Foreground="DarkGray" DockPanel.Dock="Right" />
+                    <ProgressBar Value="50" Background="Transparent" BorderBrush="Transparent" />
+                </DockPanel>
+            </Canvas>
+        </Grid>-->
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
             <ItemsControl x:Name="MediaFolderItems" ItemsSource="{Binding MediaFolders}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -43,8 +51,8 @@
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Canvas Width="100" Height="100" Margin="2,4">
-                                            <Button Height="100" Width="100">
+                                        <Canvas Width="100" Height="100" Margin="2,4" x:Name="ButtonCanvas">
+                                            <Button Height="{Binding ActualHeight, ElementName=ButtonCanvas}" Width="{Binding ActualWidth, ElementName=ButtonCanvas}">
                                                 <!--Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.SyncCommand}"
                                                                   CommandParameter="{Binding}">-->
                                                 <Button.ContextMenu>
@@ -56,8 +64,11 @@
                                                     <TextBlock Text="{Binding Name}" TextWrapping="Wrap" Width="100" TextAlignment="Center" />
                                                 </Viewbox>
                                             </Button>
-                                            <TextBlock Text="&#xf127;" FontFamily="{StaticResource FontAwesomeSolid}" Canvas.Right="5" Canvas.Bottom="5" Foreground="DarkGray" Visibility="{Binding Synced, Converter={StaticResource InverseBoolToVis}}"/>
-                                            <TextBlock Text="&#xf0c1;" FontFamily="{StaticResource FontAwesomeSolid}" Canvas.Right="5" Canvas.Bottom="5" Visibility="{Binding Synced, Converter={StaticResource BoolToVis}}"/>
+                                            <DockPanel Margin="0" Canvas.Bottom="0" Canvas.Right="0" Width="{Binding ActualWidth, ElementName=ButtonCanvas}" LastChildFill="True">
+                                                <TextBlock Text="&#xf127;" Margin="2" FontFamily="{StaticResource FontAwesomeSolid}" DockPanel.Dock="Right" Foreground="DarkGray" Visibility="{Binding Synced, Converter={StaticResource InverseBoolToVis}}"/>
+                                                <TextBlock Text="&#xf0c1;" Margin="2" FontFamily="{StaticResource FontAwesomeSolid}" DockPanel.Dock="Right" Visibility="{Binding Synced, Converter={StaticResource BoolToVis}}"/>
+                                                <ProgressBar Background="Transparent" BorderBrush="Transparent" Value="{Binding TransferProgress}" Visibility="{Binding Synced, Converter={StaticResource InverseBoolToVis}}" />
+                                            </DockPanel>
                                         </Canvas>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
