@@ -10,21 +10,22 @@ using System.Threading.Tasks;
 
 namespace StoryScore.Client.Services
 {
-    public class MqttClient : IDisposable, IMqttClient
+    public sealed class MqttClient : IDisposable, IMqttClient
     {
-        private const string ClientID = "Control";
+        private string _clientID;
         private readonly IManagedMqttClient _mqttClient;
 
         //public delegate void MessageReceived(MqttApplicationMessageReceivedEventArgs eventArgs);
         public event Action<MqttApplicationMessageReceivedEventArgs> MessageReceivedEvent;
 
-        public MqttClient(Options options)
+        public MqttClient(Options options, string ClientID = "Control")
         {
+            _clientID = ClientID;
             // Create a new MQTT client.
             var opt = new ManagedMqttClientOptionsBuilder()
                             .WithAutoReconnectDelay(TimeSpan.FromSeconds(5))
                             .WithClientOptions(new MqttClientOptionsBuilder()
-                                .WithClientId($"{ClientID}_{options.ClientId}")
+                                .WithClientId($"{_clientID}_{options.ClientId}")
                                 .WithTcpServer(options.DisplayEndpoint, options.Port)
                                 .Build()
                             )
@@ -78,6 +79,17 @@ namespace StoryScore.Client.Services
             await _mqttClient.PublishAsync(msg);
 
             Debug.WriteLine("### MESSAGE SENT ###");
+        }
+
+        public static T TranslatePayload<T>(MqttApplicationMessageReceivedEventArgs messageReceived)
+        {
+            var messageAsJson = Encoding.UTF8.GetString(messageReceived.ApplicationMessage.Payload);
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(messageAsJson);
+        }
+
+        public static string GetLastTopicPart(MqttApplicationMessageReceivedEventArgs messageReceived)
+        {
+            return messageReceived.ApplicationMessage.Topic.Split('/').Last();
         }
 
         public void Dispose()

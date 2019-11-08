@@ -1,42 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using StoryScore.Common;
 using System.IO;
-using System.Linq;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace StoryScore.Client.Services
 {
     public class TcpClient
     {
-        private readonly string _fileName;
+        private readonly TcpServer _tcpServer;
 
-        public TcpClient(string fileName)
+        public TcpClient(TcpServer tcpServer)
         {
-            _fileName = fileName;
+            _tcpServer = tcpServer;
         }
 
-        public void SendFile(Common.TcpServer tcpServer)
+        public async Task SendFileAsync(string fileName)
         {
-            using (var tcpClient = new System.Net.Sockets.TcpClient(tcpServer.IPAddress, tcpServer.Port))
+            using (var tcpClient = new System.Net.Sockets.TcpClient(_tcpServer.IPAddress, _tcpServer.Port))
             {
                 using (NetworkStream networkStream = tcpClient.GetStream())
                 {
-                    using (var fileStream = File.OpenRead(_fileName))
+                    using (var fileStream = File.OpenRead(fileName))
                     {
                         var bytes = new byte[1024];
                         int length;
 
-                        while ((length = fileStream.Read(bytes, 0, bytes.Length)) != 0)
+                        while ((length = await fileStream.ReadAsync(bytes, 0, bytes.Length)) != 0)
                         {
-                            networkStream.Write(bytes, 0, length);
+                            await networkStream.WriteAsync(bytes, 0, length);
                         }
                     }
-                    //var dataToSend = File.ReadAllBytes(_fileName);
 
-                    //networkStream.Write(dataToSend, 0, dataToSend.Length);
-                    networkStream.Flush();
+                    await networkStream.FlushAsync();
                 }
             }
         }

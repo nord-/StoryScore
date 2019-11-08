@@ -17,7 +17,6 @@ namespace StoryScore.Client.Services
         private readonly Options _options;
 
         public event Action<Heartbeat> MatchClockTick;
-        public event Action<Common.TcpServer> ReadySendFile;
 
         public DisplayService(IMqttClient mqttClient, Options options)
         {
@@ -25,25 +24,25 @@ namespace StoryScore.Client.Services
             _options = options;
 
             _mqttClient.MessageReceivedEvent += MqttClient_MessageReceivedEvent;
-            //_mqttClient.Subscribe(Common.Constants.Topic.Sync);
+            _mqttClient.Subscribe(Common.Constants.Topic.Sync);
             //_mqttClient.Subscribe($"{Common.Constants.Topic.Display}/+/{Common.Constants.Mqtt.ReceiveFile}");
-            _mqttClient.Subscribe("#");
+            //_mqttClient.Subscribe("#");
         }
 
         private void MqttClient_MessageReceivedEvent(MqttApplicationMessageReceivedEventArgs eventArgs)
         {
-            if (eventArgs.ApplicationMessage.Topic == Common.Constants.Topic.Sync)
-            {
-                var messageAsJson = Encoding.UTF8.GetString(eventArgs.ApplicationMessage.Payload);
-                var heartbeat = JsonConvert.DeserializeObject<Heartbeat>(messageAsJson);
-                MatchClockTick?.Invoke(heartbeat);
-            }
-            else if (eventArgs.ApplicationMessage.Topic.Contains(Common.Constants.Mqtt.ReceiveFile))
-            {
-                var messageAsJson = Encoding.UTF8.GetString(eventArgs.ApplicationMessage.Payload);
-                var fileInfo = JsonConvert.DeserializeObject<TcpServer>(messageAsJson);
-                ReadySendFile?.Invoke(fileInfo);
-            }
+            var heartbeat = MqttClient.TranslatePayload<Heartbeat>(eventArgs);
+            MatchClockTick?.Invoke(heartbeat);
+
+            //if (eventArgs.ApplicationMessage.Topic == Common.Constants.Topic.Sync)
+            //{
+            //var messageAsJson = Encoding.UTF8.GetString(eventArgs.ApplicationMessage.Payload);
+            //var heartbeat = JsonConvert.DeserializeObject<Heartbeat>(messageAsJson);
+            //MatchClockTick?.Invoke(heartbeat);
+            //}
+            //else if (eventArgs.ApplicationMessage.Topic.Contains(Common.Constants.Mqtt.ReceiveFile))
+            //{
+            //}
         }
 
         private string GetTopic(string @event)
@@ -92,13 +91,6 @@ namespace StoryScore.Client.Services
         {
             var topic = GetTopic(Common.Constants.Mqtt.HideLineup);
             await _mqttClient.SendMessageAsync(topic, "empty");
-        }
-
-        public async Task SendFile(string fileName)
-        {
-            var topic = GetTopic(Common.Constants.Mqtt.SendFile);
-            var message = fileName.Substring(fileName.LastIndexOf('\\') + 1);
-            await _mqttClient.SendMessageAsync(topic, message);
         }
     }
 }

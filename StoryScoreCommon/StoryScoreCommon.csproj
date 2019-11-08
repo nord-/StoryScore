@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="FileTransferStatus.cs" />
     <Compile Include="Goal.cs" />
     <Compile Include="Heartbeat.cs" />
     <Compile Include="Player.cs" />

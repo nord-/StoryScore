@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using Team = StoryScore.Data.Domain.Team;
+using System.Diagnostics;
 
 namespace StoryScore.Client
 {
@@ -23,8 +24,8 @@ namespace StoryScore.Client
         private bool isAdding = false;
         private ITeamRepository _teamRepository;
         private ObservableCollection<TeamViewModel> _teams;
-        private TcpClient _tcpClient;
         private readonly IDisplayService _displayService;
+        private readonly FileTransferService _fileTransferService;
         private readonly Options _options = new Options();
         private readonly Scoreboard _scoreboard = new Scoreboard();
 
@@ -32,13 +33,12 @@ namespace StoryScore.Client
         {
             InitializeComponent();
 
-            
+
 
             // TODO: Dep inject
             _teamRepository = new TeamRepository();
             _displayService = new DisplayService(new MqttClient(_options), _options);
             _displayService.MatchClockTick += MatchClockTick;
-            _displayService.ReadySendFile += SendFile;
 
             var teams = Mapper.Map<IEnumerable<TeamViewModel>>(_teamRepository.GetTeams());
             _teams = new ObservableCollection<TeamViewModel>(teams);
@@ -58,17 +58,18 @@ namespace StoryScore.Client
             MatchControls.HideLineup += MatchControls_HideLineup;
 
             FileTransfer.SendFile += FileTransfer_SendFile;
+            _fileTransferService = new FileTransferService(_options);
+            _fileTransferService.TransferStatus += FileTransferService_TransferStatus;
         }
 
-        private void FileTransfer_SendFile(string filename)
+        private void FileTransferService_TransferStatus(FileTransferStatus txStatus)
         {
-            _tcpClient = new TcpClient(filename);
-            _displayService.SendFile(filename);
+            Debug.Print($"{txStatus.Name} sent {txStatus.TransferredBytes} B of {txStatus.FileSize} ({txStatus.TransferredBytes / txStatus.FileSize:P1})");
         }
 
-        private void SendFile(TcpServer obj)
+        private async void FileTransfer_SendFile(string filename)
         {
-            _tcpClient.SendFile(obj);
+            await _fileTransferService.SendFileAsync(filename);
         }
 
         private void TeamPlayers_Close(PlayersControl obj)
