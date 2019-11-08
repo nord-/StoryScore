@@ -12,6 +12,7 @@ namespace StoryScore.Client.Services
         private bool             _sending = false;
 
         public event Action<FileTransferStatus> TransferStatus;
+        public event Action<RemoteFileInfo[]>   RemoteFileListReceived;
 
         public FileTransferService(Options options)
         {
@@ -48,7 +49,18 @@ namespace StoryScore.Client.Services
 
                     TransferStatus?.Invoke(ft);
                     break;
+
+                case Common.Constants.Mqtt.ListFiles:
+                    // get list of remote files
+                    var files = MqttClient.TranslatePayload<RemoteFileInfo[]>(msg);
+                    RemoteFileListReceived?.Invoke(files);
+                    break;
             }
+        }
+
+        public async Task ListRemoteFiles()
+        {
+            await _mqttClient.SendMessageAsync(GetTopic(Common.Constants.Mqtt.ReqListFiles), "empty");
         }
 
         public async Task SendFileAsync(string filename)

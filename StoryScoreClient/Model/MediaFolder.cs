@@ -118,13 +118,15 @@ namespace StoryScore.Client.Model
                 o2.Add(filename, true);
             }
 
+            var fi = new FileInfo(_settingsFile);
+            fi.Attributes = FileAttributes.Normal;
+
             using (StreamWriter file = File.CreateText(_settingsFile))
             using (JsonTextWriter writer = new JsonTextWriter(file))
             {
                 o2.WriteTo(writer);
             }
 
-            var fi = new FileInfo(_settingsFile);
             fi.Attributes |= FileAttributes.Hidden;
         }
 

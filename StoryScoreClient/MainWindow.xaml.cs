@@ -60,7 +60,14 @@ namespace StoryScore.Client
             FileTransfer.SendFile += FileTransfer_SendFile;
             _fileTransferService = new FileTransferService(_options);
             _fileTransferService.TransferStatus += FileTransferService_TransferStatus;
+            _fileTransferService.RemoteFileListReceived += FileTransferService_RemoteFileListReceived;
             MediaLib.Init(_fileTransferService);
+        }
+
+        private void FileTransferService_RemoteFileListReceived(RemoteFileInfo[] files)
+        {
+            foreach (var f in files)
+                Debug.Print($"{f.Name} {f.FileSize / (1024m*1024m):0.0} MB, {f.ModifiedDate} {f.Checksum}");
         }
 
         private void FileTransferService_TransferStatus(FileTransferStatus txStatus)
