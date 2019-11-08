@@ -16,10 +16,14 @@ namespace StoryScore.Client.Model
     {
 
         public string FolderPath { get; set; } = @"C:\Users\ricka\Desktop\fct musik";
+        public MediaFile SelectedMediaFile { get => _file; set => _file = value; }
+        //public string MediaFilePath => SelectedMediaFile?.Path ?? "";
+        public System.Windows.Controls.MediaElement Player { get; set; }
 
         public ObservableCollection<MediaFolder> MediaFolders { get; set; }
 
         RelayCommand<MediaFile> _syncCommand;
+        RelayCommand<MediaFile> _playCommand;
         private FileTransferService _fileTransferService;
         private MediaFile _file;
 
@@ -38,10 +42,10 @@ namespace StoryScore.Client.Model
 
         private void FileTransferService_TransferStatus(Common.FileTransferStatus obj)
         {
-            if (_file == null) return;
+            if (SelectedMediaFile == null) return;
 
-            _file.TransferProgress = obj.TransferredBytes / (decimal)obj.FileSize;
-            _file.Synced = obj.TransferComplete;
+            SelectedMediaFile.TransferProgress = obj.TransferredBytes / (decimal)obj.FileSize;
+            SelectedMediaFile.Synced = obj.TransferComplete;
         }
 
         public RelayCommand<MediaFile> SyncCommand
@@ -56,9 +60,25 @@ namespace StoryScore.Client.Model
             }
         }
 
+        public RelayCommand<MediaFile> PlayCommand
+        {
+            get
+            {
+                if (_playCommand == null)
+                    _playCommand = new RelayCommand<MediaFile>(p => Play(p), p => true);
+
+                return _playCommand;
+            }
+        }
+
+        private void Play(MediaFile p)
+        {
+            SelectedMediaFile = p;
+        }
+
         private async void Sync(MediaFile file)
         {
-            _file = file;
+            SelectedMediaFile = file;
             Debug.Print(file?.Name ?? "nothing");
             await _fileTransferService.SendFileAsync(file.File.FullName);
         }

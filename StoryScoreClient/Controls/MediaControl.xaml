@@ -23,6 +23,13 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="35" />
         </Grid.RowDefinitions>
+        <Canvas Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="Red" Height="180" Width="250">
+            <DockPanel>
+                <MediaElement x:Name="MediaPlayer" DockPanel.Dock="Top" Width="250" Height="140" LoadedBehavior="Manual" Volume="1" Source="{Binding SelectedMediaFile.Path}" />
+                <Button Content="Play" DockPanel.Dock="Left" Width="125" Height="40" Click="PlayButton_Click" />
+                <Button Content="Stop" DockPanel.Dock="Right" Click="StopButton_Click"/>
+            </DockPanel>
+        </Canvas>
         <StackPanel Orientation="Horizontal" Grid.Row="2">
             <Label Content="Folder" VerticalAlignment="Center" />
             <Utils:FolderEntry Text="{Binding Path=FolderPath}" Width="250" Height="22" Description="Folder" />
@@ -52,9 +59,9 @@
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <Canvas Width="100" Height="100" Margin="2,4" x:Name="ButtonCanvas">
-                                            <Button Height="{Binding ActualHeight, ElementName=ButtonCanvas}" Width="{Binding ActualWidth, ElementName=ButtonCanvas}">
-                                                <!--Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.SyncCommand}"
-                                                                  CommandParameter="{Binding}">-->
+                                            <Button Height="{Binding ActualHeight, ElementName=ButtonCanvas}" Width="{Binding ActualWidth, ElementName=ButtonCanvas}"
+                                                Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.PlayCommand}"
+                                                                  CommandParameter="{Binding}">
                                                 <Button.ContextMenu>
                                                     <ContextMenu>
                                                         <MenuItem Header="Sync" Command="{Binding Source={StaticResource Proxy}, Path=Data.SyncCommand}" CommandParameter="{Binding}" />
