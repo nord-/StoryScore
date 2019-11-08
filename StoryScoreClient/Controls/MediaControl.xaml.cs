@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using StoryScore.Client.Model;
+using StoryScore.Client.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -34,6 +35,11 @@ namespace StoryScore.Client.Controls
 
             PageModel.PropertyChanged += PageModel_PropertyChanged;
             DataContext = PageModel;
+        }
+
+        public void Init(FileTransferService fileTransferService)
+        {
+            PageModel.FileTransferService = fileTransferService;
         }
 
         private void GetFolderPath()
@@ -86,10 +92,10 @@ namespace StoryScore.Client.Controls
             PageModel.MediaFolders = new System.Collections.ObjectModel.ObservableCollection<MediaFolder>(mediaFolders);
         }
 
-        private void SyncContextMenu_Click(object sender, RoutedEventArgs e)
-        {
-            Debug.Print((sender as Control).Name);
-            MessageBox.Show($"{((((((e.Source as MenuItem).Parent as ContextMenu).Parent as System.Windows.Controls.Primitives.Popup).PlacementTarget as Button).Content as Viewbox).Child as TextBlock).Text}");
-        }
+        //private void SyncContextMenu_Click(object sender, RoutedEventArgs e)
+        //{
+        //    Debug.Print((sender as Control).Name);
+        //    MessageBox.Show($"{((((((e.Source as MenuItem).Parent as ContextMenu).Parent as System.Windows.Controls.Primitives.Popup).PlacementTarget as Button).Content as Viewbox).Child as TextBlock).Text}");
+        //}
     }
 }

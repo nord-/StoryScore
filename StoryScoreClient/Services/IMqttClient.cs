@@ -9,6 +9,7 @@ namespace StoryScore.Client.Services
         event Action<MqttApplicationMessageReceivedEventArgs> MessageReceivedEvent;
 
         Task SendMessageAsync(string topic, string message);
+        Task SendMessageAsync(string topic, object message);
         void Subscribe(string topic);
     }
 }

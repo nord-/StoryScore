@@ -33,6 +33,7 @@ namespace StoryScore.Display
         private Options _options = new Options();
         private Mqtt.Server _mqttServer;
         private Mqtt.Client _mqttClient;
+        private Thread _fileTransferThread;
 
         private ScoreBoardModel _model;
 
@@ -130,9 +131,10 @@ namespace StoryScore.Display
 
         private void StartReceiveFile(string messageAsJson)
         {
-            var filename = messageAsJson;
-            var fileService = new TcpServer.ReceiveFile(filename, _options);
+            var fileInfo = JsonConvert.DeserializeObject<FileTransferStatus>(messageAsJson);
+            var fileService = new TcpServer.ReceiveFile(fileInfo, _options);
             fileService.FileReceived += FileService_FileReceived;
+            fileService.FileTransferStatus += FileService_FileTransferStatus;
 
             var message = new Common.TcpServer
             {
@@ -140,17 +142,29 @@ namespace StoryScore.Display
                 Port = TcpServer.ReceiveFile.Port
             };
 
-            var thread = new Thread(new ThreadStart(fileService.Listen));
-            thread.Start();
+            _fileTransferThread = new Thread(new ThreadStart(fileService.Listen));
+            _fileTransferThread.Start();
 
             message.Timestamp = DateTime.Now;
 
-            Task.Run(async () => await _mqttClient.SendMessageAsync($"{Common.Constants.Topic.Display}/{_options.ClientId}/{Common.Constants.Mqtt.ReceiveFile}", message));
+            Task.Run(async () => await _mqttClient.SendMessageAsync(_mqttClient.GetTopic(Common.Constants.Mqtt.ReceiveFile), message));
         }
 
-        private void FileService_FileReceived(TcpServer.ReceiveFileInfo obj)
+        private async void FileService_FileTransferStatus(FileTransferStatus txStatus)
         {
-            Debug.Print($"File received: {obj.FileName} took {obj.ElapsedMilliseconds} ms.");
+            await _mqttClient.SendMessageAsync(_mqttClient.GetTopic(Common.Constants.Mqtt.TransferStatus), txStatus);
+        }
+
+        private async void FileService_FileReceived(FileTransferStatus txStatus)
+        {
+            Debug.Print($"File received: {txStatus.Name} took {txStatus.ElapsedMilliseconds} ms.");
+            await _mqttClient.SendMessageAsync(_mqttClient.GetTopic(Common.Constants.Mqtt.TransferStatus), txStatus);
+
+            if (_fileTransferThread.IsAlive)
+            {
+                _fileTransferThread.Abort();
+                _fileTransferThread = null;
+            }
         }
 
         private void DisplayLineup()

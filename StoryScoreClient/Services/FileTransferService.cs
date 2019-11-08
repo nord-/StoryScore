@@ -6,9 +6,10 @@ namespace StoryScore.Client.Services
 {
     public sealed class FileTransferService : IDisposable
     {
-        static IMqttClient _mqttClient;
         private readonly Options _options;
-        private string _filename = "";
+        static IMqttClient       _mqttClient;
+        private string           _filename = "";
+        private bool             _sending = false;
 
         public event Action<FileTransferStatus> TransferStatus;
 
@@ -42,6 +43,9 @@ namespace StoryScore.Client.Services
                 case Common.Constants.Mqtt.TransferStatus:
                     // get progress
                     var ft = MqttClient.TranslatePayload<FileTransferStatus>(msg);
+                    if (ft.TransferComplete)
+                        _sending = false;
+
                     TransferStatus?.Invoke(ft);
                     break;
             }
@@ -49,10 +53,15 @@ namespace StoryScore.Client.Services
 
         public async Task SendFileAsync(string filename)
         {
-            _filename = filename;
+            if (_sending)
+                throw new NotSupportedException("Only one file at a time.");
 
+            _sending = true;
             var topic = GetTopic(Common.Constants.Mqtt.SendFile);
-            var message = filename.Substring(filename.LastIndexOf('\\') + 1);
+            var file = new System.IO.FileInfo(filename);
+            _filename = file.FullName;
+
+            var message = new FileTransferStatus { Name = file.Name, FileSize = file.Length };
             await _mqttClient.SendMessageAsync(topic, message);
         }
 

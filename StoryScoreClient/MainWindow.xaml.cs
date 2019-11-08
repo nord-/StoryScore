@@ -60,11 +60,19 @@ namespace StoryScore.Client
             FileTransfer.SendFile += FileTransfer_SendFile;
             _fileTransferService = new FileTransferService(_options);
             _fileTransferService.TransferStatus += FileTransferService_TransferStatus;
+            MediaLib.Init(_fileTransferService);
         }
 
         private void FileTransferService_TransferStatus(FileTransferStatus txStatus)
         {
-            Debug.Print($"{txStatus.Name} sent {txStatus.TransferredBytes} B of {txStatus.FileSize} ({txStatus.TransferredBytes / txStatus.FileSize:P1})");
+            var progressPercent = txStatus.TransferredBytes / (decimal)txStatus.FileSize;
+            Debug.Print($"{txStatus.Name} sent {txStatus.TransferredBytes} B of {txStatus.FileSize} ({progressPercent:P1})");
+
+            if (txStatus.TransferComplete)
+            {
+                var secs = txStatus.ElapsedMilliseconds / 1000m;
+                Debug.Print($"File transferred in {secs:0} sec");
+            }
         }
 
         private async void FileTransfer_SendFile(string filename)

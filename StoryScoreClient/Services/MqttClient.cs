@@ -65,6 +65,12 @@ namespace StoryScore.Client.Services
             });
         }
 
+        public async Task SendMessageAsync(string topic, object message)
+        {
+            var msg = Newtonsoft.Json.JsonConvert.SerializeObject(message);
+            await SendMessageAsync(topic, msg);
+        }
+
         public async Task SendMessageAsync(string topic, string message)
         {
 

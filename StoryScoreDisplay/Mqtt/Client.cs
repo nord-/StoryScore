@@ -11,10 +11,11 @@ using System.Threading.Tasks;
 
 namespace StoryScore.Display.Mqtt
 {
-    public class Client : IDisposable
+    public sealed class Client : IDisposable
     {
         private const string ClientID = "Display";
         private readonly IManagedMqttClient _mqttClient;
+        private readonly Options _options;
 
         public delegate void MessageReceived(MqttApplicationMessageReceivedEventArgs eventArgs);
         public event MessageReceived MessageReceivedEvent;
@@ -37,6 +38,7 @@ namespace StoryScore.Display.Mqtt
 
 
             _mqttClient.UseApplicationMessageReceivedHandler(ReceiveMessage);
+            _options = options;
         }
 
         private async Task ReceiveMessage(MqttApplicationMessageReceivedEventArgs e)
@@ -85,6 +87,11 @@ namespace StoryScore.Display.Mqtt
                 .Build();
 
             await _mqttClient.PublishAsync(msg);
+        }
+
+        public string GetTopic(string @event)
+        {
+            return $"{Common.Constants.Topic.Display}/{_options.ClientId}/{@event}";
         }
 
         public void Dispose()

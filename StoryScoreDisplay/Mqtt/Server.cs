@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace StoryScore.Display.Mqtt
 {
-    public class Server : IDisposable
+    public sealed class Server : IDisposable
     {
         private readonly IMqttServer _mqttServer;
 

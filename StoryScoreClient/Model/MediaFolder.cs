@@ -1,5 +1,7 @@
-﻿using System;
+﻿using PropertyChanged;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -9,7 +11,8 @@ using System.Windows.Media;
 
 namespace StoryScore.Client.Model
 {
-    public class MediaFile
+    [AddINotifyPropertyChangedInterface]
+    public class MediaFile //: INotifyPropertyChanged
     {
         private string _name;
 
@@ -28,7 +31,7 @@ namespace StoryScore.Client.Model
         public bool SyncToDisplay { get; set; }
         public bool Synced { get; set; }
 
-        public System.Windows.Visibility SyncedVisibility => Synced ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+        public decimal TransferProgress { get; set; }
     }
 
     public class MediaFolder

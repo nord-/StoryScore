@@ -8,8 +8,10 @@ namespace StoryScore.Common
 {
     public class FileTransferStatus
     {
-        public string Name             { get; set; }
-        public long   FileSize         { get; set; }
-        public long   TransferredBytes { get; set; }
+        public string Name                { get; set; }
+        public long   FileSize            { get; set; }
+        public long   TransferredBytes    { get; set; }
+        public bool   TransferComplete    { get; set; }
+        public long   ElapsedMilliseconds { get; set; }
     }
 }

@@ -75,7 +75,7 @@
             <TabItem x:Name="ResourcesTab" Header="Resources">
                 <DockPanel LastChildFill="True">
                     <Controls:FileTransferControl Height="25" x:Name="FileTransfer" DockPanel.Dock="Top" />
-                    <Controls:MediaControl VerticalAlignment="Stretch"/>
+                    <Controls:MediaControl VerticalAlignment="Stretch" x:Name="MediaLib"/>
 
                 </DockPanel>
             </TabItem>
