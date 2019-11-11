@@ -4,8 +4,10 @@ using StoryScore.Display.CustomControls;
 using StoryScore.Display.Models;
 using StoryScore.Display.Services;
 using System;
+using System.ComponentModel.Composition.Hosting;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
@@ -36,6 +38,7 @@ namespace StoryScore.Display
         private FileManagerService _fileManagerService;
 
         private ScoreBoardModel _model;
+        private MediaService _mediaService;
 
         public ScoreBoardWindow()
         {
@@ -55,8 +58,11 @@ namespace StoryScore.Display
             Task.Run(async () => await _mqttClient.SendMessageAsync($"{Common.Constants.Topic.Display}/{_options.ClientId}/{Common.Constants.Mqtt.Status}", "online"));  // tell the world I'm here!
 
             _fileManagerService = new FileManagerService(_options, _mqttClient);
-        }
 
+            _mediaService = MediaService.CreateInstance(this, _options);
+            _mediaService.VideoPlaying += MediaServiceOnVideoPlaying;
+            _mediaService.VideoStopped += MediaServiceOnVideoStopped;
+        }
 
         private void MqttClient_MessageReceivedEvent(MQTTnet.MqttApplicationMessageReceivedEventArgs eventArgs)
         {
@@ -130,10 +136,41 @@ namespace StoryScore.Display
                     Task.Run(async () => await _mqttClient.SendMessageAsync(_mqttClient.GetTopic(Common.Constants.Mqtt.ListFiles), files));
                     break;
 
+                case Common.Constants.Mqtt.VideoPlaybackAction:
+                    var mediamsg = JsonConvert.DeserializeObject<MediaFileAction>(messageAsJson);
+                    HandleMediaMessage(mediamsg);
+                    break;
+
                 default:
                     Debug.Print("Unknown message");
                     break;
             }
+        }
+
+        private void HandleMediaMessage(MediaFileAction msg)
+        {
+            switch (msg.Action)
+            {
+                case MediaFileActionEnum.Play:
+                    _mediaService.PlayVideo(msg.FileName, msg.RequestMade);
+                    break;
+            }
+        }
+
+        private async void MediaServiceOnVideoPlaying(string filename, DateTime started, DateTime requested)
+        {
+            var topic = _mqttClient.GetTopic(Common.Constants.Mqtt.VideoPlaybackAction);
+            var message = new MediaFileAction { Action = MediaFileActionEnum.Noop, FileName = filename, RequestMade = started, OriginalRequest = requested };
+
+            await _mqttClient.SendMessageAsync(topic, message);
+        }
+
+        private async void MediaServiceOnVideoStopped(string filename, DateTime requestAt, DateTime requested)
+        {
+            var topic = _mqttClient.GetTopic(Common.Constants.Mqtt.VideoPlaybackAction);
+            var msg   = new MediaFileAction { Action = MediaFileActionEnum.Stop, FileName = filename, RequestMade = requestAt, OriginalRequest = requested };
+
+            await _mqttClient.SendMessageAsync(topic, msg);
         }
 
         private void DisplayLineup()

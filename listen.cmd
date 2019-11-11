@@ -1,0 +1,1 @@
+%userprofile%\OneDrive\Program\Mosquitto\mosquitto_sub -t "#" -v

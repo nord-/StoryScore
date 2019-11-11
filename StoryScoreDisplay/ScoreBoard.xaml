@@ -48,12 +48,17 @@
 
         <TextBlock x:Name="TitleLabel" FontSize="14" Text="{Binding Title, FallbackValue=Edsborgs IP\, Trollhättan}" Grid.ColumnSpan="6" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" />
 
-        <Canvas Width="480" Height="288">
-            <Image x:Name="FullScreenImage" Source="C:\Users\ricka\OneDrive\Bilder\FCT\DSC_6210.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="480" Height="288" Stretch="Fill" Visibility="Hidden" />
-            <Image x:Name="LowerPartImage" Source="C:\Users\ricka\OneDrive\Bilder\FCT\Cheerleader.jpg" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="480" Height="188" Stretch="Fill" Canvas.Bottom="0" Visibility="Hidden" />
-            <Grid Background="Black" Width="480" Height="288" Visibility="Hidden">
-                <MediaElement x:Name="FullScreenVideo" Source="C:\Users\ricka\OneDrive\Bilder\FCT\Ett Troget Hjärta\2019_FCT_Ett_troget_hjarta.mp4" VerticalAlignment="Center" HorizontalAlignment="Center" LoadedBehavior="Manual" />
-            </Grid>
+        <Canvas Width="480" Height="288" x:Name="root">
+            <Image x:Name="FullScreenImage" Source="C:\Users\ricka\OneDrive\Bilder\FCT\DSC_6210.png" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   Width="{Binding Width, ElementName=root}" Height="{Binding Height, ElementName=root}" Stretch="Fill" Visibility="Collapsed" />
+            <Image x:Name="LowerPartImage" Source="C:\Users\ricka\OneDrive\Bilder\FCT\Cheerleader.jpg" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                   Width="{Binding Width, ElementName=root}" Height="188" Stretch="Fill" Canvas.Bottom="0" Visibility="Collapsed" />
+            <!--<Grid Background="Black" Width="{Binding Width, ElementName=root}" Height="{Binding Height, ElementName=root}" Visibility="Collapsed" x:Name="FullScreenVideoGrid">-->
+            <MediaElement x:Name="FullScreenVideo" Source="C:\Users\ricka\Desktop\Video-raw\temp\20190922_154750_1.mp4"
+                          Width="{Binding Width, ElementName=root}" Height="{Binding Height, ElementName=root}"
+                          Visibility="Collapsed"
+                          VerticalAlignment="Top" HorizontalAlignment="Center" LoadedBehavior="Manual" UnloadedBehavior="Close" />
+            <!--</Grid>-->
         </Canvas>
     </Grid>
 </Window>
