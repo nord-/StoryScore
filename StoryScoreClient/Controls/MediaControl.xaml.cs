@@ -3,9 +3,12 @@ using StoryScore.Client.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
+using Timer = System.Timers.Timer;
 
 namespace StoryScore.Client.Controls
 {
@@ -18,6 +21,8 @@ namespace StoryScore.Client.Controls
         private readonly Timer _fadeOutTimer = new Timer(150);
 
         public MediaControlViewModel PageModel { get; set; } = new MediaControlViewModel();
+
+        public event Action<string> StartVideoPlayback;
 
         public MediaControl()
         {
@@ -58,9 +63,15 @@ namespace StoryScore.Client.Controls
                     break;
 
                 case nameof(PageModel.SelectedMediaFile):
+                    if (!string.IsNullOrEmpty(PageModel.SelectedMediaFile?.Name ?? "") &&
+                        (PageModel.SelectedMediaFile?.Synced ?? false))
+                        StartVideoPlayback?.Invoke(PageModel.SelectedMediaFile.File.Name);
+
+                    Thread.Sleep(89);
                     MediaPlayer.Volume = 1.0;
                     MediaPlayer.Play();
-                    break;
+
+            break;
             }
         }
 

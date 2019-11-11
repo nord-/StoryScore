@@ -260,6 +260,7 @@
     <Compile Include="Services\IDisplayService.cs" />
     <Compile Include="Services\IMqttClient.cs" />
     <Compile Include="Services\MqttClient.cs" />
+    <Compile Include="Services\RemoteMediaPlaybackService.cs" />
     <Compile Include="Services\TcpClient.cs" />
     <Page Include="Controls\EditPlayerControl.xaml">
       <SubType>Designer</SubType>

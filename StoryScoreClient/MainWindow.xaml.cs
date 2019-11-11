@@ -28,6 +28,7 @@ namespace StoryScore.Client
         private readonly FileTransferService _fileTransferService;
         private readonly Options _options = new Options();
         private readonly Scoreboard _scoreboard = new Scoreboard();
+        private readonly RemoteMediaPlaybackService _remoteMediaService;
 
         public MainWindow()
         {
@@ -61,7 +62,16 @@ namespace StoryScore.Client
             _fileTransferService = new FileTransferService(_options);
             _fileTransferService.TransferStatus += FileTransferService_TransferStatus;
             _fileTransferService.RemoteFileListReceived += FileTransferService_RemoteFileListReceived;
+
             MediaLib.Init(_fileTransferService);
+            MediaLib.StartVideoPlayback += MediaLibOnStartVideoPlayback;
+
+            _remoteMediaService = new RemoteMediaPlaybackService(_options);
+        }
+
+        private async void MediaLibOnStartVideoPlayback(string filename)
+        {
+            await _remoteMediaService.PlayVideoAsync(filename);
         }
 
         private void FileTransferService_RemoteFileListReceived(RemoteFileInfo[] files)
