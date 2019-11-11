@@ -1,22 +1,11 @@
-﻿using Microsoft.Win32;
-using StoryScore.Client.Model;
+﻿using StoryScore.Client.Model;
 using StoryScore.Client.Services;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace StoryScore.Client.Controls
 {
@@ -25,8 +14,8 @@ namespace StoryScore.Client.Controls
     /// </summary>
     public partial class MediaControl : UserControl
     {
-        int fadeCounter = 0;
-        Timer FadeOutTimer = new Timer(150);
+        int _fadeCounter;
+        private readonly Timer _fadeOutTimer = new Timer(150);
 
         public MediaControlViewModel PageModel { get; set; } = new MediaControlViewModel();
 
@@ -37,7 +26,7 @@ namespace StoryScore.Client.Controls
             GetFolderPath();
             PopulateMedia();
 
-            FadeOutTimer.Elapsed += FadeOutTimer_Elapsed;
+            _fadeOutTimer.Elapsed += FadeOutTimer_Elapsed;
 
             PageModel.Player = MediaPlayer;
             PageModel.PropertyChanged += PageModel_PropertyChanged;
@@ -105,8 +94,9 @@ namespace StoryScore.Client.Controls
             PageModel.MediaFolders = new System.Collections.ObjectModel.ObservableCollection<MediaFolder>(mediaFolders);
         }
 
-        private void StopButton_Click(object sender, RoutedEventArgs e) {
-            FadeOutTimer.Start();
+        private void StopButton_Click(object sender, RoutedEventArgs e)
+        {
+            _fadeOutTimer.Start();
         }
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
@@ -116,19 +106,18 @@ namespace StoryScore.Client.Controls
 
         private void FadeOutTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            fadeCounter++;
-            var volume = (100.0 - fadeCounter * 10.0) / 100.0;
+            _fadeCounter++;
+            var volume = (100.0 - _fadeCounter * 10.0) / 100.0;
             Dispatcher.Invoke(() => MediaPlayer.Volume = volume);
-            if (fadeCounter == 10)
+            if (_fadeCounter != 10) return;
+
+            _fadeCounter = 0;
+            _fadeOutTimer.Stop();
+            Dispatcher.Invoke(() =>
             {
-                fadeCounter = 0;
-                FadeOutTimer.Stop();
-                Dispatcher.Invoke(() =>
-                {
-                    MediaPlayer.Stop();
-                    PageModel.SelectedMediaFile = null;
-                });
-            }
+                MediaPlayer.Stop();
+                PageModel.SelectedMediaFile = null;
+            });
         }
 
         //private void SyncContextMenu_Click(object sender, RoutedEventArgs e)
