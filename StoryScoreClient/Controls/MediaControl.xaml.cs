@@ -21,6 +21,7 @@ namespace StoryScore.Client.Controls
         private readonly Timer _fadeOutTimer = new Timer(150);
 
         public MediaControlViewModel PageModel { get; set; } = new MediaControlViewModel();
+        public long Delay { get; set; }
 
         public event Action<string> StartVideoPlayback;
 
@@ -36,6 +37,12 @@ namespace StoryScore.Client.Controls
             PageModel.Player = MediaPlayer;
             PageModel.PropertyChanged += PageModel_PropertyChanged;
             DataContext = PageModel;
+
+            PageModel.Player.MediaEnded += (sender, args) =>
+                                           {
+                                               MediaPlayer.Close();
+                                               PageModel.SelectedMediaFile = null;
+                                           };
         }
 
         public void Init(FileTransferService fileTransferService)
@@ -66,11 +73,7 @@ namespace StoryScore.Client.Controls
                     if (!string.IsNullOrEmpty(PageModel.SelectedMediaFile?.Name ?? "") &&
                         (PageModel.SelectedMediaFile?.Synced ?? false))
                         StartVideoPlayback?.Invoke(PageModel.SelectedMediaFile.File.Name);
-
-                    MediaPlayer.Volume = 1.0;
-                    MediaPlayer.Play();
-
-            break;
+                    break;
             }
         }
 
@@ -110,8 +113,16 @@ namespace StoryScore.Client.Controls
         }
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-            MediaPlayer.Volume = 1.0;
-            MediaPlayer.Play();
+            Play();
+        }
+
+        public void Play()
+        {
+            Dispatcher.Invoke(() =>
+                              {
+                                  MediaPlayer.Volume = 1.0;
+                                  MediaPlayer.Play();
+                              });
         }
 
         private void FadeOutTimer_Elapsed(object sender, ElapsedEventArgs e)

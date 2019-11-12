@@ -2,7 +2,6 @@
 using MQTTnet.Client.Options;
 using MQTTnet.Extensions.ManagedClient;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -12,27 +11,23 @@ namespace StoryScore.Client.Services
 {
     public sealed class MqttClient : IDisposable, IMqttClient
     {
-        private string _clientID;
         private readonly IManagedMqttClient _mqttClient;
 
-        //public delegate void MessageReceived(MqttApplicationMessageReceivedEventArgs eventArgs);
         public event Action<MqttApplicationMessageReceivedEventArgs> MessageReceivedEvent;
 
-        public MqttClient(Options options, string ClientID = "Control")
+        public MqttClient(Options options, string clientId = "Control")
         {
-            _clientID = ClientID;
             // Create a new MQTT client.
             var opt = new ManagedMqttClientOptionsBuilder()
                             .WithAutoReconnectDelay(TimeSpan.FromSeconds(5))
                             .WithClientOptions(new MqttClientOptionsBuilder()
-                                .WithClientId($"{_clientID}_{options.ClientId}")
+                                .WithClientId($"{clientId}_{options.ClientId}")
                                 .WithTcpServer(options.DisplayEndpoint, options.Port)
                                 .Build()
                             )
                             .Build();
 
             _mqttClient = new MqttFactory().CreateManagedMqttClient();
-            //_mqttClient.SubscribeAsync(new TopicFilterBuilder().WithTopic("#").Build()).Wait();
             _mqttClient.StartAsync(opt).Wait();
 
             _mqttClient.UseApplicationMessageReceivedHandler(ReceiveMessage);
@@ -40,12 +35,12 @@ namespace StoryScore.Client.Services
 
         private void ReceiveMessage(MqttApplicationMessageReceivedEventArgs e)
         {
-            Debug.WriteLine("### RECEIVED APPLICATION MESSAGE ###");
-            Debug.WriteLine($"+ Topic = {e.ApplicationMessage.Topic}");
-            Debug.WriteLine($"+ Payload = {Encoding.UTF8.GetString(e.ApplicationMessage.Payload)}");
-            Debug.WriteLine($"+ QoS = {e.ApplicationMessage.QualityOfServiceLevel}");
-            Debug.WriteLine($"+ Retain = {e.ApplicationMessage.Retain}");
-            Debug.WriteLine("");
+            //Debug.WriteLine("### RECEIVED APPLICATION MESSAGE ###");
+            //Debug.WriteLine($"+ Topic = {e.ApplicationMessage.Topic}");
+            //Debug.WriteLine($"+ Payload = {Encoding.UTF8.GetString(e.ApplicationMessage.Payload)}");
+            //Debug.WriteLine($"+ QoS = {e.ApplicationMessage.QualityOfServiceLevel}");
+            //Debug.WriteLine($"+ Retain = {e.ApplicationMessage.Retain}");
+            //Debug.WriteLine("");
 
             MessageReceivedEvent?.Invoke(e);
         }
@@ -84,7 +79,7 @@ namespace StoryScore.Client.Services
 
             await _mqttClient.PublishAsync(msg);
 
-            Debug.WriteLine("### MESSAGE SENT ###");
+            //Debug.WriteLine("### MESSAGE SENT ###");
         }
 
         public static T TranslatePayload<T>(MqttApplicationMessageReceivedEventArgs messageReceived)

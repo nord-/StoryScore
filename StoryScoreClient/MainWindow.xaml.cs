@@ -67,6 +67,11 @@ namespace StoryScore.Client
             MediaLib.StartVideoPlayback += MediaLibOnStartVideoPlayback;
 
             _remoteMediaService = new RemoteMediaPlaybackService(_options);
+            _remoteMediaService.DelayMeasured += (l) =>
+                                                 {
+                                                     MediaLib.Delay = l;
+                                                     MediaLib.Play();
+                                                 };
         }
 
         private async void MediaLibOnStartVideoPlayback(string filename)

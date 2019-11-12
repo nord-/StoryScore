@@ -15,6 +15,11 @@ namespace StoryScore.Client.Services
         static IMqttClient       _mqttClient;
         private string _filename;
         private DateTime _startedRequest;
+        Stopwatch _measureDelay = new Stopwatch();
+
+        public event Action<long> DelayMeasured;
+
+        public long Delay { get; private set; }
 
         public RemoteMediaPlaybackService(Options options)
         {
@@ -41,9 +46,14 @@ namespace StoryScore.Client.Services
 
                 case MediaFileActionEnum.Play:
                     if (msg.FileName == _filename)
-                        Debug.Print($"PLAY {_filename}\t{msg.RequestMade}\t{(msg.RequestMade-_startedRequest).TotalMilliseconds} ms.\t{(DateTime.Now - _startedRequest).TotalMilliseconds} ms. total");
-                    break;
+                    {
+                        Debug.Print($"PLAY {_filename}\t{msg.RequestMade}\t{(msg.RequestMade - _startedRequest).TotalMilliseconds} ms.\t{(DateTime.Now - _startedRequest).TotalMilliseconds} ms. total");
+                        _measureDelay.Stop();
+                        DelayMeasured?.Invoke(_measureDelay.ElapsedMilliseconds);
+                        Delay = _measureDelay.ElapsedMilliseconds;
+                    }
 
+                    break;
             }
         }
 
@@ -54,6 +64,8 @@ namespace StoryScore.Client.Services
             var msg = new MediaFileAction { Action = MediaFileActionEnum.Play, FileName = filename, RequestMade = _startedRequest };
 
             Debug.Print($"Start play\t{_filename}\t{_startedRequest}");
+
+            _measureDelay.Start();
 
             await _mqttClient.SendMessageAsync(Topic, msg);
         }
