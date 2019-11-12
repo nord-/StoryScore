@@ -140,11 +140,5 @@ namespace StoryScore.Client.Controls
                 PageModel.SelectedMediaFile = null;
             });
         }
-
-        //private void SyncContextMenu_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Debug.Print((sender as Control).Name);
-        //    MessageBox.Show($"{((((((e.Source as MenuItem).Parent as ContextMenu).Parent as System.Windows.Controls.Primitives.Popup).PlacementTarget as Button).Content as Viewbox).Child as TextBlock).Text}");
-        //}
     }
 }
