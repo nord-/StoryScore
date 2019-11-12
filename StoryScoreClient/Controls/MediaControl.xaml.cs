@@ -67,7 +67,6 @@ namespace StoryScore.Client.Controls
                         (PageModel.SelectedMediaFile?.Synced ?? false))
                         StartVideoPlayback?.Invoke(PageModel.SelectedMediaFile.File.Name);
 
-                    Thread.Sleep(89);
                     MediaPlayer.Volume = 1.0;
                     MediaPlayer.Play();
 

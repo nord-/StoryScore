@@ -32,12 +32,18 @@ namespace StoryScore.Client.Services
                 case MediaFileActionEnum.Noop:
                     // ack on start
                     if (msg.FileName == _filename)
-                        Debug.Print($"{_filename}\t{msg.RequestMade}\t{(msg.RequestMade-_startedRequest).TotalMilliseconds} ms.\t{(DateTime.Now - _startedRequest).TotalMilliseconds} ms. total");
+                        Debug.Print($"NOOP {_filename}\t{msg.RequestMade}\t{(msg.RequestMade-_startedRequest).TotalMilliseconds} ms.\t{(DateTime.Now - _startedRequest).TotalMilliseconds} ms. total");
                     break;
 
                 case MediaFileActionEnum.Stop:
                     // media file stopped
                     break;
+
+                case MediaFileActionEnum.Play:
+                    if (msg.FileName == _filename)
+                        Debug.Print($"PLAY {_filename}\t{msg.RequestMade}\t{(msg.RequestMade-_startedRequest).TotalMilliseconds} ms.\t{(DateTime.Now - _startedRequest).TotalMilliseconds} ms. total");
+                    break;
+
             }
         }
 
