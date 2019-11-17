@@ -81,10 +81,13 @@
             </TabItem>
             <TabItem x:Name="SettingsTab" Header="Settings"/>
             <TabItem x:Name="MatchTab" Header="Match">
-                <StackPanel>
-                    <Controls:MatchControl x:Name="MatchControls" Visibility="Collapsed" />
-                    <Button Content="New game" Margin="50" Click="NewGameButton_Click" x:Name="NewGameButton" />
-                </StackPanel>
+                <DockPanel>
+                    <Controls:MatchControl x:Name="MatchControls" Visibility="Collapsed" DockPanel.Dock="Top" />
+                    <Button Content="New game" Margin="50" Click="NewGameButton_Click" x:Name="NewGameButton" Visibility="Visible" DockPanel.Dock="Top"/>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <Controls:MediaControl x:Name="MatchMediaControls" Visibility="Collapsed" />
+                    </ScrollViewer>
+                </DockPanel>
             </TabItem>
         </TabControl>
     </Grid>

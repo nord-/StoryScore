@@ -66,11 +66,14 @@ namespace StoryScore.Client
             MediaLib.Init(_fileTransferService);
             MediaLib.StartVideoPlayback += MediaLibOnStartVideoPlayback;
 
+            MatchMediaControls.Init(_fileTransferService);
+            MatchMediaControls.StartVideoPlayback += MediaLibOnStartVideoPlayback;
+
             _remoteMediaService = new RemoteMediaPlaybackService(_options);
             _remoteMediaService.DelayMeasured += (l) =>
                                                  {
-                                                     MediaLib.Delay = l;
-                                                     MediaLib.Play();
+                                                     MatchMediaControls.Delay = l;
+                                                     MatchMediaControls.Play();
                                                  };
         }
 
@@ -280,14 +283,16 @@ namespace StoryScore.Client
                 await _displayService.SendLineupAsync(MatchControls.PageViewModel.HomeTeam.Players, MatchControls.PageViewModel.AwayTeam.Players);
 
 
-                MatchControls.Visibility = Visibility.Visible;
+                MatchMediaControls.Visibility =
+                    MatchControls.Visibility = Visibility.Visible;
                 NewGameButton.Visibility = Visibility.Collapsed;
             }
         }
 
         private void MatchControls_CloseMatch()
         {
-            MatchControls.Visibility = Visibility.Collapsed;
+            MatchMediaControls.Visibility =
+                MatchControls.Visibility = Visibility.Collapsed;
             NewGameButton.Visibility = Visibility.Visible;
         }
 

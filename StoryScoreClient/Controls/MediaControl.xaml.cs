@@ -70,9 +70,15 @@ namespace StoryScore.Client.Controls
                     break;
 
                 case nameof(PageModel.SelectedMediaFile):
-                    if (!string.IsNullOrEmpty(PageModel.SelectedMediaFile?.Name ?? "") &&
-                        (PageModel.SelectedMediaFile?.Synced ?? false))
+                    if (!string.IsNullOrEmpty(PageModel.SelectedMediaFile?.Name ?? "") && (PageModel.SelectedMediaFile?.Synced ?? false))
+                    {
                         StartVideoPlayback?.Invoke(PageModel.SelectedMediaFile.File.Name);
+                    }
+                    else if (!string.IsNullOrEmpty(PageModel.SelectedMediaFile?.Name ?? ""))
+                    {
+                        // play locally
+                        Play();
+                    }
                     break;
             }
         }
