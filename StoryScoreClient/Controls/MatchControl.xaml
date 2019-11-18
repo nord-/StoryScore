@@ -67,6 +67,13 @@
                 <TextBlock Text="&#xf2ea;" FontFamily="{StaticResource FontAwesomeSolid}" VerticalAlignment="Center" />
             </Button>
         </StackPanel>
+        <ComboBox DockPanel.Dock="Left" Grid.Row="3" Grid.Column="2" HorizontalAlignment="Stretch" Grid.ColumnSpan="2" Margin="5" SelectedValue="First" SelectedValuePath="Tag">
+            <ComboBoxItem Content="First half" Tag="First"/>
+            <ComboBoxItem Content="Second half" Tag="Second"/>
+            <ComboBoxItem Content="Extra time, 1st" Tag="ExtraFirst"/>
+            <ComboBoxItem Content="Extra time, 2nd" Tag="ExtraSecond"/>
+            <ComboBoxItem Content="Penalty kicks" Tag="Penalty"/>
+        </ComboBox>
         <StackPanel Grid.Row="3" Grid.Column="4" Orientation="Horizontal" HorizontalAlignment="Center" Grid.ColumnSpan="2">
             <Button Grid.Row="3" Grid.Column="1" VerticalAlignment="Top" Width="75" Height="22" Margin="0,5" Click="AwayGoalButton_Click" x:Name="AwayGoalButton" IsEnabled="False">
                 <StackPanel Orientation="Horizontal">
