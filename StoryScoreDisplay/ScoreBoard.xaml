@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:StoryScore.Display"
         xmlns:my="clr-namespace:StoryScore.Display.CustomControls"
         mc:Ignorable="d"
         Title="MainWindow" Height="288" Width="480" ResizeMode="NoResize" Topmost="True" WindowStyle="None" Background="Black"
@@ -51,8 +50,8 @@
         <Canvas Width="480" Height="288" x:Name="root">
             <Image x:Name="FullScreenImage" Source="C:\Users\ricka\OneDrive\Bilder\FCT\DSC_6210.png" HorizontalAlignment="Center" VerticalAlignment="Center"
                    Width="{Binding Width, ElementName=root}" Height="{Binding Height, ElementName=root}" Stretch="Fill" Visibility="Collapsed" />
-            <Image x:Name="LowerPartImage" Source="C:\Users\ricka\OneDrive\Bilder\FCT\Cheerleader.jpg" VerticalAlignment="Bottom" HorizontalAlignment="Center"
-                   Width="{Binding Width, ElementName=root}" Height="188" Stretch="Fill" Canvas.Bottom="0" Visibility="Collapsed" />
+            <Image x:Name="LowerPartImage" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                   Width="{Binding Width, ElementName=root}" Height="188" Stretch="Fill" Canvas.Bottom="0" />
             <!--<Grid Background="Black" Width="{Binding Width, ElementName=root}" Height="{Binding Height, ElementName=root}" Visibility="Collapsed" x:Name="FullScreenVideoGrid">-->
             <MediaElement x:Name="FullScreenVideo" Source="C:\Users\ricka\Desktop\Video-raw\temp\20190922_154750_1.mp4"
                           Width="{Binding Width, ElementName=root}" Height="{Binding Height, ElementName=root}"

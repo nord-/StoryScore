@@ -21,28 +21,28 @@ namespace StoryScore.Client
     /// </summary>
     public partial class MainWindow : Window
     {
-        private bool isAdding = false;
-        private ITeamRepository _teamRepository;
-        private ObservableCollection<TeamViewModel> _teams;
-        private readonly IDisplayService _displayService;
-        private readonly FileTransferService _fileTransferService;
-        private readonly Options _options = new Options();
-        private readonly Scoreboard _scoreboard = new Scoreboard();
-        private readonly RemoteMediaPlaybackService _remoteMediaService;
+        private          bool                                isAdding = false;
+        private          ITeamRepository                     _teamRepository;
+        private          ObservableCollection<TeamViewModel> _teams;
+        private readonly IDisplayService                     _displayService;
+        private readonly FileTransferService                 _fileTransferService;
+        private readonly Options                             _options    = new Options();
+        private readonly Scoreboard                          _scoreboard = new Scoreboard();
+        private readonly RemoteMediaPlaybackService          _remoteMediaService;
+        private readonly AdsService                          _adsService;
 
         public MainWindow()
         {
             InitializeComponent();
 
 
-
             // TODO: Dep inject
-            _teamRepository = new TeamRepository();
-            _displayService = new DisplayService(new MqttClient(_options), _options);
+            _teamRepository                =  new TeamRepository();
+            _displayService                =  new DisplayService(new MqttClient(_options), _options);
             _displayService.MatchClockTick += MatchClockTick;
 
             var teams = Mapper.Map<IEnumerable<TeamViewModel>>(_teamRepository.GetTeams());
-            _teams = new ObservableCollection<TeamViewModel>(teams);
+            _teams                = new ObservableCollection<TeamViewModel>(teams);
             TeamsList.ItemsSource = _teams;
 
             TeamDetails.SaveClicked        += TeamDetails_SaveClicked;
@@ -56,11 +56,13 @@ namespace StoryScore.Client
             MatchControls.ClockStarted += Match_ClockStarted;
             MatchControls.ClockStopped += Match_ClockStopped;
             MatchControls.CloseMatch   += MatchControls_CloseMatch;
-            MatchControls.HideLineup += MatchControls_HideLineup;
+            MatchControls.HideLineup   += MatchControls_HideLineup;
+            MatchControls.ShowAds      += MatchControls_ShowAds;
+            MatchControls.HideAds      += MatchControls_HideAds;
 
-            FileTransfer.SendFile += FileTransfer_SendFile;
-            _fileTransferService = new FileTransferService(_options);
-            _fileTransferService.TransferStatus += FileTransferService_TransferStatus;
+            FileTransfer.SendFile                       += FileTransfer_SendFile;
+            _fileTransferService                        =  new FileTransferService(_options);
+            _fileTransferService.TransferStatus         += FileTransferService_TransferStatus;
             _fileTransferService.RemoteFileListReceived += FileTransferService_RemoteFileListReceived;
 
             MediaLib.Init(_fileTransferService);
@@ -75,27 +77,42 @@ namespace StoryScore.Client
                                                      MatchMediaControls.Delay = l;
                                                      MatchMediaControls.Play();
                                                  };
+
+            _adsService = new AdsService(_options);
+        }
+
+        private async void MatchControls_HideAds()
+        {
+            await _adsService.HideAdsAsync();
+        }
+
+        private async void MatchControls_ShowAds()
+        {
+            // TODO: stop media playback!
+            //await _remoteMediaService.Stop
+            await _adsService.ShowAdsAsync();
         }
 
         private async void MediaLibOnStartVideoPlayback(string filename)
         {
+            await _adsService.HideAdsAsync();
             await _remoteMediaService.PlayVideoAsync(filename);
         }
 
         private void FileTransferService_RemoteFileListReceived(RemoteFileInfo[] files)
         {
             foreach (var f in files)
-                Debug.Print($"{f.Name} {f.FileSize / (1024m*1024m):0.0} MB, {f.ModifiedDate} {f.Checksum}");
+                Debug.Print($"{f.Name} {f.FileSize/(1024m*1024m):0.0} MB, {f.ModifiedDate} {f.Checksum}");
         }
 
         private void FileTransferService_TransferStatus(FileTransferStatus txStatus)
         {
-            var progressPercent = txStatus.TransferredBytes / (decimal)txStatus.FileSize;
+            var progressPercent = txStatus.TransferredBytes/(decimal)txStatus.FileSize;
             Debug.Print($"{txStatus.Name} sent {txStatus.TransferredBytes} B of {txStatus.FileSize} ({progressPercent:P1})");
 
             if (txStatus.TransferComplete)
             {
-                var secs = txStatus.ElapsedMilliseconds / 1000m;
+                var secs = txStatus.ElapsedMilliseconds/1000m;
                 Debug.Print($"File transferred in {secs:0} sec");
             }
         }
@@ -111,7 +128,7 @@ namespace StoryScore.Client
             TeamDetails.Visibility = Visibility.Visible;
 
             var playerRepo = new PlayerRepository();
-            var index = _teams.IndexOf((TeamViewModel)TeamsList.SelectedItem);
+            var index      = _teams.IndexOf((TeamViewModel)TeamsList.SelectedItem);
             // TODO: add players to view model
             //_teams.ElementAt(index).Players = playerRepo.GetPlayers(_teams.ElementAt(index))
             //                                            .ToList();
@@ -123,7 +140,7 @@ namespace StoryScore.Client
             TeamDetails.Visibility = Visibility.Hidden;
             TeamPlayers.Visibility = Visibility.Visible;
             // load players
-            TeamPlayers.Team = (TeamViewModel)TeamsList.SelectedItem;
+            TeamPlayers.Team    = (TeamViewModel)TeamsList.SelectedItem;
             TeamPlayers.Players = TeamPlayers.Team.Players;
         }
 
@@ -152,8 +169,8 @@ namespace StoryScore.Client
             var model = MatchControls.PageViewModel;
             _scoreboard.HomeTeamName = model.HomeTeam.Name;
             _scoreboard.AwayTeamName = model.AwayTeam.Name;
-            _scoreboard.HomeScore = model.HomeScore;
-            _scoreboard.AwayScore = model.AwayScore;
+            _scoreboard.HomeScore    = model.HomeScore;
+            _scoreboard.AwayScore    = model.AwayScore;
 
             // send to display
             await _displayService.UpdateAsync(_scoreboard);
@@ -167,21 +184,21 @@ namespace StoryScore.Client
                 _scoreboard.AwayScore = args.Score;
 
             await _displayService.UpdateGoalAsync(new Goal
-            {
-                Score = args.Score,
-                IsHomeTeam = args.IsHomeGoal,
-                IsCorrection = args.IsCorrection,
-                ScorerName = args.Player?.Name,
-                ScorerNumber = args.Player?.PlayerNumber ?? 0,
-                ScorerImagePath = args.Player?.PicturePath,
-                ScorerVideoPath = args.Player?.GoalVideoPath
-            });
+                                                  {
+                                                      Score           = args.Score,
+                                                      IsHomeTeam      = args.IsHomeGoal,
+                                                      IsCorrection    = args.IsCorrection,
+                                                      ScorerName      = args.Player?.Name,
+                                                      ScorerNumber    = args.Player?.PlayerNumber ?? 0,
+                                                      ScorerImagePath = args.Player?.PicturePath,
+                                                      ScorerVideoPath = args.Player?.GoalVideoPath
+                                                  });
         }
 
         private void TeamDetails_CancelClicked(object arg1, EventArgs arg2)
         {
             var theTeam = (Team)TeamDetails.DataContext;
-            var teams = new List<Team>();
+            var teams   = new List<Team>();
             teams.AddRange((IEnumerable<Team>)TeamsList.ItemsSource);
 
             if (isAdding)
@@ -192,26 +209,26 @@ namespace StoryScore.Client
                 TeamsList.ItemsSource = teams;
             }
 
-            TeamDetails.Visibility = Visibility.Hidden;
+            TeamDetails.Visibility  = Visibility.Hidden;
             TeamDetails.DataContext = null;
 
             isAdding = false;
             AddTeamButton.IsEnabled =
                 RemoveTeamButton.IsEnabled =
-                RenameTeamButton.IsEnabled =
-                TeamsList.IsEnabled = true;
+                    RenameTeamButton.IsEnabled =
+                        TeamsList.IsEnabled = true;
         }
 
         private void TeamDetails_SaveClicked(object arg1, EventArgs arg2)
         {
             var theTeam = (TeamViewModel)TeamDetails.DataContext;
-            TeamDetails.Visibility = Visibility.Hidden;
+            TeamDetails.Visibility  = Visibility.Hidden;
             TeamDetails.DataContext = null;
 
             AddTeamButton.IsEnabled =
                 RemoveTeamButton.IsEnabled =
-                RenameTeamButton.IsEnabled =
-                TeamsList.IsEnabled = true;
+                    RenameTeamButton.IsEnabled =
+                        TeamsList.IsEnabled = true;
             isAdding = false;
 
             // save the team to db
@@ -224,13 +241,13 @@ namespace StoryScore.Client
             RenameTeamButton.IsEnabled = (TeamsList.SelectedIndex >= 0);
             if (!RenameTeamButton.IsEnabled)
             {
-                TeamDetails.Visibility = Visibility.Hidden;
+                TeamDetails.Visibility  = Visibility.Hidden;
                 TeamDetails.DataContext = null;
             }
             else
             {
                 TeamDetails.DataContext = TeamsList.SelectedItem;
-                TeamDetails.Visibility = Visibility.Visible;
+                TeamDetails.Visibility  = Visibility.Visible;
             }
         }
 
@@ -239,25 +256,23 @@ namespace StoryScore.Client
             var teams = new List<TeamViewModel>();
             teams.AddRange((IEnumerable<TeamViewModel>)TeamsList.ItemsSource);
 
-            var newTeam = new TeamViewModel { Name = "New team" };
+            var newTeam = new TeamViewModel {Name = "New team"};
             teams.Add(newTeam);
 
-            TeamsList.ItemsSource = teams;
+            TeamsList.ItemsSource  = teams;
             TeamsList.SelectedItem = newTeam;
 
             isAdding = true;
             AddTeamButton.IsEnabled =
                 RemoveTeamButton.IsEnabled =
-                RenameTeamButton.IsEnabled =
-                TeamsList.IsEnabled = false;
+                    RenameTeamButton.IsEnabled =
+                        TeamsList.IsEnabled = false;
 
             TeamDetails.DataContext = newTeam;
-            TeamDetails.Visibility = Visibility.Visible;
+            TeamDetails.Visibility  = Visibility.Visible;
         }
 
-        private void RenameTeamButton_Click(object sender, RoutedEventArgs e)
-        {
-        }
+        private void RenameTeamButton_Click(object sender, RoutedEventArgs e) {}
 
         private void RemoveTeamButton_Click(object sender, RoutedEventArgs e)
         {
@@ -275,9 +290,9 @@ namespace StoryScore.Client
             {
                 // TODO: populera MatchControls med valda lag och line-up
                 //MessageBox.Show(lineup.ViewModel.HomeLineUp.Count.ToString());
-                MatchControls.PageViewModel.HomeTeam = lineup.ViewModel.HomeTeam;
+                MatchControls.PageViewModel.HomeTeam         = lineup.ViewModel.HomeTeam;
                 MatchControls.PageViewModel.HomeTeam.Players = lineup.ViewModel.HomeLineUp.Any() ? lineup.ViewModel.HomeLineUp : lineup.ViewModel.HomeTeam.Players;
-                MatchControls.PageViewModel.AwayTeam = lineup.ViewModel.AwayTeam;
+                MatchControls.PageViewModel.AwayTeam         = lineup.ViewModel.AwayTeam;
                 MatchControls.PageViewModel.AwayTeam.Players = lineup.ViewModel.AwayLineUp.Any() ? lineup.ViewModel.AwayLineUp : lineup.ViewModel.AwayTeam.Players;
 
                 await _displayService.SendLineupAsync(MatchControls.PageViewModel.HomeTeam.Players, MatchControls.PageViewModel.AwayTeam.Players);
@@ -300,6 +315,5 @@ namespace StoryScore.Client
         {
             await _displayService.HideLineup();
         }
-
     }
 }

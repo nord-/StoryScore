@@ -2,12 +2,17 @@
 using StoryScore.Common;
 using System;
 using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Animation;
+using System.Windows.Threading;
 
 namespace StoryScore.Display
 {
     [AddINotifyPropertyChangedInterface]
     public class ScoreBoardModel
     {
+        private string _adFilePath;
         public string Title        { get; set; }
         public int    HomeScore    { get; set; }
         public string HomeTeamName { get; set; }

@@ -15,11 +15,13 @@
         public const string ListFiles           = "listfiles";
         public const string ReqListFiles        = "requestfiles";
         public const string VideoPlaybackAction = "videopb";
+        public const string ShowAds             = "showads";
+        public const string HideAds             = "hideads";
     }
 
     public class Topic
     {
         public const string Display = "display";
-        public const string Sync = "sync";
+        public const string Sync    = "sync";
     }
 }

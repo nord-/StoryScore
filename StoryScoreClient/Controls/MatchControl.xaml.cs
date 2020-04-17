@@ -26,6 +26,7 @@ namespace StoryScore.Client.Controls
         public MatchViewModel PageViewModel = new MatchViewModel();
 
         private bool _matchStarted = false;
+        private bool _adsShowing = false;
 
         public event Action<object, GoalEventArgs> ScoreChanged;
         public event Action<object, EventArgs> MatchStarted;
@@ -33,6 +34,8 @@ namespace StoryScore.Client.Controls
         public event Action<object, ClockStoppedEventArgs> ClockStopped;
         public event Action CloseMatch;
         public event Action HideLineup;
+        public event Action ShowAds;
+        public event Action HideAds;
 
         public class ClockStoppedEventArgs : EventArgs
         {
@@ -220,6 +223,23 @@ namespace StoryScore.Client.Controls
         private void LineUpButton_Click(object sender, RoutedEventArgs e)
         {
             HideLineup?.Invoke();
+        }
+
+        private void ShowAdsButton_Click(object sender, RoutedEventArgs e)
+        {
+            var btn = (Button)sender;
+            if (!_adsShowing)
+            {
+                btn.Content = "Hide ads";
+                ShowAds?.Invoke();
+            }
+            else
+            {
+                btn.Content = "Show ads";
+                HideAds?.Invoke();
+            }
+
+            _adsShowing = !_adsShowing;
         }
     }
 }

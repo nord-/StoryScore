@@ -46,7 +46,8 @@
                     <TextBlock Text="Change time" Margin="5,0" VerticalAlignment="Center" />
                 </StackPanel>
             </Button>
-            <Button Content="Line-up" Width="60" Height="22" Click="LineUpButton_Click" />
+            <Button Content="Line-up" Margin="5,0" Width="60" Height="22" Click="LineUpButton_Click" />
+            <Button Content="Show ads" Margin="5,0" Width="60" Height="22" Click="ShowAdsButton_Click" />
 
         </StackPanel>
 

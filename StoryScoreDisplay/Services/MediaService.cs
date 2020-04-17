@@ -34,12 +34,12 @@ namespace StoryScore.Display.Services
 
         private MediaService(ScoreBoardWindow window, Options options)
         {
-            _window             =  window;
-            _options            =  options;
-            _videoPlayer        =  _window.FullScreenVideo;
+            _window                 =  window;
+            _options                =  options;
+            _videoPlayer            =  _window.FullScreenVideo;
             _videoPlayer.MediaEnded += VideoPlayerOnMediaEnded;
-            _fsImage = _window.FullScreenImage;
-            _adImage = _window.LowerPartImage;
+            _fsImage                =  _window.FullScreenImage;
+            _adImage                =  _window.LowerPartImage;
         }
 
         private void VideoPlayerOnMediaEnded(object sender, RoutedEventArgs e)
@@ -58,7 +58,7 @@ namespace StoryScore.Display.Services
             _filename    = filename;
             _requestedAt = requestAt;
             CloseVideo();
-            _videoPlayerState   = MediaFileActionEnum.Play;
+            _videoPlayerState = MediaFileActionEnum.Play;
             try
             {
                 VideoSource = new Uri(Path.Combine(_options.FileStorePath, filename), UriKind.Absolute);
@@ -68,17 +68,28 @@ namespace StoryScore.Display.Services
             {
                 throw;
             }
+
             //_videoPlayer.Stop();
+        }
+
+        public void StopVideo()
+        {
+            _filename         = "";
+            _requestedAt      = DateTime.MinValue;
+            _videoPlayerState = MediaFileActionEnum.Stop;
+            CloseVideo();
         }
 
         public Uri VideoSource
         {
             get => _videoPlayer.Source;
-            private set { _window.Dispatcher.Invoke(() =>
-                                                    {
-                                                        _videoPlayer.Visibility = Visibility.Visible;
-                                                        _videoPlayer.Source = value;
-                                                    });
+            private set
+            {
+                _window.Dispatcher.Invoke(() =>
+                                          {
+                                              _videoPlayer.Visibility = Visibility.Visible;
+                                              _videoPlayer.Source     = value;
+                                          });
             }
         }
 

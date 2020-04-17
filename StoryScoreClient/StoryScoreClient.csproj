@@ -255,6 +255,7 @@
     <Compile Include="Model\Settings.cs" />
     <Compile Include="Model\TeamViewModel.cs" />
     <Compile Include="Options.cs" />
+    <Compile Include="Services\AdsService.cs" />
     <Compile Include="Services\DisplayService.cs" />
     <Compile Include="Services\FileTransferService.cs" />
     <Compile Include="Services\IDisplayService.cs" />
