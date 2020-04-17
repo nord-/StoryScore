@@ -53,7 +53,7 @@
             <Image x:Name="LowerPartImage" VerticalAlignment="Bottom" HorizontalAlignment="Center"
                    Width="{Binding Width, ElementName=root}" Height="188" Stretch="Fill" Canvas.Bottom="0" />
             <!--<Grid Background="Black" Width="{Binding Width, ElementName=root}" Height="{Binding Height, ElementName=root}" Visibility="Collapsed" x:Name="FullScreenVideoGrid">-->
-            <MediaElement x:Name="FullScreenVideo" Source="C:\Users\ricka\Desktop\Video-raw\temp\20190922_154750_1.mp4"
+            <MediaElement x:Name="FullScreenVideo" Source=""
                           Width="{Binding Width, ElementName=root}" Height="{Binding Height, ElementName=root}"
                           Visibility="Collapsed"
                           VerticalAlignment="Top" HorizontalAlignment="Center" LoadedBehavior="Manual" UnloadedBehavior="Close" />

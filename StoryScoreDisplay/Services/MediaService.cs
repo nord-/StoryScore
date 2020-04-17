@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Threading;
 using StoryScore.Common;
 
@@ -50,6 +51,7 @@ namespace StoryScore.Display.Services
                                       {
                                           _videoPlayer.Visibility = Visibility.Collapsed;
                                           _videoPlayer.Close();
+                                          ((Canvas)_videoPlayer.Parent).Background = new SolidColorBrush(Colors.Transparent);
                                       });
         }
 
@@ -87,6 +89,7 @@ namespace StoryScore.Display.Services
             {
                 _window.Dispatcher.Invoke(() =>
                                           {
+                                              ((Canvas)_videoPlayer.Parent).Background = new SolidColorBrush(Colors.Black);
                                               _videoPlayer.Visibility = Visibility.Visible;
                                               _videoPlayer.Source     = value;
                                           });
@@ -105,6 +108,7 @@ namespace StoryScore.Display.Services
                                       {
                                           _videoPlayer.Close();
                                           _videoPlayer.Visibility = Visibility.Collapsed;
+                                          ((Canvas)_videoPlayer.Parent).Background = new SolidColorBrush(Colors.Transparent);
                                       });
         }
 

@@ -13,11 +13,11 @@ namespace StoryScore.Display.Services
 {
     public class AdsService
     {
-        private readonly Options          _options;
-        private string[] _ads;
-        private int _displayAd = 0;
+        private readonly Options  _options;
+        private          string[] _ads;
+        private          int      _displayAd = 0;
 
-        private readonly Timer _rollAdsTimer = new Timer(5000);
+        private readonly Timer _rollAdsTimer = new Timer(15000);
 
         public event Action<string> AdSourceChanged;
 
@@ -36,7 +36,7 @@ namespace StoryScore.Display.Services
 
         public void ShowAds(string adsToShowJson)
         {
-            _ads = JsonConvert.DeserializeObject<string[]>(adsToShowJson);
+            _ads       = JsonConvert.DeserializeObject<string[]>(adsToShowJson);
             _displayAd = 0;
             AdSourceChanged?.Invoke(Path.Combine(_options.FileStorePath, _ads[_displayAd]));
 
